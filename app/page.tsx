@@ -117,7 +117,9 @@ function useComplexity() {
 }
 
 const CitationCard = ({ citation }) => {
-  const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png");
+  const [image, setImage] = useState(
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png"
+  );
   useEffect(() => {
     fetch("/api/meta?q=" + citation.url)
       .then((res) => res.json())
@@ -130,6 +132,7 @@ const CitationCard = ({ citation }) => {
           <img
             src={image}
             className="w-full h-full object-cover"
+            // @ts-ignore
             onError={(e) => (e.target.src = "https://placehold.co/600x400")}
           />
           <div className="absolute inset-0 rounded-t-lg bg-primary opacity-20" />
@@ -199,7 +202,9 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="mt-8 w-full">
-        <div className="text-xs text-gray-500 font-bold mb-2 uppercase">Sessions</div>
+        <div className="text-xs text-gray-500 font-bold mb-2 uppercase">
+          Sessions
+        </div>
         {items.length > 0 && (
           <div className="flex flex-col gap-4 w-full overflow-ellipsis">
             {items.map(([item]) => (

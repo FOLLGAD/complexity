@@ -23,6 +23,7 @@ export async function POST(request: Request) {
     connectors: [
       {
         id: "web-search",
+        // @ts-ignore
         name: "Web Search",
         created_at: "0001-01-01T00:00:00Z",
         updated_at: "0001-01-01T00:00:00Z",
