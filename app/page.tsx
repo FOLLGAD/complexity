@@ -117,6 +117,28 @@ function useComplexity() {
                 },
               ]);
             });
+          } else if (json.eventType === "search-results") {
+            const docs = json.documents;
+            setSteps((s) => {
+              const last = s[s.length - 1];
+              return s.slice(0, -1).concat([
+                {
+                  ...last,
+                  documents: docs,
+                },
+              ]);
+            });
+          } else if (json.eventType === "citation-generation") {
+            const citations = json.citations;
+            setSteps((s) => {
+              const last = s[s.length - 1];
+              return s.slice(0, -1).concat([
+                {
+                  ...last,
+                  citations: [...last.citations, ...citations],
+                },
+              ]);
+            });
           }
         }
       }
@@ -281,7 +303,9 @@ function Home() {
               onChange={(e) => setInput(e.target.value)}
               value={input}
             />
-            <h3 className="text-sm text-gray-500 font-medium mt-8">Trending (click one):</h3>
+            <h3 className="text-sm text-gray-500 font-medium mt-8">
+              Trending (click one):
+            </h3>
             {examples.map((example) => (
               <Card
                 key={example}
