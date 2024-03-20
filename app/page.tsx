@@ -20,7 +20,6 @@ function useComplexity() {
       id?: string;
     }[]
   >([]);
-  console.log(steps);
 
   const [loading, setLoading] = useState(false);
 
@@ -82,9 +81,9 @@ function useComplexity() {
           const line = lines.slice(0, index);
           if (index > -1) {
             lines = lines.slice(index + 1);
+            const json = JSON.parse(line);
+            return json;
           }
-          const json = JSON.parse(line);
-          return json;
         } catch (e) {
           console.warn(e);
         }
@@ -95,8 +94,9 @@ function useComplexity() {
         const { done, value } = await reader.read();
         if (done) break;
         lines += new TextDecoder().decode(value);
-        let json;
-        while (((json = popFirstLine()), json)) {
+        while (true) {
+          const json = popFirstLine();
+          if (!json) break;
           if (json.eventType === "text-generation") {
             setSteps((s) => {
               const last = s[s.length - 1];
