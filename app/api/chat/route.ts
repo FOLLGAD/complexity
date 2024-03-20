@@ -9,7 +9,6 @@ export const runtime = "edge";
 
 export async function POST(request: Request) {
   const { message, history } = await request.json();
-  console.log(history)
 
   const stream = await cohere.chatStream({
     model: "command-r",

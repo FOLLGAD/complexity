@@ -74,12 +74,29 @@ function useComplexity() {
       );
 
       const reader = response.body.getReader();
+      let lines = "";
+
+      const popFirstLine = () => {
+        try {
+          const index = lines.indexOf("\n");
+          const line = lines.slice(0, index);
+          if (index > -1) {
+            lines = lines.slice(index + 1);
+          }
+          const json = JSON.parse(line);
+          return json;
+        } catch (e) {
+          console.warn(e);
+        }
+        return undefined;
+      };
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        try {
-          const json = JSON.parse(new TextDecoder().decode(value));
+        lines += new TextDecoder().decode(value);
+        let json;
+        while (((json = popFirstLine()), json)) {
           if (json.eventType === "text-generation") {
             setSteps((s) => {
               const last = s[s.length - 1];
@@ -101,8 +118,6 @@ function useComplexity() {
               ]);
             });
           }
-        } catch (e) {
-          console.log(e);
         }
       }
 
