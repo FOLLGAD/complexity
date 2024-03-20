@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 function useComplexity() {
   const query_id = useSearchParams().get("id");
@@ -225,7 +225,7 @@ const Sidebar = () => {
   );
 };
 
-export default function Home() {
+function Home() {
   const { ask, loading, steps } = useComplexity();
   const [input, setInput] = useState("");
   const [followUp, setFollowUp] = useState("");
@@ -260,8 +260,8 @@ export default function Home() {
           </form>
         </div>
 
-        {steps.map((step) => (
-          <AnswerStep key={step.id} step={step} />
+        {steps.map((step, i) => (
+          <AnswerStep key={step.id + i} step={step} />
         ))}
 
         <div className="w-full max-w-2xl w-2xl sticky bottom-0 flex items-center justify-between p-16 drop-shadow-lg pointer-events-none">
@@ -285,5 +285,13 @@ export default function Home() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function Main() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Home />
+    </Suspense>
   );
 }
