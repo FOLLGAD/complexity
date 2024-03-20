@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     chatHistory: history,
     temperature: 0.1,
     promptTruncation: "AUTO",
-    citationQuality: "accurate",
+    citationQuality: "fast",
     connectors: [
       {
         id: "web-search",
