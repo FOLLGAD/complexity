@@ -1,7 +1,7 @@
 import { CohereClient } from "cohere-ai";
 
 const cohere = new CohereClient({
-  token: "", // This is your trial API key
+  token: process.env.COHERE_API_KEY, // This is your trial API key
 });
 
 export const dynamic = "force-dynamic";

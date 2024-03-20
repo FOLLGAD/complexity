@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
   const response = await fetch(`https://api.linkpreview.net/?q=${query}`, {
     headers: {
-      "X-Linkpreview-Api-Key": "",
+      "X-Linkpreview-Api-Key": process.env.LINK_PREVIEW,
     },
   });
   const json = await response.json();
