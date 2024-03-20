@@ -245,6 +245,15 @@ function Home() {
   const [input, setInput] = useState("");
   const [followUp, setFollowUp] = useState("");
 
+  const examples = [
+    "Inflection founders join Microsoft",
+    "Nvidia powers humanoid robots",
+    "Facebook brings back Poke",
+    "Nvidia unveils Blackwell",
+    "Gemini-powered iPhone features",
+    "YouTube labels Al-made videos",
+  ];
+
   return (
     <div className="flex min-h-screen">
       <Sidebar />
@@ -272,6 +281,19 @@ function Home() {
               onChange={(e) => setInput(e.target.value)}
               value={input}
             />
+            <h3 className="text-sm text-gray-500 font-medium mt-8">Trending (click one):</h3>
+            {examples.map((example) => (
+              <Card
+                key={example}
+                className="text-sm text-gray-500 cursor-pointer p-1 px-2 hover:bg-gray-100"
+                onClick={() => {
+                  setInput(example);
+                  ask(example, true);
+                }}
+              >
+                {example}
+              </Card>
+            ))}
           </form>
         </div>
 
