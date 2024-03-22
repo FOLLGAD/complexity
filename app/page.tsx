@@ -320,8 +320,8 @@ function Home() {
               onChange={(e) => setInput(e.target.value)}
               value={input}
             />
-            <h3 className="text-sm text-gray-500 font-medium mt-8">
-              Trending (click one):
+            <h3 className="text-sm text-gray-400 font-bold mt-8 uppercase">
+              Trending
             </h3>
             {examples.map((example) => (
               <Card
