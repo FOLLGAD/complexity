@@ -1,5 +1,5 @@
 "use server";
-export const cache = new Map();
+const cache = new Map();
 
 export async function getImage(url) {
   if (cache.has(url)) {
