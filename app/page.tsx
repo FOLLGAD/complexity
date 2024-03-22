@@ -204,12 +204,15 @@ const AnswerStep = ({ step }) => {
       {step.documents.length === 0 && (
         <p className="text-sm text-gray-500">No sources used for this query.</p>
       )}
-      <div className="flex gap-4 overflow-x-auto mb-4">
-        {step.documents.map((doc) => (
-          <a href={doc.url} key={doc.url} target="_blank" rel="noreferrer">
-            <CitationCard citation={doc} />
-          </a>
-        ))}
+      <div className="relative">
+        <div className="flex gap-4 overflow-x-auto mb-4">
+          {step.documents.map((doc) => (
+            <a href={doc.url} key={doc.url} target="_blank" rel="noreferrer">
+              <CitationCard citation={doc} />
+            </a>
+          ))}
+        </div>
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l to-transparent from-black opacity-40 pointer-events-none rounded-r-lg" />
       </div>
       <h2 className="text-lg font-medium mb-4">Answer</h2>
       <p className="whitespace-pre-wrap mb-8">{step.text}</p>
