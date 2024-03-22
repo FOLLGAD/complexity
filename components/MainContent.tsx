@@ -44,7 +44,7 @@ export function MainContent() {
         </div>
         <p className="mb-8">The world's knowledge at your fingertips.</p>
         <form
-          className="w-full flex flex-col items-center gap-4"
+          className="w-full flex flex-col items-center gap-4 px-2"
           onSubmit={(e) => {
             e.preventDefault();
             ask(input, true);
