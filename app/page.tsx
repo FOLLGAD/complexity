@@ -3,46 +3,22 @@ import { Logo } from "@/components/Logo";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SessionProvider, useSessions } from "@/components/sessions";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 
 function useComplexity() {
   const query_id = useSearchParams().get("id");
   const router = useRouter();
-  const [steps, setSteps] = useState<
-    {
-      text: string;
-      question: string;
-      documents: any[];
-      citations: any[];
-      id?: string;
-    }[]
-  >([]);
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!loading) {
-      if (query_id) {
-        const stored = localStorage.getItem("question_" + query_id);
-        if (stored) {
-          setSteps(JSON.parse(stored));
-        }
-      } else {
-        setSteps([]);
-      }
-    }
-  }, [query_id]);
-
-  const [updateC, setUpdateC] = useState(0);
-
-  useEffect(() => {
-    if (updateC > 0) {
-      localStorage.setItem("question_" + query_id, JSON.stringify(steps));
-      setUpdateC(0);
-    }
-  }, [updateC]);
+  const { sessions, editSession, addSession } = useSessions();
+  const steps = useMemo(
+    () => sessions.find(([item]) => item.id === query_id) ?? [],
+    [query_id, sessions]
+  );
 
   const ask = useCallback(
     async (input: string, reset = false) => {
@@ -60,16 +36,17 @@ function useComplexity() {
         }),
       });
 
-      console.log(steps);
+      const toPush = {
+        id,
+        text: "",
+        question: input,
+        documents: [],
+        citations: [],
+        created: new Date().toISOString(),
+      };
 
-      setSteps((s) =>
-        reset
-          ? [{ text: "", question: input, documents: [], citations: [], id }]
-          : [
-              ...s,
-              { text: "", question: input, documents: [], citations: [], id },
-            ]
-      );
+      if (reset) addSession([toPush]);
+      else editSession(id, (s) => [...s, toPush]);
 
       const reader = response.body.getReader();
       let lines = "";
@@ -97,14 +74,14 @@ function useComplexity() {
           const json = popFirstLine();
           if (!json) break;
           if (json.eventType === "text-generation") {
-            setSteps((s) => {
+            editSession(id, (s) => {
               const last = s[s.length - 1];
               return s
                 .slice(0, -1)
                 .concat([{ ...last, text: last.text + json.text }]);
             });
           } else if (json.eventType === "stream-end") {
-            setSteps((s) => {
+            editSession(id, (s) => {
               const last = s[s.length - 1];
               return s.slice(0, -1).concat([
                 {
@@ -118,7 +95,7 @@ function useComplexity() {
             });
           } else if (json.eventType === "search-results") {
             const docs = json.documents;
-            setSteps((s) => {
+            editSession(id, (s) => {
               const last = s[s.length - 1];
               return s.slice(0, -1).concat([
                 {
@@ -129,7 +106,7 @@ function useComplexity() {
             });
           } else if (json.eventType === "citation-generation") {
             const citations = json.citations;
-            setSteps((s) => {
+            editSession(id, (s) => {
               const last = s[s.length - 1];
               return s.slice(0, -1).concat([
                 {
@@ -142,11 +119,9 @@ function useComplexity() {
         }
       }
 
-      setUpdateC((c) => c + 1);
-
       setLoading(false);
     },
-    [steps, setSteps, router]
+    [steps, editSession, router]
   );
 
   return { ask, loading, steps };
@@ -160,7 +135,7 @@ const CitationCard = ({ citation }) => {
     fetch("/api/meta?q=" + citation.url)
       .then((res) => res.json())
       .then((data) => data && data.image && setImage(data.image));
-  });
+  }, []);
   return (
     <Card className="w-48 text-sm">
       {image && (
@@ -204,7 +179,7 @@ const AnswerStep = ({ step }) => {
       {step.documents.length === 0 && (
         <p className="text-sm text-gray-500">No sources used for this query.</p>
       )}
-      <div className="relative">
+      <div className="relative rounded-lg overflow-hidden">
         <div className="flex gap-4 overflow-x-auto mb-4">
           {step.documents.map((doc) => (
             <a href={doc.url} key={doc.url} target="_blank" rel="noreferrer">
@@ -212,7 +187,7 @@ const AnswerStep = ({ step }) => {
             </a>
           ))}
         </div>
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l to-transparent from-black opacity-40 pointer-events-none rounded-r-lg" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l to-transparent from-black opacity-60 pointer-events-none" />
       </div>
       <h2 className="text-lg font-medium mb-4">Answer</h2>
       <p className="whitespace-pre-wrap mb-8">{step.text}</p>
@@ -221,47 +196,40 @@ const AnswerStep = ({ step }) => {
 };
 
 const Sidebar = () => {
-  const router = useRouter();
-
-  let items = [];
-  for (const key in localStorage) {
-    if (key.startsWith("question_") && localStorage.getItem(key)) {
-      items.push(JSON.parse(localStorage.getItem(key)!));
-    }
-  }
+  const { sessions } = useSessions();
 
   return (
-    <aside className="flex flex-col items-center p-8 bg-primary text-primary-foreground w-64 flex-shrink-0 flex-grow-0">
+    <aside className="flex flex-col items-center p-8 px-4 text-primary w-64 flex-shrink-0 flex-grow-0 border-r border-gray-800">
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
           <Link href="/">
-            <p className="text-md font-medium flex items-center">
-              <div className="w-12 h-12">
+            <p className="text-md font-medium flex items-center hover:text-orange-400">
+              <span className="w-12 h-12">
                 <Logo />
-              </div>
+              </span>
               Complexity
             </p>
           </Link>
         </div>
       </div>
       <div className="mt-8 w-full">
-        <div className="text-xs text-gray-500 font-bold mb-2 uppercase">
+        <div className="text-xs text-gray-500 font-bold mb-2 uppercase px-2">
           Sessions
         </div>
-        {items.length > 0 && (
-          <div className="flex flex-col gap-4 w-full overflow-ellipsis">
-            {items.map(([item]) => (
-              <div
+        {sessions.length > 0 ? (
+          <div className="flex flex-col gap-2 w-full overflow-ellipsis">
+            {sessions.map(([item]) => (
+              <Link
                 key={item.id}
-                className="w-full overflow-ellipsis line-clamp-2 cursor-pointer text-sm font-medium text-gray-300 hover:text-primary-foreground"
-                onClick={() => {
-                  router.push("/?id=" + item.id);
-                }}
+                className="w-full overflow-ellipsis line-clamp-2 cursor-pointer text-sm font-medium text-gray-300 hover:text-primary hover:bg-primary/10 border p-2 hover:border-primary/20 rounded-lg"
+                href={`/?id=${item.id}`}
               >
                 {item.question}
-              </div>
+              </Link>
             ))}
           </div>
+        ) : (
+          <p className="text-sm text-gray-500 p-2">Ask a question.</p>
         )}
       </div>
     </aside>
@@ -301,7 +269,7 @@ function Home() {
         >
           <div className="pt-16 flex flex-col items-center justify-between">
             <div className="w-32 h-32">
-              <Logo dark />
+              <Logo />
             </div>
             <h1 className="text-3xl font-bold">Complexity</h1>
           </div>
@@ -315,26 +283,28 @@ function Home() {
             }}
           >
             <Input
-              className="text-md p-4 py-6 max-w-lg"
+              className="text-md p-4 py-6 max-w-lg text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-lg"
               placeholder="Ask anything..."
               onChange={(e) => setInput(e.target.value)}
               value={input}
             />
-            <h3 className="text-sm text-gray-400 font-bold mt-8 uppercase">
+            <h3 className="text-xs text-gray-400 font-bold mt-8 uppercase">
               Trending
             </h3>
-            {examples.map((example) => (
-              <Card
-                key={example}
-                className="text-sm text-gray-500 cursor-pointer p-1 px-2 hover:bg-gray-100"
-                onClick={() => {
-                  setInput(example);
-                  ask(example, true);
-                }}
-              >
-                {example}
-              </Card>
-            ))}
+            <div className="text-center flex flex-col gap-2 items-center">
+              {examples.map((example) => (
+                <Card
+                  key={example}
+                  className="text-sm w-auto cursor-pointer mt-0 p-1 px-2 text-gray-300 hover:text-primary hover:bg-primary/10 border hover:border-primary/20 rounded-lg"
+                  onClick={() => {
+                    setInput(example);
+                    ask(example, true);
+                  }}
+                >
+                  {example}
+                </Card>
+              ))}
+            </div>
           </form>
         </div>
 
@@ -342,7 +312,7 @@ function Home() {
           <AnswerStep key={step.id + i} step={step} />
         ))}
 
-        <div className="w-full max-w-2xl w-2xl sticky bottom-0 flex items-center justify-between p-16 drop-shadow-lg pointer-events-none">
+        <div className="w-full max-w-2xl w-2xl sticky bottom-0 flex items-center justify-between drop-shadow-lg pointer-events-none">
           {steps.length > 0 && (
             <form
               className="w-full"
@@ -352,12 +322,14 @@ function Home() {
                 setFollowUp("");
               }}
             >
-              <Input
-                className="text-md p-4 py-6 bg-white shadow-md rounded-xl w-full pointer-events-auto"
-                placeholder="Ask a follow-up question..."
-                onChange={(e) => setFollowUp(e.target.value)}
-                value={followUp}
-              />
+              <div className="bg-background rounded-lg">
+                <Input
+                  className="text-md max-w-lg min-w-[200px] p-4 py-6 shadow-md rounded-xl w-full pointer-events-auto text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-lg"
+                  placeholder="Ask a follow-up question..."
+                  onChange={(e) => setFollowUp(e.target.value)}
+                  value={followUp}
+                />
+              </div>
             </form>
           )}
         </div>
@@ -368,8 +340,10 @@ function Home() {
 
 export default function Main() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Home />
+    <Suspense fallback={<div></div>}>
+      <SessionProvider>
+        <Home />
+      </SessionProvider>
     </Suspense>
   );
 }

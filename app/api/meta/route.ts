@@ -21,6 +21,14 @@ export async function GET(request: Request) {
     },
   });
   const json = await response.json();
+  if (response.status < 200 || response.status >= 300) {
+    return new Response(JSON.stringify({ error: "Error" }), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      status: 500,
+    });
+  }
 
   cache.set(query, json);
 
