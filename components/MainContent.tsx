@@ -6,7 +6,8 @@ import { Suspense, useState } from "react";
 import { useComplexity } from "./complexity";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CitationCard } from "./CitationCard";
-import { BookDown, ScrollText } from "lucide-react";
+import { ArrowRight, BookDown, ScrollText } from "lucide-react";
+import { Button } from "./ui/button";
 
 export function MainContent() {
   const { ask, steps } = useComplexity();
@@ -51,12 +52,23 @@ export function MainContent() {
             setInput("");
           }}
         >
-          <Input
-            className="text-md p-4 py-6 max-w-lg text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-lg"
-            placeholder="Ask anything..."
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
-          />
+          <div className="relative w-full max-w-lg">
+            <Input
+              className="text-md p-4 py-6 text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-lg"
+              placeholder="Ask anything..."
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+            />
+            <div className="absolute right-0 top-0 bottom-0 h-full flex items-center justify-center">
+              <Button
+                variant="outline"
+                className="w-10 h-10 p-0 mr-1"
+                onClick={() => ask(input, true)}
+              >
+                <ArrowRight className="w-6 h-6" />
+              </Button>
+            </div>
+          </div>
           <h3 className="text-xs text-gray-400 font-bold mt-8 uppercase">
             Trending
           </h3>
@@ -92,12 +104,23 @@ export function MainContent() {
             }}
           >
             <div className="bg-background rounded-lg">
-              <Input
-                className="text-md max-w-lg min-w-[200px] p-4 py-6 shadow-md rounded-xl w-full pointer-events-auto text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-lg"
-                placeholder="Ask a follow-up question..."
-                onChange={(e) => setFollowUp(e.target.value)}
-                value={followUp}
-              />
+              <div className="relative w-full max-w-lg">
+                <Input
+                  className="text-md max-w-lg min-w-[200px] p-4 py-6 shadow-md rounded-xl w-full pointer-events-auto text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-lg"
+                  placeholder="Ask a follow-up question..."
+                  onChange={(e) => setFollowUp(e.target.value)}
+                  value={followUp}
+                />
+                <div className="absolute right-0 top-0 bottom-0 h-full flex items-center justify-center">
+                  <Button
+                    variant="outline"
+                    className="w-10 h-10 p-0 mr-1 pointer-events-auto"
+                    onClick={() => ask(input, true)}
+                  >
+                    <ArrowRight className="w-6 h-6" />
+                  </Button>
+                </div>
+              </div>
             </div>
           </form>
         )}
