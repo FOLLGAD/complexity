@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Complexity",
   description: "Complexity App",
-  icons: "/favicon.png",
+  icons: "/icon.png",
 };
 
 export default function RootLayout({
