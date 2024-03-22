@@ -3,6 +3,7 @@ import { Logo } from "@/components/Logo";
 import { useSessions } from "@/components/sessions";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export const Sidebar = () => {
   const { sessions } = useSessions();
@@ -13,7 +14,7 @@ export const Sidebar = () => {
         <div className="flex items-center gap-2">
           <Link href="/">
             <p className="text-md font-medium flex items-center hover:text-orange-400">
-              <span className="w-12 h-12">
+              <span className="w-8 h-8 mr-1">
                 <Logo />
               </span>
               Complexity
@@ -42,9 +43,22 @@ export const Sidebar = () => {
         )}
       </div>
       <div className="flex-grow" />
-      <div>
-        <a href="https://github.com/follgad/complexity">
-          <Button variant="outline">GitHub</Button>
+      <div className="flex items-center">
+        <a
+          href="https://twitter.com/emilahlback"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span className="text-sm text-gray-500 p-2">@emilahlback</span>
+        </a>
+        <a
+          href="https://github.com/follgad/complexity"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Button variant="outline" className="w-12 h-12 p-3">
+            <GitHubLogoIcon className="w-full h-full" />
+          </Button>
         </a>
       </div>
     </aside>

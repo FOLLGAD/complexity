@@ -36,13 +36,13 @@ export function MainContent() {
           (steps.length > 0 ? "opacity-0 pointer-events-none" : "opacity-100")
         }
       >
-        <div className="pt-16 flex flex-col items-center justify-between">
-          <div className="w-32 h-32">
+        <div className="pt-16 flex flex-col items-center justify-between mb-2">
+          <div className="w-24 h-24 mb-4">
             <Logo />
           </div>
-          <h1 className="text-3xl font-bold">Complexity</h1>
+          <h1 className="text-3xl">Complexity</h1>
         </div>
-        <p className="mb-8">Ask the AI anything.</p>
+        <p className="mb-8">The world's knowledge at your fingertips.</p>
         <form
           className="w-full flex flex-col items-center gap-4"
           onSubmit={(e) => {
@@ -118,7 +118,9 @@ export const AnswerStep = ({ step }) => {
   }
   return (
     <div className="w-full">
-      <h1 className="text-2xl font-medium mb-4">{step.question}</h1>
+      <h1 className="text-2xl font-medium mb-4 underline decoration-orange-400 decoration-2 underline-offset-4">
+        {step.question}
+      </h1>
       <h2 className="text-md font-medium mb-4">
         <ScrollText className="inline-block mr-2" size={18} />
         Sources
