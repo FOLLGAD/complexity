@@ -274,12 +274,18 @@ function Home() {
   const [followUp, setFollowUp] = useState("");
 
   const examples = [
-    "Inflection founders join Microsoft",
-    "Nvidia powers humanoid robots",
-    "Facebook brings back Poke",
-    "Nvidia unveils Blackwell",
-    "Gemini-powered iPhone features",
-    "YouTube labels Al-made videos",
+    // "Inflection founders join Microsoft",
+    // "Nvidia powers humanoid robots",
+    // "Facebook brings back Poke",
+    // "Nvidia unveils Blackwell",
+    // "Gemini-powered iPhone features",
+    // "YouTube labels Al-made videos",
+    "United States sues Apple",
+    "Reddit IPO first day pop",
+    "Android 15 satellite messaging",
+    "GPT-5 release rumors",
+    "Neuralink patient chess telepathy",
+    "Saudi Arabia $40b Al fund",
   ];
 
   return (
