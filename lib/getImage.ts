@@ -1,5 +1,5 @@
 "use server";
-import { cache } from "../app/api/meta/route";
+export const cache = new Map();
 
 export async function getImage(url) {
   if (cache.has(url)) {
