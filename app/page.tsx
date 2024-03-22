@@ -1,4 +1,5 @@
 "use client";
+import { Logo } from "@/components/Logo";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -230,9 +231,13 @@ const Sidebar = () => {
     <aside className="flex flex-col items-center p-8 bg-primary text-primary-foreground w-64 flex-shrink-0 flex-grow-0">
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-primary-foreground"></div>
           <Link href="/">
-            <p className="text-md font-medium">Complexity</p>
+            <p className="text-md font-medium flex items-center">
+              <div className="w-12 h-12">
+                <Logo />
+              </div>
+              Complexity
+            </p>
           </Link>
         </div>
       </div>
@@ -285,7 +290,12 @@ function Home() {
             (steps.length > 0 ? "opacity-0 pointer-events-none" : "opacity-100")
           }
         >
-          <h1 className="text-3xl font-bold pt-16">Complexity</h1>
+          <div className="pt-16 flex flex-col items-center justify-between">
+            <div className="w-32 h-32">
+              <Logo dark />
+            </div>
+            <h1 className="text-3xl font-bold">Complexity</h1>
+          </div>
           <p className="mb-8">Ask the AI anything.</p>
           <form
             className="w-full flex flex-col items-center gap-4"
