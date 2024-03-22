@@ -1,27 +1,17 @@
 // curl --data "q=https://google.com&fields=image_x,image_y,locale" https://api.linkpreview.net -H "X-Linkpreview-Api-Key: 123456"
 
+import { getImage } from "../../../lib/getImage";
+
 // cache heavily:
 
-const cache = new Map();
+export const cache = new Map();
 
 export async function GET(request: Request) {
   const query = new URL(request.url).searchParams.get("q");
 
-  if (cache.has(query)) {
-    return new Response(JSON.stringify(cache.get(query)), {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  }
+  const data = await getImage(query);
 
-  const response = await fetch(`https://api.linkpreview.net/?q=${query}`, {
-    headers: {
-      "X-Linkpreview-Api-Key": process.env.LINK_PREVIEW,
-    },
-  });
-  const json = await response.json();
-  if (response.status < 200 || response.status >= 300) {
+  if (!data) {
     return new Response(JSON.stringify({ error: "Error" }), {
       headers: {
         "Content-Type": "application/json",
@@ -30,9 +20,7 @@ export async function GET(request: Request) {
     });
   }
 
-  cache.set(query, json);
-
-  return new Response(JSON.stringify(json), {
+  return new Response(JSON.stringify(data), {
     headers: {
       "Content-Type": "application/json",
     },
