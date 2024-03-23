@@ -63,7 +63,7 @@ export function MainContent() {
               <Button
                 variant="outline"
                 className="w-10 h-10 p-0 mr-1"
-                onClick={() => ask(input, true)}
+                type="submit"
               >
                 <ArrowRight className="w-6 h-6" />
               </Button>
@@ -115,7 +115,7 @@ export function MainContent() {
                   <Button
                     variant="outline"
                     className="w-10 h-10 p-0 mr-1 pointer-events-auto"
-                    onClick={() => ask(input, true)}
+                    type="submit"
                   >
                     <ArrowRight className="w-6 h-6" />
                   </Button>
