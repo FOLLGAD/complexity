@@ -16,6 +16,8 @@ export function useComplexity() {
 
   const ask = useCallback(
     async (input: string, reset = false) => {
+      if (!input.trim()) return;
+      
       setLoading(true);
       const id = steps[0]?.id ?? Math.random().toString(36).substring(7);
       if (reset) router.push("/?id=" + id);
