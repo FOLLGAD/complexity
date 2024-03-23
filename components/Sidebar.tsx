@@ -62,7 +62,7 @@ export const Sidebar = () => {
       <aside
         ref={node}
         className={cn(
-          "flex flex-col items-center p-8 px-4 text-primary w-64 flex-shrink-0 flex-grow-0 border-r border-gray-800 md:static absolute transition-all z-10 bg-background min-h-screen",
+          "flex flex-col items-center p-8 px-4 text-primary w-64 flex-shrink-0 flex-grow-0 border-r border-gray-800 md:static absolute transition-all z-10 bg-background h-screen",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "md:translate-x-0"
         )}
@@ -79,7 +79,7 @@ export const Sidebar = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-8 w-full">
+        <div className="mt-8 w-full overflow-y-auto flex-grow pb-4 mb-4">
           <div className="text-xs text-gray-500 font-bold mb-2 uppercase px-2">
             Sessions
           </div>
@@ -99,7 +99,6 @@ export const Sidebar = () => {
             <p className="text-sm text-gray-500 p-2">Ask a question.</p>
           )}
         </div>
-        <div className="flex-grow" />
         <div className="flex items-center">
           <a
             href="https://twitter.com/emilahlback"
