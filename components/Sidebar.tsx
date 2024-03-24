@@ -7,6 +7,7 @@ import { GitHubLogoIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
+import { TrackedLink } from "./TrackedLink";
 
 const useClickOutside = () => {
   const node = useRef<any>();
@@ -86,13 +87,19 @@ export const Sidebar = () => {
           {sessions.length > 0 ? (
             <div className="flex flex-col gap-2 w-full overflow-ellipsis">
               {sessions.map(([item]) => (
-                <Link
+                <TrackedLink
                   key={item.id}
-                  className="w-full overflow-ellipsis line-clamp-2 cursor-pointer text-sm font-medium text-gray-300 hover:text-primary hover:bg-primary/10 border p-2 hover:border-primary/20 rounded-lg"
+                  className="w-full cursor-pointer text-sm font-medium text-gray-300 hover:text-primary hover:bg-primary/10 border p-2 hover:border-primary/20 rounded-lg"
                   href={`/?id=${item.id}`}
+                  phData={{
+                    questionId: item.id,
+                    questionText: item.question,
+                  }}
                 >
-                  {item.question}
-                </Link>
+                  <span className="overflow-ellipsis line-clamp-2 pointer-events-none">
+                    {item.question}
+                  </span>
+                </TrackedLink>
               ))}
             </div>
           ) : (

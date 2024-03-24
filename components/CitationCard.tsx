@@ -8,17 +8,20 @@ export const CitationCard = ({ citation }: { citation: Document }) => {
     "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png"
   );
   useEffect(() => {
-    fetch("/api/meta?q=" + citation.url)
+    fetch("/api/meta?q=" + citation.url, {
+      cache: "force-cache",
+    })
       .then((res) => res.json())
       .then((data) => data && data.image && setImage(data.image));
   }, []);
+
   return (
     <Card className="w-48 text-sm">
       {image && (
         <div className="w-full h-16 overflow-hidden flex items-center justify-center rounded-t-lg relative">
           <img
             src={image}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:block"
             // @ts-ignore
             onError={(e) => (e.target.src = "https://placehold.co/600x400")}
           />

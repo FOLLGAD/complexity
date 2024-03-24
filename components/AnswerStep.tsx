@@ -5,6 +5,7 @@ import { BookDown, ScrollText } from "lucide-react";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { CitationPopup } from "./CitationPopup";
+import { TrackedLink } from "./TrackedLink";
 
 export interface Citation {
   documentIds: string[];
@@ -43,9 +44,29 @@ export const AnswerStep = ({ step }: { step: Step }) => {
     return t;
   }, [step.text, step.citations]);
 
+  const components = useMemo(
+    () => ({
+      ul: ({ children }) => <ul className="list-disc">{children}</ul>,
+      ol: ({ children }) => <ol className="list-decimal">{children}</ol>,
+      cite: ({ node, children }) => {
+        const id = node.properties.dataCitationId as string;
+        return (
+          <CitationPopup
+            citation={step.citations[parseInt(id)]}
+            documents={step.documents}
+            key={id}
+          >
+            {children}
+          </CitationPopup>
+        );
+      },
+    }),
+    [step.citations, step.documents, step.text]
+  );
+
   if (!step.text) {
     return (
-      <div className="pt-12 container">
+      <div className="pt-12 container max-w-4xl">
         <h1 className="text-2xl font-medium mb-4">{step.question}</h1>
         <Skeleton>
           <div className="h-16" />
@@ -69,11 +90,20 @@ export const AnswerStep = ({ step }: { step: Step }) => {
       <div className="relative rounded-lg overflow-hidden">
         <div className="flex gap-4 overflow-x-auto mb-4">
           {step.documents.map((doc) => (
-            <a href={doc.url} key={doc.url} target="_blank" rel="noreferrer">
+            <TrackedLink
+              href={doc.url}
+              key={doc.url}
+              target="_blank"
+              rel="noreferrer"
+              phData={{
+                url: doc.url,
+                title: doc.title,
+              }}
+            >
               <Suspense fallback={<div className="w-48 h-16" />}>
-                <CitationCard citation={doc} />
+                <CitationCard key={doc.id} citation={doc} />
               </Suspense>
-            </a>
+            </TrackedLink>
           ))}
         </div>
         <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l to-transparent from-black opacity-60 pointer-events-none" />
@@ -83,24 +113,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
         Answer
       </h2>
       <p className="mb-8 prose">
-        <Markdown
-          rehypePlugins={[rehypeRaw]}
-          components={{
-            ul: ({ children }) => <ul className="list-disc">{children}</ul>,
-            ol: ({ children }) => <ol className="list-decimal">{children}</ol>,
-            cite: ({ node, children }) => {
-              const id = node.properties.dataCitationId as string;
-              return (
-                <CitationPopup
-                  citation={step.citations[parseInt(id)]}
-                  documents={step.documents}
-                >
-                  {children}
-                </CitationPopup>
-              );
-            },
-          }}
-        >
+        <Markdown rehypePlugins={[rehypeRaw]} components={components}>
           {text}
         </Markdown>
       </p>

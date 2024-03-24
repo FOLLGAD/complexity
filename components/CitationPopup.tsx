@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { Citation, Document } from "./AnswerStep";
 import { CitationCard } from "./CitationCard";
+import Link from "next/link";
+import { TrackedLink } from "./TrackedLink";
 
 export const CitationPopup = ({
   citation,
@@ -28,9 +30,17 @@ export const CitationPopup = ({
       >
         <div className="mt-[-5px] flex rounded-lg shadow-lg flex-row gap-2 max-w-[300px] overflow-x-auto group-hover:pointer-events-auto bg-popover">
           {docs.map((doc) => (
-            <a href={doc.url} key={doc.url} target="_blank" rel="noreferrer">
+            <TrackedLink
+              href={doc.url}
+              key={doc.url}
+              target="_blank"
+              rel="noreferrer"
+              phData={{
+                url: doc.url,
+              }}
+            >
               <CitationCard key={doc.url} citation={doc} />
-            </a>
+            </TrackedLink>
           ))}
         </div>
       </div>

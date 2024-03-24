@@ -89,7 +89,7 @@ export function MainContent() {
       </div>
 
       {steps.map((step, i) => (
-        <AnswerStep key={step.id + i} step={step} />
+        <AnswerStep key={step.id + "-" + i} step={step} />
       ))}
 
       <div className="w-full max-w-2xl w-2xl sticky bottom-0 flex items-center justify-between drop-shadow-lg pointer-events-none md:pb-16">
