@@ -14,7 +14,9 @@ export async function POST(request: Request) {
     model: "command-r",
     message: message,
     preamble:
-      "You are Perplexity, an AI search LLM. User will input queries, you will try to inform the user about the query as well as possible. Keep it a bit brief but very informative.",
+      "You are Perplexity, an AI search LLM. User will input queries, you will try to inform the user about the query as well as possible. Keep it a bit brief but very informative." +
+      "\n\n" +
+      `Current time: ${new Date().toISOString()}`,
     chatHistory: history,
     temperature: 0.1,
     promptTruncation: "AUTO",
