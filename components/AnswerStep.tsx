@@ -90,7 +90,9 @@ export const AnswerStep = ({ step }: { step: Step }) => {
                 <CitationPopup
                   citation={step.citations[parseInt(id)]}
                   documents={step.documents}
-                />
+                >
+                  {children}
+                </CitationPopup>
               );
             },
           }}

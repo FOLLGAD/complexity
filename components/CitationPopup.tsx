@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Citation, Document } from "./AnswerStep";
 import { CitationCard } from "./CitationCard";
 
 export const CitationPopup = ({
   citation,
   documents,
+  children,
 }: {
   citation: Citation;
   documents: Document[];
+  children: ReactNode;
 }) => {
   const docs = documents.filter((doc) => citation.documentIds.includes(doc.id));
 
@@ -19,7 +21,7 @@ export const CitationPopup = ({
   return (
     <span className="group inline-block relative">
       <span className="text-orange-300 cursor-pointer" data-tooltip-target={id}>
-        {citation.text}
+        {children}
       </span>
       <div
         id={id}
