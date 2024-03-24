@@ -29,6 +29,9 @@ export type Step = {
 export const AnswerStep = ({ step }: { step: Step }) => {
   const text = useMemo(() => {
     let t = step.text;
+
+    if (!step.citations) return t;
+
     for (let i = step.citations.length - 1; i >= 0; i--) {
       const citation = step.citations[i];
       const slice = t.slice(citation.start, citation.end);
