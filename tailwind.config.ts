@@ -21,10 +21,13 @@ const config = {
       typography: {
         DEFAULT: {
           css: {
-            color: "hsl(var(--primary))", 
-          }
+            color: "hsl(var(--primary))",
+            strong: {
+              color: "hsl(var(--primary))",
+            },
+          },
         },
-      },  
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
