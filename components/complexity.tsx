@@ -1,6 +1,7 @@
 import { useSessions } from "@/components/sessions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+import posthog from "posthog-js";
 
 export function useComplexity() {
   const query_id = useSearchParams().get("id");
@@ -17,7 +18,12 @@ export function useComplexity() {
   const ask = useCallback(
     async (input: string, reset = false) => {
       if (!input.trim()) return;
-      
+
+      posthog.capture("asked_question", {
+        question: input,
+        previous: reset ? [] : steps.map((s) => s[0].question),
+      });
+
       setLoading(true);
       const id = steps[0]?.id ?? Math.random().toString(36).substring(7);
       if (reset) router.push("/?id=" + id);
