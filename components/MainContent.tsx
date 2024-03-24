@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { CitationCard } from "./CitationCard";
 import { ArrowRight, BookDown, ScrollText } from "lucide-react";
 import { Button } from "./ui/button";
+import Markdown from "react-markdown";
 
 export function MainContent() {
   const { ask, steps } = useComplexity();
@@ -30,7 +31,7 @@ export function MainContent() {
   ];
 
   return (
-    <main className="flex max-h-screen min-h-screen flex-col items-center justify-between p-24 relative flex-shrink overflow-y-auto flex-grow">
+    <main className="flex max-h-screen min-h-screen flex-col items-center justify-between p-8 relative flex-shrink overflow-y-auto flex-grow">
       <div
         className={
           "w-full h-full transition-all duration-100 ease-in-out absolute top-0 flex flex-col items-center " +
@@ -93,7 +94,7 @@ export function MainContent() {
         <AnswerStep key={step.id + i} step={step} />
       ))}
 
-      <div className="w-full max-w-2xl w-2xl sticky bottom-0 flex items-center justify-between drop-shadow-lg pointer-events-none">
+      <div className="w-full max-w-2xl w-2xl sticky bottom-0 flex items-center justify-between drop-shadow-lg pointer-events-none md:pb-16">
         {steps.length > 0 && (
           <form
             className="w-full"
@@ -103,8 +104,8 @@ export function MainContent() {
               setFollowUp("");
             }}
           >
-            <div className="bg-background rounded-lg">
-              <div className="relative w-full max-w-lg">
+            <div className="flex justify-center">
+              <div className="relative w-full max-w-lg bg-background rounded-lg">
                 <Input
                   className="text-md max-w-lg min-w-[200px] p-4 py-6 shadow-md rounded-xl w-full pointer-events-auto text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-lg"
                   placeholder="Ask a follow-up question..."
@@ -131,7 +132,7 @@ export function MainContent() {
 export const AnswerStep = ({ step }) => {
   if (!step.text) {
     return (
-      <div className="w-full">
+      <div className="pt-12 container">
         <h1 className="text-2xl font-medium mb-4">{step.question}</h1>
         <Skeleton>
           <div className="h-16" />
@@ -140,7 +141,7 @@ export const AnswerStep = ({ step }) => {
     );
   }
   return (
-    <div className="w-full">
+    <div className="pt-12 container max-w-4xl">
       <h1 className="text-2xl font-medium mb-4 underline decoration-orange-400 decoration-2 underline-offset-4">
         {step.question}
       </h1>
@@ -167,7 +168,16 @@ export const AnswerStep = ({ step }) => {
         <BookDown className="inline-block mr-2" size={18} />
         Answer
       </h2>
-      <p className="whitespace-pre-wrap mb-8">{step.text}</p>
+      <p className="mb-8 prose">
+        <Markdown
+          components={{
+            ul: ({ children }) => <ul className="list-disc">{children}</ul>,
+            ol: ({ children }) => <ol className="list-decimal">{children}</ol>,
+          }}
+        >
+          {step.text}
+        </Markdown>
+      </p>
     </div>
   );
 };
