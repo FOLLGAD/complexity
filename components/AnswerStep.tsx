@@ -1,10 +1,44 @@
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CitationCard } from "./CitationCard";
 import { BookDown, ScrollText } from "lucide-react";
 import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import { CitationPopup } from "./CitationPopup";
 
-export const AnswerStep = ({ step }) => {
+export interface Citation {
+  documentIds: string[];
+  text: string;
+  start: number;
+  end: number;
+}
+
+export interface Document {
+  url: string;
+  title: string;
+  id: string;
+}
+
+export type Step = {
+  question: string;
+  text: string;
+  documents: Document[];
+  citations: Citation[];
+};
+
+export const AnswerStep = ({ step }: { step: Step }) => {
+  const text = useMemo(() => {
+    let t = step.text;
+    for (let i = step.citations.length - 1; i >= 0; i--) {
+      const citation = step.citations[i];
+      t =
+        t.slice(0, citation.start) +
+        `<cite class="text-orange-400" data-citation-id="${i}">${citation.text}</cite>` +
+        t.slice(citation.end);
+    }
+    return t;
+  }, [step.text, step.citations]);
+
   if (!step.text) {
     return (
       <div className="pt-12 container">
@@ -15,6 +49,7 @@ export const AnswerStep = ({ step }) => {
       </div>
     );
   }
+
   return (
     <div className="pt-12 container max-w-4xl">
       <h1 className="text-2xl font-medium mb-4 underline decoration-orange-400 decoration-2 underline-offset-4">
@@ -45,12 +80,22 @@ export const AnswerStep = ({ step }) => {
       </h2>
       <p className="mb-8 prose">
         <Markdown
+          rehypePlugins={[rehypeRaw]}
           components={{
             ul: ({ children }) => <ul className="list-disc">{children}</ul>,
             ol: ({ children }) => <ol className="list-decimal">{children}</ol>,
+            cite: ({ node, children }) => {
+              const id = node.properties.dataCitationId as string;
+              return (
+                <CitationPopup
+                  citation={step.citations[parseInt(id)]}
+                  documents={step.documents}
+                />
+              );
+            },
           }}
         >
-          {step.text}
+          {text}
         </Markdown>
       </p>
     </div>

@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Card } from "./ui/card";
+import { Document } from "./AnswerStep";
 
-export const CitationCard = ({ citation }) => {
+export const CitationCard = ({ citation }: { citation: Document }) => {
   const [image, setImage] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png"
   );

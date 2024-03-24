@@ -29,7 +29,7 @@ export function MainContent() {
   ];
 
   return (
-    <main className="flex max-h-screen min-h-screen flex-col items-center justify-between p-8 relative flex-shrink overflow-y-auto flex-grow">
+    <main className="flex max-h-screen min-h-screen flex-col items-center justify-between p-8 relative flex-shrink overflow-y-auto flex-grow overflow-hidden relative">
       <div
         className={
           "w-full h-full transition-all duration-100 ease-in-out absolute top-0 flex flex-col items-center " +
