@@ -1,5 +1,4 @@
-"use client";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { Citation, Document } from "./AnswerStep";
 import { CitationCard } from "./CitationCard";
 

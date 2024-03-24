@@ -31,9 +31,10 @@ export const AnswerStep = ({ step }: { step: Step }) => {
     let t = step.text;
     for (let i = step.citations.length - 1; i >= 0; i--) {
       const citation = step.citations[i];
+      const slice = t.slice(citation.start, citation.end);
       t =
         t.slice(0, citation.start) +
-        `<cite class="text-orange-400" data-citation-id="${i}">${citation.text}</cite>` +
+        `<cite class="text-orange-400" data-citation-id="${i}">${slice}</cite>` +
         t.slice(citation.end);
     }
     return t;
