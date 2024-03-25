@@ -21,7 +21,7 @@ export function useComplexity() {
 
       posthog.capture("asked_question", {
         question: input,
-        previous: reset ? [] : steps.map((s) => s[0].question),
+        previous: reset ? [] : steps.map((s) => s?.question),
       });
 
       setLoading(true);

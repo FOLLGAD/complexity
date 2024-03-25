@@ -15,7 +15,6 @@ export const TrackedLink = ({
       acc[key] = value;
       return acc;
     }, {});
-  console.log(phData, prefixedData);
   return (
     <Link href={href} passHref legacyBehavior>
       <a {...props} {...prefixedData}>
