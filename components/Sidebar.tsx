@@ -96,7 +96,10 @@ export const Sidebar = () => {
                     questionText: item.question,
                   }}
                 >
-                  <span className="overflow-ellipsis line-clamp-2 pointer-events-none">
+                  <span
+                    className="overflow-ellipsis line-clamp-2 pointer-events-none"
+                    title={item.question}
+                  >
                     {item.question}
                   </span>
                 </TrackedLink>
