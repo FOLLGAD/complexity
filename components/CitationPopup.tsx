@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { Citation, Document } from "./AnswerStep";
 import { CitationCard } from "./CitationCard";
-import Link from "next/link";
 import { TrackedLink } from "./TrackedLink";
 
 export const CitationPopup = ({
