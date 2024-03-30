@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { Card } from "./ui/card";
 import { Document } from "./AnswerStep";
+import { type SuccessResult } from "open-graph-scraper";
+type OgObject = SuccessResult["result"];
 
 export const CitationCard = ({ citation }: { citation: Document }) => {
   const [image, setImage] = useState(
@@ -12,7 +14,10 @@ export const CitationCard = ({ citation }: { citation: Document }) => {
       cache: "force-cache",
     })
       .then((res) => res.json())
-      .then((data) => data && data.image && setImage(data.image));
+      .then(
+        (data: OgObject) =>
+          data?.ogImage?.[0]?.url && setImage(data.ogImage[0].url)
+      );
   }, []);
 
   return (

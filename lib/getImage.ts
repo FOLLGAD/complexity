@@ -1,22 +1,23 @@
 "use server";
-const cache = new Map();
+import OGS, { type SuccessResult } from "open-graph-scraper";
+const cache: Map<string, SuccessResult["result"]> = new Map();
 
 export async function getImage(url) {
   if (cache.has(url)) {
     return cache.get(url);
   }
 
-  const data = await fetch(`https://api.linkpreview.net/?q=${url}`, {
-    headers: {
-      "X-Linkpreview-Api-Key": process.env.LINK_PREVIEW,
-    },
-  }).then((res) => res.json());
+  const { error, result } = await OGS({ url });
 
-  if (!data.image) {
+  if (error) {
     return null;
   }
 
-  cache.set(url, data);
+  if (!result.ogImage) {
+    return null;
+  }
 
-  return data;
+  cache.set(url, result);
+
+  return result;
 }
