@@ -115,7 +115,9 @@ export const Sidebar = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <span className="text-sm text-gray-500 p-2">@emilahlback</span>
+            <span className="text-sm text-gray-200 font-medium p-2">
+              @emilahlback
+            </span>
           </a>
           {/* <a
             href="https://github.com/follgad/complexity"
