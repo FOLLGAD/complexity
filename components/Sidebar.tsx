@@ -117,7 +117,7 @@ export const Sidebar = () => {
           >
             <span className="text-sm text-gray-500 p-2">@emilahlback</span>
           </a>
-          <a
+          {/* <a
             href="https://github.com/follgad/complexity"
             target="_blank"
             rel="noreferrer"
@@ -125,7 +125,7 @@ export const Sidebar = () => {
             <Button variant="outline" className="w-12 h-12 p-3">
               <GitHubLogoIcon className="w-full h-full" />
             </Button>
-          </a>
+          </a> */}
         </div>
       </aside>
     </>
