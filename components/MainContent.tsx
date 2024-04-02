@@ -8,31 +8,19 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { AnswerStep } from "./AnswerStep";
 
+const examples = [
+  "48 years of Apple",
+  "Altman gives up OpenAI fund",
+  "EU AltStore coming soon",
+  "US House bans use of Microsoft Copilot",
+  "The Matrix anniversary",
+  "Microplastics found in ancient digs",
+];
+
 export function MainContent() {
   const { ask, steps } = useComplexity();
   const [input, setInput] = useState("");
   const [followUp, setFollowUp] = useState("");
-
-  const examples = [
-    // "Inflection founders join Microsoft",
-    // "Nvidia powers humanoid robots",
-    // "Facebook brings back Poke",
-    // "Nvidia unveils Blackwell",
-    // "Gemini-powered iPhone features",
-    // "YouTube labels Al-made videos",
-    // "United States sues Apple",
-    // "Reddit IPO first day pop",
-    // "Android 15 satellite messaging",
-    // "GPT-5 release rumors",
-    // "Neuralink patient chess telepathy",
-    // "Saudi Arabia $40b Al fund",
-    "OpenAl and Microsoft Stargate supercomputer",
-    "BBC replaces actress with Al",
-    "NYC tests Al gun detectors",
-    "SBF sentenced to 25 years",
-    "X is testing NSFW groups",
-    "Netherlands test Hyperloop",
-  ];
 
   return (
     <main className="flex max-h-screen min-h-screen flex-col items-center justify-between p-8 relative flex-shrink overflow-y-auto flex-grow overflow-hidden relative">
