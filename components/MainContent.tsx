@@ -11,9 +11,8 @@ import { AnswerStep } from "./AnswerStep";
 const examples = [
   "xz backdoor",
   "EU AltStore coming soon",
-  "Microplastics found in ancient digs",
   "Altman gives up OpenAI fund",
-  "48 years of Apple",
+  "Microplastics found in ancient digs",
   "US House bans use of Microsoft Copilot",
 ];
 
