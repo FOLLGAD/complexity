@@ -35,12 +35,16 @@ export async function POST(request: Request) {
     documents: [],
   });
 
+  const randomSequence = Math.random().toString(36).substring(7);
+
   const encoder = new TextEncoder();
   const customReadable = new ReadableStream({
     async start(controller) {
       for await (const chat of stream) {
+        console.log(`${randomSequence} – ${chat.eventType}`)
         controller.enqueue(encoder.encode(JSON.stringify(chat) + "\n"));
       }
+      console.log(`${randomSequence} – CLOSE`)
       controller.close();
     },
   });
