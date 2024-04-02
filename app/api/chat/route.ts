@@ -1,7 +1,7 @@
 import { CohereClient } from "cohere-ai";
 
 const cohere = new CohereClient({
-  token: process.env.COHERE_API_KEY, // This is your trial API key
+  token: process.env.COHERE_API_KEY,
 });
 
 export const dynamic = "force-dynamic";
@@ -41,11 +41,14 @@ export async function POST(request: Request) {
   const customReadable = new ReadableStream({
     async start(controller) {
       for await (const chat of stream) {
-        console.log(`${randomSequence} – ${chat.eventType}`)
+        console.log(`${randomSequence} – ${chat.eventType}`);
         controller.enqueue(encoder.encode(JSON.stringify(chat) + "\n"));
       }
-      console.log(`${randomSequence} – CLOSE`)
+      console.log(`${randomSequence} – CLOSE`);
       controller.close();
+    },
+    cancel() {
+      console.log(`${randomSequence} – CANCEL`);
     },
   });
 
