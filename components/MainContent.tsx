@@ -9,12 +9,12 @@ import { Button } from "./ui/button";
 import { AnswerStep } from "./AnswerStep";
 
 const examples = [
-  "48 years of Apple",
-  "Altman gives up OpenAI fund",
+  "xz backdoor",
   "EU AltStore coming soon",
-  "US House bans use of Microsoft Copilot",
-  "The Matrix anniversary",
   "Microplastics found in ancient digs",
+  "Altman gives up OpenAI fund",
+  "48 years of Apple",
+  "US House bans use of Microsoft Copilot",
 ];
 
 export function MainContent() {
