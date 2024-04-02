@@ -1,6 +1,6 @@
 import { useSessions } from "@/components/sessions";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import posthog from "posthog-js";
 
 export function useComplexity() {
@@ -9,15 +9,40 @@ export function useComplexity() {
 
   const [loading, setLoading] = useState(false);
 
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+  const [lastSessionId, setLastSessionId] = useState<string | null>(null);
+
   const { sessions, editSession, addSession } = useSessions();
   const steps = useMemo(
     () => sessions.find(([item]) => item.id === query_id) ?? [],
     [query_id, sessions]
   );
 
+  const [cancel, setCancel] = useState<null | (() => void)>(null);
+
+  useEffect(() => {
+    if (
+      lastSessionId === currentSessionId &&
+      query_id !== currentSessionId &&
+      cancel
+    ) {
+      cancel();
+    }
+    setLastSessionId(query_id);
+  }, [query_id]);
+
   const ask = useCallback(
     async (input: string, reset = false) => {
       if (!input.trim()) return;
+
+      let resolve: (reader: ReadableStreamDefaultReader<any>) => void;
+      const promise = new Promise<ReadableStreamDefaultReader<any>>(
+        (_resolve) => {
+          resolve = _resolve;
+        }
+      );
+
+      setCancel(() => () => promise.then((reader) => reader.releaseLock()));
 
       posthog.capture("asked_question", {
         question: input,
@@ -26,6 +51,7 @@ export function useComplexity() {
 
       setLoading(true);
       const id = steps[0]?.id ?? Math.random().toString(36).substring(7);
+      setCurrentSessionId(id);
       if (reset) router.push("/?id=" + id);
       const response = await fetch("/api/chat", {
         method: "POST",
@@ -68,63 +94,69 @@ export function useComplexity() {
         return undefined;
       };
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        lines += new TextDecoder().decode(value);
+      const readAll = async () => {
         while (true) {
-          const json = popFirstLine();
-          if (!json) break;
-          if (json.eventType === "text-generation") {
-            editSession(id, (s) => {
-              const last = s[s.length - 1];
-              return s
-                .slice(0, -1)
-                .concat([{ ...last, text: last.text + json.text }]);
-            });
-          } else if (json.eventType === "stream-end") {
-            editSession(id, (s) => {
-              const last = s[s.length - 1];
-              return s.slice(0, -1).concat([
-                {
-                  ...last,
-                  id: id,
-                  text: json.response.text,
-                  citations: json.response.citations,
-                  documents: json.response.documents,
-                },
-              ]);
-            });
-          } else if (json.eventType === "search-results") {
-            const docs = json.documents;
-            editSession(id, (s) => {
-              const last = s[s.length - 1];
-              return s.slice(0, -1).concat([
-                {
-                  ...last,
-                  documents: docs,
-                },
-              ]);
-            });
-          } else if (json.eventType === "citation-generation") {
-            const citations = json.citations;
-            editSession(id, (s) => {
-              const last = s[s.length - 1];
-              return s.slice(0, -1).concat([
-                {
-                  ...last,
-                  citations: [...last.citations, ...citations],
-                },
-              ]);
-            });
+          const { done, value } = await reader.read();
+          if (done) break;
+          lines += new TextDecoder().decode(value);
+          while (true) {
+            const json = popFirstLine();
+            if (!json) break;
+            if (json.eventType === "text-generation") {
+              editSession(id, (s) => {
+                const last = s[s.length - 1];
+                return s
+                  .slice(0, -1)
+                  .concat([{ ...last, text: last.text + json.text }]);
+              });
+            } else if (json.eventType === "stream-end") {
+              editSession(id, (s) => {
+                const last = s[s.length - 1];
+                return s.slice(0, -1).concat([
+                  {
+                    ...last,
+                    id: id,
+                    text: json.response.text,
+                    citations: json.response.citations,
+                    documents: json.response.documents,
+                  },
+                ]);
+              });
+            } else if (json.eventType === "search-results") {
+              const docs = json.documents;
+              editSession(id, (s) => {
+                const last = s[s.length - 1];
+                return s.slice(0, -1).concat([
+                  {
+                    ...last,
+                    documents: docs,
+                  },
+                ]);
+              });
+            } else if (json.eventType === "citation-generation") {
+              const citations = json.citations;
+              editSession(id, (s) => {
+                const last = s[s.length - 1];
+                return s.slice(0, -1).concat([
+                  {
+                    ...last,
+                    citations: [...last.citations, ...citations],
+                  },
+                ]);
+              });
+            }
           }
         }
-      }
+      };
+
+      resolve(reader);
+
+      await readAll().catch((e) => console.error(e));
 
       setLoading(false);
     },
     [steps, editSession, router]
   );
 
-  return { ask, loading, steps };
+  return { ask, loading, steps, cancel };
 }
