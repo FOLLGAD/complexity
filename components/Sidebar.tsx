@@ -115,9 +115,11 @@ export const Sidebar = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <span className="text-sm text-gray-200 font-medium p-2">
-              @emilahlback
-            </span>
+            <Button variant="link">
+              <span className="text-sm text-gray-200 font-medium p-2 underline decoration-orange-400 decoration-2 tracking-wider">
+                @emilahlback
+              </span>
+            </Button>
           </a>
           {/* <a
             href="https://github.com/follgad/complexity"

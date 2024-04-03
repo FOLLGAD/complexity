@@ -12,10 +12,9 @@ export const CitationPopup = ({
   documents: Document[];
   children: ReactNode;
 }) => {
-  const docs = documents.filter((doc) => citation.documentIds.includes(doc.id));
-
   if (!citation) return null;
 
+  const docs = documents.filter((doc) => citation.documentIds.includes(doc.id));
   const id = citation.start + "-" + citation.end;
 
   return (
@@ -27,7 +26,7 @@ export const CitationPopup = ({
         id={id}
         className="absolute right-0 z-10 opacity-0 group-hover:opacity-100 transition-all duration-200 ease-in-out pointer-events-none"
       >
-        <div className="mt-[-5px] flex rounded-lg shadow-lg flex-row gap-2 max-w-[300px] overflow-x-auto group-hover:pointer-events-auto bg-popover">
+        <div className="mt-[-5px] flex rounded-lg flex-row gap-2 max-w-[300px] overflow-x-auto group-hover:pointer-events-auto bg-popover shadow-xl shadow-orange-400/15">
           {docs.map((doc) => (
             <TrackedLink
               href={doc.url}

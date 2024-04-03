@@ -59,6 +59,7 @@
     "react-is-visible": "^1.2.0",
     "react-markdown": "^9.0.1",
     "react-resizable-panels": "^2.0.13",
+    "react-type-animation": "^3.2.0",
     "rehype-raw": "^7.0.0",
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.2.2",
