@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     url: "https://complexity.emil.zip",
     images: [
       {
-        url: "https://complexity.emil.zip/og-image.png",
+        url: "https://complexity.emil.zip/og-image.jpg",
         width: 1116,
-        height: 640,
+        height: 608,
         alt: "Complexity",
       },
     ],
