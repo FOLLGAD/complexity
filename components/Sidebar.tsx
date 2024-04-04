@@ -64,17 +64,17 @@ export const Sidebar = () => {
       <aside
         ref={node}
         className={cn(
-          "absolute z-10 flex h-screen w-64 flex-shrink-0 flex-grow-0 flex-col bg-[#202222] p-6 px-4 text-primary transition-all md:static",
+          "absolute z-10 flex h-screen w-64 flex-shrink-0 flex-grow-0 flex-col bg-[#202222] p-6 px-3 text-primary transition-all md:static",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "md:translate-x-0",
         )}
       >
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 px-3">
             <Link href="/">
-              <p className="text-gradient flex items-center text-2xl font-light tracking-tight selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400 transition-all duration-200 ease-in-out">
-                <span className="mr-1 h-8 w-8">
-                  <Logo />
+              <p className="text-gradient flex items-center text-2xl font-light tracking-tight transition-all duration-200 ease-in-out selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400">
+                <span className="mr-3 h-8 w-8">
+                  <Logo width={60} height={60} />
                 </span>
                 complexity
               </p>
@@ -91,7 +91,7 @@ export const Sidebar = () => {
                 <TrackedLink
                   key={item.id}
                   className={cn(
-                    "w-full cursor-pointer rounded-xl p-3 px-3 text-sm font-normal text-gray-300 no-underline transition-colors hover:border-primary/20 hover:bg-primary/10 hover:text-primary",
+                    "w-full cursor-pointer rounded-xl p-1 px-3 pt-2 align-middle text-sm font-normal text-gray-300 no-underline transition-colors hover:border-primary/20 hover:bg-primary/10 hover:text-primary",
                     params.get("id") === item.id &&
                       "border-primary/20 bg-primary/10 text-primary",
                   )}
@@ -119,7 +119,7 @@ export const Sidebar = () => {
             href="https://twitter.com/emilahlback"
             target="_blank"
             rel="noreferrer"
-            className="flex gap-1 align-bottom"
+            className="flex gap-1 p-1 px-3 align-bottom"
           >
             <FaSquareXTwitter className="h-6 w-6" />{" "}
             <p className="hover:text-orange-400">@emilahlback</p>
