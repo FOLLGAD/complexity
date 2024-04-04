@@ -14,7 +14,7 @@ export const Session: FC = ({}) => {
   return (
     <div
       className={
-        "absolute bottom-0 top-0 flex flex-col items-center justify-start bg-background pt-6 transition-all duration-100 ease-in-out w-full " +
+        "absolute bottom-0 top-0 flex w-full flex-col items-center justify-start bg-background pt-6 transition-all duration-100 ease-in-out " +
         (steps.length === 0 ? "pointer-events-none opacity-0" : "opacity-100")
       }
     >
@@ -48,7 +48,7 @@ export const Session: FC = ({}) => {
                     variant="outline"
                     className={cn(
                       "pointer-events-auto mr-2 h-10 w-10 rounded-full p-0",
-                      followUp ? "bg-orange-400" : "bg-gray-800",
+                      followUp ? "bg-orange-600" : "bg-gray-800",
                     )}
                     type="submit"
                     disabled={loading || !followUp}
