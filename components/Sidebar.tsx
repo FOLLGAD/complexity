@@ -4,10 +4,9 @@ import { useSessions } from "@/components/sessions";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { FaSquareXTwitter } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { TrackedLink } from "./TrackedLink";
 
 const useClickOutside = () => {
@@ -42,13 +41,14 @@ export const Sidebar = () => {
   const { sessions } = useSessions();
 
   const { node, isOpen, setIsOpen } = useClickOutside();
-  const params = useSearchParams();
+  const params = useParams();
+  const sessionId = params.sessionId as string;
 
   useEffect(() => {
     if (isOpen) {
       setIsOpen(false);
     }
-  }, [params.get("id")]);
+  }, [sessionId]);
 
   return (
     <>
@@ -91,8 +91,8 @@ export const Sidebar = () => {
                 <TrackedLink
                   key={item.id}
                   className={cn(
-                    "w-full cursor-pointer rounded-xl p-1 px-3 pt-2 align-middle text-sm font-normal text-gray-300 no-underline transition-colors hover:border-primary/20 hover:bg-primary/10 hover:text-primary",
-                    params.get("id") === item.id &&
+                    "w-full cursor-pointer rounded-xl px-3 py-2 align-middle text-sm font-normal text-gray-300 no-underline transition-colors hover:border-primary/20 hover:bg-primary/10 hover:text-primary",
+                    sessionId === item.id &&
                       "border-primary/20 bg-primary/10 text-primary",
                   )}
                   href={`/q/${item.id}`}
