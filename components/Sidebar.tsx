@@ -72,7 +72,7 @@ export const Sidebar = () => {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <Link href="/">
-              <p className="text-gradient flex items-center text-2xl font-light tracking-tight selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400">
+              <p className="text-gradient flex items-center text-2xl font-light tracking-tight selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400 transition-all duration-200 ease-in-out">
                 <span className="mr-1 h-8 w-8">
                   <Logo />
                 </span>

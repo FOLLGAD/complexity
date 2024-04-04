@@ -29,11 +29,9 @@ export const SessionsContext = createContext<{
   editSession: () => {},
 });
 
-export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
-  const [sessions, setSessions] = useState<Session[][]>([]);
-
-  useEffect(() => {
-    if (!window?.localStorage) return;
+class SessionDB {
+  static getSessions() {
+    if (!window?.localStorage) return [];
     const items = [];
     for (const key in localStorage) {
       if (key.startsWith("question_") && localStorage.getItem(key)) {
@@ -43,31 +41,58 @@ export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
     items.sort((a, b) => {
       return b[0].created?.localeCompare(a[0].created) ?? 0;
     });
-    setSessions(items);
-  }, [setSessions]);
+    return items;
+  }
+
+  static addSession(session: Session[]) {
+    localStorage.setItem(`question_${session[0].id}`, JSON.stringify(session));
+  }
+
+  static removeSession(id: string) {
+    localStorage.removeItem(`question_${id}`);
+  }
+
+  static editSession(id: string, sessionFn: (s: Session[]) => Session[]) {
+    const session = JSON.parse(localStorage.getItem(`question_${id}`) ?? "[]");
+    const newSession = sessionFn(session);
+    localStorage.setItem(`question_${id}`, JSON.stringify(newSession));
+  }
+}
+
+export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
+  const [sessions, setSessions] = useState<Session[][]>([]);
+
+  useEffect(() => {
+    setSessions(SessionDB.getSessions());
+  }, []);
 
   const addSession = useCallback((session: Session[]) => {
-    setSessions((s) => [...s, session]);
-    localStorage.setItem(`question_${session[0].id}`, JSON.stringify(session));
+    setSessions((s) => {
+      SessionDB.addSession(session);
+      return [...s, session];
+    });
   }, []);
 
   const removeSession = useCallback((id: string) => {
-    setSessions((s) => s.filter((s) => s[0].id !== id));
-    localStorage.removeItem(`question_${id}`);
+    setSessions((s) => {
+      SessionDB.removeSession(id);
+      return s.filter((s) => s[0].id !== id);
+    });
   }, []);
 
   const editSession = useCallback(
     (id: string, sessionFn: (s: Session[]) => Session[]) => {
-      setSessions((s) =>
-        s.map((s) => {
+      setSessions((s) => {
+        const updatedSession = s.map((s) => {
           if (s[0].id === id) {
             const s2 = sessionFn(s);
-            localStorage.setItem(`question_${id}`, JSON.stringify(s2));
+            SessionDB.editSession(id, sessionFn);
             return s2;
           }
           return s;
-        }),
-      );
+        });
+        return updatedSession;
+      });
     },
     [],
   );

@@ -14,7 +14,7 @@ export const Session: FC = ({}) => {
   return (
     <div
       className={
-        "absolute bottom-0 top-0 flex flex-col items-center justify-start bg-background pt-6 transition-all duration-100 ease-in-out " +
+        "absolute bottom-0 top-0 flex flex-col items-center justify-start bg-background pt-6 transition-all duration-100 ease-in-out w-full " +
         (steps.length === 0 ? "pointer-events-none opacity-0" : "opacity-100")
       }
     >
