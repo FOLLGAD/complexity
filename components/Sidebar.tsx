@@ -1,13 +1,14 @@
-"use client";
-import { Logo } from "@/components/Logo";
-import { useSessions } from "@/components/sessions";
-import Link from "next/link";
-import { Button } from "./ui/button";
-import { GitHubLogoIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
-import { TrackedLink } from "./TrackedLink";
+'use client';
+import { Logo } from '@/components/Logo';
+import { useSessions } from '@/components/sessions';
+import Link from 'next/link';
+import { Button } from './ui/button';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { FaSquareXTwitter } from 'react-icons/fa6';
+import { useEffect, useRef, useState } from 'react';
+import { cn } from '@/lib/utils';
+import { useSearchParams } from 'next/navigation';
+import { TrackedLink } from './TrackedLink';
 
 const useClickOutside = () => {
   const node = useRef<any>();
@@ -24,13 +25,13 @@ const useClickOutside = () => {
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 
