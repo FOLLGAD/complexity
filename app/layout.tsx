@@ -1,31 +1,31 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 import {
   // IBM_Plex_Sans,
   // IBM_Plex_Mono,
   Schibsted_Grotesk,
-} from 'next/font/google';
-import './globals.css';
-import { PHProvider } from '@/components/providers';
+} from "next/font/google";
+import "./globals.css";
+import { PHProvider } from "@/components/providers";
 
 const ibm = Schibsted_Grotesk({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
-  title: 'Complexity',
-  description: 'Complexity App',
-  icons: '/icon.png',
+  title: "Complexity",
+  description: "Complexity App",
+  icons: "/icon.png",
   openGraph: {
-    title: 'Complexity',
-    description: 'Complexity App',
-    url: 'https://complexity.emil.zip',
+    title: "Complexity",
+    description: "Complexity App",
+    url: "https://complexity.emil.zip",
     images: [
       {
-        url: 'https://complexity.emil.zip/og-image.png',
+        url: "https://complexity.emil.zip/og-image.png",
         width: 1116,
         height: 640,
-        alt: 'Complexity',
+        alt: "Complexity",
       },
     ],
   },
@@ -37,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className='dark'>
-      <link rel='favicon' href='/icon.png' sizes='any' />
+    <html lang="en" className="dark">
+      <link rel="favicon" href="/icon.png" sizes="any" />
       <PHProvider>
         <body className={ibm.className}>{children}</body>
       </PHProvider>

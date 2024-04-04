@@ -23,8 +23,8 @@ export const CitationCard = ({ citation }: { citation: Document }) => {
           data?.ogImage?.[0]?.url
             ? setImage(data.ogImage[0].url)
             : setImage(
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png"
-              )
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png",
+              ),
         )
         .catch(() => {})
         .finally(() => setLoading(false));
@@ -42,7 +42,7 @@ export const CitationCard = ({ citation }: { citation: Document }) => {
                 "transition-opacity duration-300",
                 {
                   "opacity-0": loading,
-                }
+                },
               )}
               // @ts-ignore
               onError={(e) => (e.target.src = "https://placehold.co/600x400")}

@@ -66,10 +66,10 @@ export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
             return s2;
           }
           return s;
-        })
+        }),
       );
     },
-    []
+    [],
   );
 
   return (
