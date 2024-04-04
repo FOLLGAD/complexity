@@ -27,7 +27,9 @@ export const Start = () => {
       }
     >
       <div className="mb-2 flex flex-col items-center justify-between">
-        <div className="mb-4 h-24 w-24">{/* <Logo /> */}</div>
+        <div className="mx-auto mb-4 h-14 w-14 items-center justify-center align-middle">
+          <Logo />
+        </div>
         <h1 className="text-gradient mb-1 mt-2 text-4xl font-medium tracking-tight">
           complexity
         </h1>
