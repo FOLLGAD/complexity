@@ -6,6 +6,7 @@ import rehypeRaw from "rehype-raw";
 import { CitationPopup } from "./CitationPopup";
 import { TrackedLink } from "./TrackedLink";
 import { ActivityLogIcon, ReaderIcon } from "@radix-ui/react-icons";
+import { TypeAnimation } from "react-type-animation";
 
 export interface Citation {
   documentIds: string[];
@@ -64,57 +65,56 @@ export const AnswerStep = ({ step }: { step: Step }) => {
     [step.citations, step.documents, step.text],
   );
 
-  if (!step.text) {
-    return (
-      <div className="container max-w-4xl pt-12">
-        <h1 className="mb-4 text-2xl font-medium">{step.question}</h1>
-        <Skeleton>
-          <div className="h-16" />
-        </Skeleton>
-      </div>
-    );
-  }
+  const isLoading = !step.text;
 
   return (
     <div className="max-w-sm pt-10 md:max-w-md lg:max-w-xl">
       <h1 className="mb-4 text-2xl font-light underline decoration-orange-400 decoration-2 underline-offset-4">
-        {step.question}
+      <TypeAnimation sequence={[step.question]} cursor={false} speed={80}  />
       </h1>
-      <h2 className="text-md mb-4 font-medium">
-        <ActivityLogIcon className="mr-2 inline-block" width={18} height={18} />
-        Sources
-      </h2>
-      {step.documents.length === 0 && (
-        <p className="text-sm text-gray-500">No sources used for this query.</p>
-      )}
-      <div className="relative overflow-hidden rounded-lg">
-        <div className="mb-4 flex gap-4 overflow-x-auto">
-          {step.documents.map((doc) => (
-            <TrackedLink
-              href={doc.url}
-              key={doc.url}
-              target="_blank"
-              rel="noreferrer"
-              phData={{
-                url: doc.url,
-                title: doc.title,
-              }}
-            >
-              <Suspense fallback={<div className="h-16 w-48" />}>
-                <CitationCard key={doc.id} citation={doc} />
-              </Suspense>
-            </TrackedLink>
-          ))}
-        </div>
-      </div>
+      {!isLoading && (
+        <>
+          <h2 className="text-md mb-4 font-medium">
+            <ActivityLogIcon className="mr-2 inline-block" width={18} height={18} />
+            Sources
+          </h2>
+          {step.documents.length === 0 && (
+            <p className="text-sm text-gray-500">No sources used for this query.</p>
+          )}
+          <div className="relative overflow-hidden rounded-lg">
+            <div className="mb-4 flex gap-4 overflow-x-auto">
+              {step.documents.map((doc) => (
+                <TrackedLink
+                  href={doc.url}
+                  key={doc.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  phData={{
+                    url: doc.url,
+                    title: doc.title,
+                  }}
+                >
+                  <Suspense fallback={<div className="h-16 w-48" />}>
+                    <CitationCard key={doc.id} citation={doc} />
+                  </Suspense>
+                </TrackedLink>
+              ))}
+            </div>
+          </div>
+        </>
+        )}
       <h2 className="text-md mb-4 font-medium">
         <ReaderIcon className="mr-2 inline-block" width={18} height={18} />
         Answer
       </h2>
       <p className="prose mb-8 scroll-smooth font-light md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
-        <Markdown rehypePlugins={[rehypeRaw]} components={components}>
-          {text}
-        </Markdown>
+      {!isLoading ? (
+          <Markdown rehypePlugins={[rehypeRaw]} components={components}>
+            {text}
+          </Markdown>
+        ) : (
+          <Skeleton className="h-24" />
+        )}
       </p>
     </div>
   );
