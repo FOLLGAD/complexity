@@ -43,7 +43,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <link rel="favicon" href="/icon.png" sizes="any" />
       <PHProvider>
         <SessionProvider>
           <ComplexityProvider>
