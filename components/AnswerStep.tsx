@@ -83,7 +83,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
             Sources
           </h2>
           {step.documents.length === 0 && (
-            <p className="text-sm text-gray-800">No sources used for this query.</p>
+            <p className="text-sm text-muted-foreground">No sources used for this query.</p>
           )}
           <div className="relative overflow-hidden rounded-lg">
             <div className="mb-4 flex gap-4 overflow-x-auto">

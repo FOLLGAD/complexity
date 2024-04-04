@@ -33,8 +33,8 @@ export function Logo({ width = 113, height = 113 }) {
           y2="67.2385"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F9965E" />
-          <stop offset="1" stop-color="#7D4120" />
+          <stop stopColor="#F9965E" />
+          <stop offset="1" stopColor="#7D4120" />
         </linearGradient>
       </defs>
     </svg>
