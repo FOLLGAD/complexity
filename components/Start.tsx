@@ -34,7 +34,7 @@ export const Start = () => {
           complexity
         </h1>
       </div>
-      <p className="animate-fade-in mb-16 text-lg font-normal text-gray-300 [--animation-delay:400ms]">
+      <p className="animate-fade-in mb-16 text-lg text-center font-normal text-gray-300 [--animation-delay:400ms]">
         The world's knowledge at your fingertips
       </p>
       <form

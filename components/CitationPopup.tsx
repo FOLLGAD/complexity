@@ -30,7 +30,7 @@ export const CitationPopup = ({
           {docs.map((doc) => (
             <TrackedLink
               href={doc.url}
-              key={doc.url}
+              key={doc.id}
               target="_blank"
               rel="noreferrer"
               phData={{
