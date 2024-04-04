@@ -19,7 +19,7 @@ export const CitationPopup = ({
 
   return (
     <span className="group relative">
-      <span className="cursor-pointer text-orange-300" data-tooltip-target={id}>
+      <span className="cursor-pointer text-orange-400 text-opacity-90" data-tooltip-target={id}>
         {children}
       </span>
       <div

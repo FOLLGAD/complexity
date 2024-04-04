@@ -121,7 +121,7 @@ export const Sidebar = () => {
             rel="noreferrer"
             className="flex gap-1 p-1 px-3 align-bottom"
           >
-            <p className="underline-offset font-normal underline decoration-orange-400 transition-colors hover:text-orange-400">
+            <p className="underline-offset font-normal underline decoration-orange-600 transition-colors hover:text-orange-600">
               @emilahlback
             </p>
           </a>

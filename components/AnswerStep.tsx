@@ -39,7 +39,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
       const slice = t.slice(citation.start, citation.end);
       t =
         t.slice(0, citation.start) +
-        `<cite class="text-orange-400" data-citation-id="${i}">${slice}</cite>` +
+        `<cite data-citation-id="${i}">${slice}</cite>` +
         t.slice(citation.end);
     }
     return t;
@@ -69,7 +69,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
 
   return (
     <div className="max-w-xs pt-12 md:pt-10 md:max-w-md lg:max-w-xl w-full">
-      <h1 className="mb-4 text-2xl font-light underline decoration-orange-400 decoration-2 underline-offset-4">
+      <h1 className="mb-4 text-2xl font-light underline decoration-orange-600 decoration-2 underline-offset-4">
         <TypeAnimation sequence={[step.question]} cursor={false} speed={80} />
       </h1>
       {!isLoading && (

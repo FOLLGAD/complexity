@@ -58,7 +58,7 @@ export const Start = () => {
               variant="outline"
               className={cn(
                 "mr-2 h-8 w-8 rounded-full p-0",
-                input ? "bg-orange-400" : "bg-gray-800",
+                input ? "bg-orange-600" : "bg-gray-800",
               )}
               type="submit"
               disabled={loading || !input}
