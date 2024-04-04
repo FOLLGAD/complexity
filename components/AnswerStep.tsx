@@ -70,16 +70,22 @@ export const AnswerStep = ({ step }: { step: Step }) => {
   return (
     <div className="max-w-sm pt-10 md:max-w-md lg:max-w-xl">
       <h1 className="mb-4 text-2xl font-light underline decoration-orange-400 decoration-2 underline-offset-4">
-      <TypeAnimation sequence={[step.question]} cursor={false} speed={80}  />
+        <TypeAnimation sequence={[step.question]} cursor={false} speed={80} />
       </h1>
       {!isLoading && (
         <>
           <h2 className="text-md mb-4 font-medium">
-            <ActivityLogIcon className="mr-2 inline-block" width={18} height={18} />
+            <ActivityLogIcon
+              className="mr-2 inline-block"
+              width={18}
+              height={18}
+            />
             Sources
           </h2>
           {step.documents.length === 0 && (
-            <p className="text-sm text-gray-500">No sources used for this query.</p>
+            <p className="text-sm text-gray-500">
+              No sources used for this query.
+            </p>
           )}
           <div className="relative overflow-hidden rounded-lg">
             <div className="mb-4 flex gap-4 overflow-x-auto">
@@ -102,13 +108,13 @@ export const AnswerStep = ({ step }: { step: Step }) => {
             </div>
           </div>
         </>
-        )}
+      )}
       <h2 className="text-md mb-4 font-medium">
         <ReaderIcon className="mr-2 inline-block" width={18} height={18} />
         Answer
       </h2>
       <p className="prose mb-8 scroll-smooth font-light md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
-      {!isLoading ? (
+        {!isLoading ? (
           <Markdown rehypePlugins={[rehypeRaw]} components={components}>
             {text}
           </Markdown>
