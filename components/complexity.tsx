@@ -3,7 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import posthog from "posthog-js";
 
-export function useComplexity() {
+export function useComplexity({ anonymousId }: { anonymousId?: string }) {
   const params = useParams();
   const sessionId = (params.sessionId as string) || null;
   const router = useRouter();
@@ -48,6 +48,8 @@ export function useComplexity() {
       posthog.capture("asked_question", {
         question: input,
         previous: reset ? [] : steps.map((s) => s?.question),
+        sessionId: currentSessionId,
+        anonymousId: anonymousId,
       });
 
       setLoading(true);

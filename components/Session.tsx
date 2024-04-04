@@ -6,9 +6,13 @@ import { ArrowUpIcon, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { AnswerStep } from "./AnswerStep";
 import { cn } from "@/lib/utils";
+import { usePostHog } from "posthog-js/react";
 
 export const Session: FC = ({}) => {
-  const { ask, steps, loading } = useComplexity();
+  const posthog = usePostHog();
+  const anonymousId = posthog.get_distinct_id();
+
+  const { ask, steps, loading } = useComplexity({ anonymousId: anonymousId });
   const [followUp, setFollowUp] = useState("");
 
   return (
