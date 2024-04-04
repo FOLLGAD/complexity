@@ -157,7 +157,7 @@ const Start = () => {
 
 export function MainContent() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-8 relative flex-shrink overflow-y-auto flex-grow overflow-hidden relative">
+    <main className='flex flex-col items-center justify-between py-8 relative flex-shrink overflow-y-auto flex-grow'>
       <Start />
       <Session />
     </main>
