@@ -4,7 +4,7 @@ import { Start } from "./Start";
 
 export function MainContent() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-8 relative flex-shrink overflow-y-auto flex-grow overflow-hidden relative">
+    <main className="relative flex flex-shrink flex-grow flex-col items-center justify-between overflow-y-auto py-8">
       <Start />
       <Session />
     </main>

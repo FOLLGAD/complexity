@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import {
+  // IBM_Plex_Sans,
+  // IBM_Plex_Mono,
+  Schibsted_Grotesk,
+} from "next/font/google";
 import "./globals.css";
 import { PHProvider } from "@/components/providers";
 
-const ibm = IBM_Plex_Sans({
+const ibm = Schibsted_Grotesk({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {

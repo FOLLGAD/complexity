@@ -29,6 +29,16 @@ const config = {
         },
       },
       colors: {
+        black: "#000212",
+        gray: {
+          100: "rgba(255, 255, 255, 0.08)", // transparent white
+          200: "#f7f8f8", // off white
+          300: "#b4bcd0", // primary text
+          400: "#858699", // gray
+          500: "#222326", // gray dark
+        },
+        transparent: "transparent",
+        white: "#fff",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -81,6 +91,12 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      dropShadow: {
+        glow: [
+          "0 0px 20px rgba(255,255, 255, 0.25)",
+          "0 0px 45px rgba(255, 255,255, 0.2)",
+        ],
       },
     },
   },

@@ -3,7 +3,8 @@ import { Logo } from "@/components/Logo";
 import { useSessions } from "@/components/sessions";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { GitHubLogoIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { FaSquareXTwitter } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
@@ -51,45 +52,49 @@ export const Sidebar = () => {
 
   return (
     <>
-      <div className="absolute p-2 z-10 md:hidden">
+      <div className="absolute z-10 m-2 p-2 md:hidden">
         <Button
           variant="outline"
-          className="p-4 w-16 h-16"
+          className="h-12 w-12 rounded-full p-2"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <HamburgerMenuIcon className="w-12 h-12" />
+          <HamburgerMenuIcon className="h-6 w-6" />
         </Button>
       </div>
       <aside
         ref={node}
         className={cn(
-          "flex flex-col items-center p-8 px-4 text-primary w-64 flex-shrink-0 flex-grow-0 border-r border-gray-800 md:static absolute transition-all z-10 bg-background h-screen",
+          "absolute z-10 flex h-screen w-64 flex-shrink-0 flex-grow-0 flex-col bg-[#202222] p-6 px-4 text-primary transition-all md:static",
           isOpen ? "translate-x-0" : "-translate-x-full",
-          "md:translate-x-0"
+          "md:translate-x-0",
         )}
       >
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <Link href="/">
-              <p className="text-md font-medium flex items-center hover:text-orange-400 tracking-widest">
-                <span className="w-8 h-8 mr-1">
+              <p className="text-gradient flex items-center text-2xl font-light tracking-tight selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400">
+                <span className="mr-1 h-8 w-8">
                   <Logo />
                 </span>
-                Complexity
+                complexity
               </p>
             </Link>
           </div>
         </div>
-        <div className="mt-8 w-full overflow-y-auto flex-grow pb-4 mb-4">
-          <div className="text-xs text-gray-500 font-bold mb-2 uppercase px-2">
+        <div className="mb-4 mt-8 w-full flex-grow overflow-y-auto pb-4 selection:bg-orange-200/90 selection:text-orange-600">
+          <div className="mb-2 px-2 text-xs font-semibold uppercase text-gray-200/90">
             Sessions
           </div>
           {sessions.length > 0 ? (
-            <div className="flex flex-col gap-2 w-full overflow-ellipsis">
+            <div className="prose flex w-full flex-col gap-2 overflow-ellipsis lg:prose-lg ">
               {sessions.map(([item]) => (
                 <TrackedLink
                   key={item.id}
-                  className="w-full cursor-pointer text-sm font-medium text-gray-300 hover:text-primary hover:bg-primary/10 border p-2 hover:border-primary/20 rounded-lg"
+                  className={cn(
+                    "w-full cursor-pointer rounded-xl p-3 px-2 text-sm font-normal text-gray-300 no-underline transition-colors hover:border-primary/20 hover:bg-primary/10 hover:text-primary",
+                    params.get("id") === item.id &&
+                      "border-primary/20 bg-primary/10 text-primary",
+                  )}
                   href={`/?id=${item.id}`}
                   phData={{
                     questionId: item.id,
@@ -97,7 +102,7 @@ export const Sidebar = () => {
                   }}
                 >
                   <span
-                    className="overflow-ellipsis line-clamp-2 pointer-events-none"
+                    className="pointer-events-none line-clamp-2 overflow-ellipsis"
                     title={item.question}
                   >
                     {item.question}
@@ -106,7 +111,7 @@ export const Sidebar = () => {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-500 p-2">Ask a question.</p>
+            <p className="p-2 text-sm text-gray-500">Ask a question.</p>
           )}
         </div>
         <div className="flex items-center">
@@ -114,22 +119,12 @@ export const Sidebar = () => {
             href="https://twitter.com/emilahlback"
             target="_blank"
             rel="noreferrer"
+            className="flex gap-1 align-bottom"
           >
-            <Button variant="link">
-              <span className="text-sm text-gray-200 font-medium p-2 underline decoration-orange-400 decoration-2 tracking-wider">
-                @emilahlback
-              </span>
-            </Button>
+            <FaSquareXTwitter className="h-6 w-6" />{" "}
+            <p className="hover:text-orange-400">@emilahlback</p>
+            <span className="p-2 font-mono text-sm font-medium text-gray-300"></span>
           </a>
-          {/* <a
-            href="https://github.com/follgad/complexity"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Button variant="outline" className="w-12 h-12 p-3">
-              <GitHubLogoIcon className="w-full h-full" />
-            </Button>
-          </a> */}
         </div>
       </aside>
     </>

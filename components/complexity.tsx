@@ -15,7 +15,7 @@ export function useComplexity() {
   const { sessions, editSession, addSession } = useSessions();
   const steps = useMemo(
     () => sessions.find(([item]) => item.id === query_id) ?? [],
-    [query_id, sessions]
+    [query_id, sessions],
   );
 
   const [cancel, setCancel] = useState<null | (() => void)>(null);
@@ -39,7 +39,7 @@ export function useComplexity() {
       const promise = new Promise<ReadableStreamDefaultReader<any>>(
         (_resolve) => {
           resolve = _resolve;
-        }
+        },
       );
 
       setCancel(() => () => promise.then((reader) => reader.releaseLock()));
@@ -155,7 +155,7 @@ export function useComplexity() {
 
       setLoading(false);
     },
-    [steps, editSession, router]
+    [steps, editSession, router],
   );
 
   return { ask, loading, steps, cancel };

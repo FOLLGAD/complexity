@@ -5,7 +5,7 @@ import { MainContent } from "../components/MainContent";
 
 function Home() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-svh">
       <Sidebar />
 
       <MainContent />
