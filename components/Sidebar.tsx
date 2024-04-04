@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import { TrackedLink } from "./TrackedLink";
+import { ArrowRight } from "lucide-react";
 
 const useClickOutside = () => {
   const node = useRef<any>();
@@ -73,7 +74,7 @@ export const Sidebar = () => {
           <div className="flex items-center gap-2 px-3">
             <Link href="/">
               <p className="text-gradient flex items-center text-2xl font-light tracking-tight transition-all duration-200 ease-in-out selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400">
-                <span className="mr-3 h-8 w-8 group">
+                <span className="group mr-3 h-8 w-8">
                   <Logo />
                 </span>
                 complexity
@@ -115,7 +116,15 @@ export const Sidebar = () => {
           )}
         </div>
         <div className="flex items-center justify-center">
-          <a
+          <Link href="/about">
+            <Button variant="link">
+              <p className="text-gray-200">
+                About <span className="text-gradient">complexity</span>{" "}
+              </p>
+              <ArrowRight className="ml-1 inline-block h-4 w-4 text-gray-200" />
+            </Button>
+          </Link>
+          {/* <a
             href="https://twitter.com/emilahlback"
             target="_blank"
             rel="noreferrer"
@@ -124,7 +133,7 @@ export const Sidebar = () => {
             <p className="underline-offset font-normal underline decoration-orange-600 transition-colors hover:text-orange-600">
               @emilahlback
             </p>
-          </a>
+          </a> */}
         </div>
       </aside>
     </>

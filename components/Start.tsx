@@ -92,7 +92,7 @@ export const Start = () => {
         </div>
       </form>
 
-      <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center pb-12">
+      {/* <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center pb-12">
         <Link href="/about">
           <Button variant="link">
             <p className="text-gray-200">
@@ -101,7 +101,7 @@ export const Start = () => {
             <ArrowRight className="ml-1 inline-block h-4 w-4 text-gray-200" />
           </Button>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };
