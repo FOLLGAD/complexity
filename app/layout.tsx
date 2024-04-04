@@ -23,10 +23,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Complexity",
     description: "The world's knowledge at your fingertips",
-    url: "https://complexity.emil.zip",
+    url: "https://cplx.ai",
     images: [
       {
-        url: "https://complexity.emil.zip/og-image.jpg",
+        url: "https://cplx.ai/og-image.jpg",
         width: 1116,
         height: 608,
         alt: "Complexity",
