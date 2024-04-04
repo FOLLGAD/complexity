@@ -69,7 +69,7 @@ export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
   const addSession = useCallback((session: Session[]) => {
     setSessions((s) => {
       SessionDB.addSession(session);
-      return [...s, session];
+      return [session, ...s];
     });
   }, []);
 

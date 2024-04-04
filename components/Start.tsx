@@ -7,6 +7,8 @@ import { useComplexity } from "./complexity";
 import { ArrowRight, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { TrackedLink } from "./TrackedLink";
+import Link from "next/link";
 
 const examples = [
   "xz backdoor",
@@ -30,11 +32,11 @@ export const Start = () => {
         <div className="mx-auto mb-4 h-16 w-16 items-center justify-center align-middle">
           <Logo />
         </div>
-        <h1 className="text-gradient mb-1 mt-2 text-4xl font-medium tracking-tight">
+        <h1 className="text-gradient mb-1 mt-2 text-4xl font-medium tracking-tight cursor-default">
           complexity
         </h1>
       </div>
-      <p className="animate-fade-in mb-16 text-lg text-center font-normal text-gray-300 [--animation-delay:400ms]">
+      <p className="animate-fade-in mb-16 text-center text-lg font-normal text-gray-300 [--animation-delay:400ms]">
         The world's knowledge at your fingertips
       </p>
       <form
@@ -90,6 +92,17 @@ export const Start = () => {
           ))}
         </div>
       </form>
+
+      <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center pb-12">
+        <Link href="/about">
+          <Button variant="link">
+            <p className="text-gray-200">
+              About <span className="text-gradient">complexity</span>{" "}
+            </p>
+            <ArrowRight className="ml-1 inline-block h-4 w-4 text-gray-200" />
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { PHProvider } from "@/components/providers";
 import { SessionProvider } from "@/components/sessions";
 import { Suspense } from "react";
 import { Sidebar } from "@/components/Sidebar";
+import { ComplexityProvider } from "@/components/complexity";
 
 const ibm = Schibsted_Grotesk({
   subsets: ["latin"],
@@ -45,15 +46,17 @@ export default function RootLayout({
       <link rel="favicon" href="/icon.png" sizes="any" />
       <PHProvider>
         <SessionProvider>
-          <body className={ibm.className}>
-            <Suspense fallback={<div></div>}>
-              <div className="flex h-svh">
-                <Sidebar />
+          <ComplexityProvider>
+            <body className={ibm.className}>
+              <Suspense fallback={<div></div>}>
+                <div className="flex h-svh">
+                  <Sidebar />
 
-                {children}
-              </div>
-            </Suspense>
-          </body>
+                  {children}
+                </div>
+              </Suspense>
+            </body>
+          </ComplexityProvider>
         </SessionProvider>
       </PHProvider>
     </html>

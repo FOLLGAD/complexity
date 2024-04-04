@@ -1,9 +1,17 @@
-import { useSessions } from "@/components/sessions";
+"use client";
+import { Session, useSessions } from "@/components/sessions";
 import { useParams, useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import posthog from "posthog-js";
 
-export function useComplexity() {
+function useComplexityMain() {
   const params = useParams();
   const sessionId = (params.sessionId as string) || null;
   const router = useRouter();
@@ -35,6 +43,7 @@ export function useComplexity() {
   const ask = useCallback(
     async (input: string, reset = false) => {
       if (!input.trim()) return;
+      setLoading(true);
 
       let resolve: (reader: ReadableStreamDefaultReader<any>) => void;
       const promise = new Promise<ReadableStreamDefaultReader<any>>(
@@ -50,7 +59,6 @@ export function useComplexity() {
         previous: reset ? [] : steps.map((s) => s?.question),
       });
 
-      setLoading(true);
       const id = steps[0]?.id ?? Math.random().toString(36).substring(7);
       setCurrentSessionId(id);
       if (reset) router.push(`/q/${id}`);
@@ -160,4 +168,40 @@ export function useComplexity() {
   );
 
   return { ask, loading, steps, cancel };
+}
+
+export const ComplexityContext = createContext<{
+  ask: (input: string, reset?: boolean) => void;
+  loading: boolean;
+  steps: Session[];
+  cancel: () => void;
+}>({
+  ask: () => {},
+  loading: false,
+  steps: [],
+  cancel: () => {},
+});
+
+export function ComplexityProvider({ children }: any) {
+  const { ask, loading, steps, cancel } = useComplexityMain();
+
+  return (
+    <ComplexityContext.Provider
+      value={useMemo(
+        () => ({
+          ask,
+          loading,
+          steps,
+          cancel,
+        }),
+        [ask, loading, steps, cancel],
+      )}
+    >
+      {children}
+    </ComplexityContext.Provider>
+  );
+}
+
+export function useComplexity() {
+  return useContext(ComplexityContext);
 }
