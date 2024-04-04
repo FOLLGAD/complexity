@@ -95,7 +95,7 @@ export const Sidebar = () => {
                     params.get("id") === item.id &&
                       "border-primary/20 bg-primary/10 text-primary",
                   )}
-                  href={`/?id=${item.id}`}
+                  href={`/q/${item.id}`}
                   phData={{
                     questionId: item.id,
                     questionText: item.question,
@@ -121,7 +121,7 @@ export const Sidebar = () => {
             rel="noreferrer"
             className="flex gap-1 p-1 px-3 align-bottom"
           >
-            <p className="hover:text-orange-400 font-normal underline decoration-orange-400 underline-offset transition-colors">
+            <p className="underline-offset font-normal underline decoration-orange-400 transition-colors hover:text-orange-400">
               @emilahlback
             </p>
           </a>

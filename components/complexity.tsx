@@ -1,10 +1,11 @@
 import { useSessions } from "@/components/sessions";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import posthog from "posthog-js";
 
 export function useComplexity() {
-  const query_id = useSearchParams().get("id");
+  const params = useParams();
+  const sessionId = (params.sessionId as string) || null;
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -14,8 +15,8 @@ export function useComplexity() {
 
   const { sessions, editSession, addSession } = useSessions();
   const steps = useMemo(
-    () => sessions.find(([item]) => item.id === query_id) ?? [],
-    [query_id, sessions],
+    () => sessions.find(([item]) => item.id === sessionId) ?? [],
+    [sessionId, sessions],
   );
 
   const [cancel, setCancel] = useState<null | (() => void)>(null);
@@ -23,13 +24,13 @@ export function useComplexity() {
   useEffect(() => {
     if (
       lastSessionId === currentSessionId &&
-      query_id !== currentSessionId &&
+      sessionId !== currentSessionId &&
       cancel
     ) {
       cancel();
     }
-    setLastSessionId(query_id);
-  }, [query_id]);
+    setLastSessionId(sessionId);
+  }, [sessionId]);
 
   const ask = useCallback(
     async (input: string, reset = false) => {
@@ -52,7 +53,7 @@ export function useComplexity() {
       setLoading(true);
       const id = steps[0]?.id ?? Math.random().toString(36).substring(7);
       setCurrentSessionId(id);
-      if (reset) router.push("/?id=" + id);
+      if (reset) router.push(`/q/${id}`);
       const response = await fetch("/api/chat", {
         method: "POST",
         body: JSON.stringify({
