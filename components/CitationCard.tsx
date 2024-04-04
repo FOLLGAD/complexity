@@ -31,14 +31,14 @@ export const CitationCard = ({ citation }: { citation: Document }) => {
   }, [isVisible]);
 
   return (
-    <Card className="w-48 text-sm overflow-hidden not-prose" ref={ref}>
-      <div className="w-full h-16 overflow-hidden flex items-center justify-center rounded-t-lg relative">
-        <div className="w-full h-full">
+    <Card className="not-prose w-48 overflow-hidden text-sm" ref={ref}>
+      <div className="relative flex h-16 w-full items-center justify-center overflow-hidden rounded-t-lg">
+        <div className="h-full w-full">
           {(image || loading) && (
             <img
               src={image}
               className={cn(
-                "w-full h-full object-cover group-hover:block",
+                "h-full w-full object-cover group-hover:block",
                 "transition-opacity duration-300",
                 {
                   "opacity-0": loading,
@@ -50,7 +50,7 @@ export const CitationCard = ({ citation }: { citation: Document }) => {
           )}
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary" />
+              <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-primary" />
             </div>
           )}
         </div>

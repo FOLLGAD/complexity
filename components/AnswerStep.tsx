@@ -66,8 +66,8 @@ export const AnswerStep = ({ step }: { step: Step }) => {
 
   if (!step.text) {
     return (
-      <div className="pt-12 container max-w-4xl">
-        <h1 className="text-2xl font-medium mb-4">{step.question}</h1>
+      <div className="container max-w-4xl pt-12">
+        <h1 className="mb-4 text-2xl font-medium">{step.question}</h1>
         <Skeleton>
           <div className="h-16" />
         </Skeleton>
@@ -76,19 +76,19 @@ export const AnswerStep = ({ step }: { step: Step }) => {
   }
 
   return (
-    <div className="pt-10 max-w-sm md:max-w-md lg:max-w-xl">
-      <h1 className="text-2xl font-light mb-4 underline decoration-orange-400 decoration-2 underline-offset-4">
+    <div className="max-w-sm pt-10 md:max-w-md lg:max-w-xl">
+      <h1 className="mb-4 text-2xl font-light underline decoration-orange-400 decoration-2 underline-offset-4">
         {step.question}
       </h1>
-      <h2 className="text-md font-medium mb-4">
-        <ActivityLogIcon className="inline-block mr-2" width={18} height={18} />
+      <h2 className="text-md mb-4 font-medium">
+        <ActivityLogIcon className="mr-2 inline-block" width={18} height={18} />
         Sources
       </h2>
       {step.documents.length === 0 && (
         <p className="text-sm text-gray-500">No sources used for this query.</p>
       )}
-      <div className="relative rounded-lg overflow-hidden">
-        <div className="flex gap-4 overflow-x-auto mb-4">
+      <div className="relative overflow-hidden rounded-lg">
+        <div className="mb-4 flex gap-4 overflow-x-auto">
           {step.documents.map((doc) => (
             <TrackedLink
               href={doc.url}
@@ -100,18 +100,18 @@ export const AnswerStep = ({ step }: { step: Step }) => {
                 title: doc.title,
               }}
             >
-              <Suspense fallback={<div className="w-48 h-16" />}>
+              <Suspense fallback={<div className="h-16 w-48" />}>
                 <CitationCard key={doc.id} citation={doc} />
               </Suspense>
             </TrackedLink>
           ))}
         </div>
       </div>
-      <h2 className="text-md font-medium mb-4">
-        <ReaderIcon className="inline-block mr-2" width={18} height={18} />
+      <h2 className="text-md mb-4 font-medium">
+        <ReaderIcon className="mr-2 inline-block" width={18} height={18} />
         Answer
       </h2>
-      <p className="mb-8 prose md:prose-base scroll-smooth font-light selection:bg-orange-200/30 selection:text-orange-600">
+      <p className="prose mb-8 scroll-smooth font-light md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
         <Markdown rehypePlugins={[rehypeRaw]} components={components}>
           {text}
         </Markdown>

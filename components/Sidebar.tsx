@@ -52,19 +52,19 @@ export const Sidebar = () => {
 
   return (
     <>
-      <div className="absolute m-2 p-2 z-10 md:hidden">
+      <div className="absolute z-10 m-2 p-2 md:hidden">
         <Button
           variant="outline"
-          className="p-2 w-12 h-12 rounded-full"
+          className="h-12 w-12 rounded-full p-2"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <HamburgerMenuIcon className="w-6 h-6" />
+          <HamburgerMenuIcon className="h-6 w-6" />
         </Button>
       </div>
       <aside
         ref={node}
         className={cn(
-          "flex flex-col h-screen p-6 px-4 text-primary w-64 flex-shrink-0 flex-grow-0 md:static absolute transition-all z-10 bg-[#202222]",
+          "absolute z-10 flex h-screen w-64 flex-shrink-0 flex-grow-0 flex-col bg-[#202222] p-6 px-4 text-primary transition-all md:static",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "md:translate-x-0",
         )}
@@ -72,8 +72,8 @@ export const Sidebar = () => {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <Link href="/">
-              <p className="text-2xl font-light flex items-center hover:text-orange-400 selection:bg-orange-200 selection:text-orange-600 tracking-tight text-gradient">
-                <span className="w-8 h-8 mr-1">
+              <p className="text-gradient flex items-center text-2xl font-light tracking-tight selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400">
+                <span className="mr-1 h-8 w-8">
                   <Logo />
                 </span>
                 complexity
@@ -81,19 +81,19 @@ export const Sidebar = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-8 w-full overflow-y-auto flex-grow pb-4 mb-4 selection:bg-orange-200/90 selection:text-orange-600">
-          <div className="text-xs text-gray-200/90 font-semibold mb-2 uppercase px-2">
+        <div className="mb-4 mt-8 w-full flex-grow overflow-y-auto pb-4 selection:bg-orange-200/90 selection:text-orange-600">
+          <div className="mb-2 px-2 text-xs font-semibold uppercase text-gray-200/90">
             Sessions
           </div>
           {sessions.length > 0 ? (
-            <div className="flex flex-col gap-2 w-full overflow-ellipsis prose lg:prose-lg ">
+            <div className="prose flex w-full flex-col gap-2 overflow-ellipsis lg:prose-lg ">
               {sessions.map(([item]) => (
                 <TrackedLink
                   key={item.id}
                   className={cn(
-                    "w-full cursor-pointer text-sm font-normal no-underline text-gray-300 hover:text-primary hover:bg-primary/10 p-3 px-2 hover:border-primary/20 rounded-xl transition-colors",
+                    "w-full cursor-pointer rounded-xl p-3 px-2 text-sm font-normal text-gray-300 no-underline transition-colors hover:border-primary/20 hover:bg-primary/10 hover:text-primary",
                     params.get("id") === item.id &&
-                      "bg-primary/10 border-primary/20 text-primary",
+                      "border-primary/20 bg-primary/10 text-primary",
                   )}
                   href={`/?id=${item.id}`}
                   phData={{
@@ -102,7 +102,7 @@ export const Sidebar = () => {
                   }}
                 >
                   <span
-                    className="overflow-ellipsis line-clamp-2 pointer-events-none"
+                    className="pointer-events-none line-clamp-2 overflow-ellipsis"
                     title={item.question}
                   >
                     {item.question}
@@ -111,7 +111,7 @@ export const Sidebar = () => {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-500 p-2">Ask a question.</p>
+            <p className="p-2 text-sm text-gray-500">Ask a question.</p>
           )}
         </div>
         <div className="flex items-center">
@@ -119,11 +119,11 @@ export const Sidebar = () => {
             href="https://twitter.com/emilahlback"
             target="_blank"
             rel="noreferrer"
-            className="align-bottom flex gap-1"
+            className="flex gap-1 align-bottom"
           >
-            <FaSquareXTwitter className="w-6 h-6" />{" "}
+            <FaSquareXTwitter className="h-6 w-6" />{" "}
             <p className="hover:text-orange-400">@emilahlback</p>
-            <span className="text-sm text-gray-300 font-medium font-mono p-2"></span>
+            <span className="p-2 font-mono text-sm font-medium text-gray-300"></span>
           </a>
         </div>
       </aside>

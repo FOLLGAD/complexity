@@ -6,7 +6,7 @@ export function Logo({}) {
       width="200"
       height="200"
       stroke="currentColor"
-      className="w-full h-full text-orange-400"
+      className="h-full w-full text-orange-400"
     >
       <path
         d="M100,50 L150,150 L50,150 Z"
