@@ -82,16 +82,16 @@ export const Sidebar = () => {
           </div>
         </div>
         <div className="mb-4 mt-8 w-full flex-grow overflow-y-auto pb-4 selection:bg-orange-200/90 selection:text-orange-600">
-          <div className="mb-2 px-2 text-xs font-semibold uppercase text-gray-200/90">
+          <div className="mb-2 px-3 text-xs font-semibold uppercase text-gray-200/90">
             Sessions
           </div>
           {sessions.length > 0 ? (
-            <div className="prose flex w-full flex-col gap-2 overflow-ellipsis lg:prose-lg ">
+            <div className="prose flex w-full flex-col gap-2 lg:prose-lg ">
               {sessions.map(([item]) => (
                 <TrackedLink
                   key={item.id}
                   className={cn(
-                    "w-full cursor-pointer rounded-xl p-3 px-2 text-sm font-normal text-gray-300 no-underline transition-colors hover:border-primary/20 hover:bg-primary/10 hover:text-primary",
+                    "w-full cursor-pointer rounded-xl p-3 px-3 text-sm font-normal text-gray-300 no-underline transition-colors hover:border-primary/20 hover:bg-primary/10 hover:text-primary",
                     params.get("id") === item.id &&
                       "border-primary/20 bg-primary/10 text-primary",
                   )}
