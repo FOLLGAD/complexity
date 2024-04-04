@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -16,6 +17,12 @@ export interface Session {
   created?: string;
   id?: string;
 }
+import {
+  getSessions as remoteGetSessions,
+  addSession as remoteAddSession,
+  removeSession as remoteRemoveSession,
+  editSession as remoteEditSession,
+} from "./RemoteSessionDB";
 
 export const SessionsContext = createContext<{
   sessions: Session[][];
@@ -29,53 +36,45 @@ export const SessionsContext = createContext<{
   editSession: () => {},
 });
 
-class SessionDB {
-  static getSessions() {
-    if (!window?.localStorage) return [];
-    const items = [];
-    for (const key in localStorage) {
-      if (key.startsWith("question_") && localStorage.getItem(key)) {
-        items.push(JSON.parse(localStorage.getItem(key)!));
-      }
-    }
-    items.sort((a, b) => {
-      return b[0].created?.localeCompare(a[0].created) ?? 0;
-    });
-    return items;
-  }
-
-  static addSession(session: Session[]) {
-    localStorage.setItem(`question_${session[0].id}`, JSON.stringify(session));
-  }
-
-  static removeSession(id: string) {
-    localStorage.removeItem(`question_${id}`);
-  }
-
-  static editSession(id: string, sessionFn: (s: Session[]) => Session[]) {
-    const session = JSON.parse(localStorage.getItem(`question_${id}`) ?? "[]");
-    const newSession = sessionFn(session);
-    localStorage.setItem(`question_${id}`, JSON.stringify(newSession));
-  }
-}
+console.log({
+  POSTGRES_URL: process.env.POSTGRES_URL,
+  POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
+});
 
 export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
   const [sessions, setSessions] = useState<Session[][]>([]);
 
+  const userId = useMemo(() => {
+    if ("window" in globalThis) {
+      return localStorage.getItem("complexity-user-id") ?? Math.random().toString(36).substring(2);
+    }
+    return null;
+  }, []);
+
   useEffect(() => {
-    setSessions(SessionDB.getSessions());
+    let isMounted = true;
+    remoteGetSessions(userId)
+      .then((s) => {
+        console.log(s);
+        return s;
+      })
+      .then((sessions) => isMounted && setSessions(sessions));
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const addSession = useCallback((session: Session[]) => {
     setSessions((s) => {
-      SessionDB.addSession(session);
+      remoteAddSession(userId, session);
       return [...s, session];
     });
   }, []);
 
   const removeSession = useCallback((id: string) => {
     setSessions((s) => {
-      SessionDB.removeSession(id);
+      remoteRemoveSession(userId, id);
       return s.filter((s) => s[0].id !== id);
     });
   }, []);
@@ -86,7 +85,7 @@ export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
         const updatedSession = s.map((s) => {
           if (s[0].id === id) {
             const s2 = sessionFn(s);
-            SessionDB.editSession(id, sessionFn);
+            remoteEditSession(userId, id, sessionFn);
             return s2;
           }
           return s;
