@@ -102,7 +102,7 @@ export const Sidebar = () => {
                   }}
                 >
                   <span
-                    className="overflow-ellipsis line-clamp-2 pointer-events-none"
+                    className='overflow-ellipsis line-clamp-2 pointer-events-none'
                     title={item.question}
                   >
                     {item.question}
@@ -111,28 +111,20 @@ export const Sidebar = () => {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-500 p-2">Ask a question.</p>
+            <p className='text-sm text-gray-500 p-2'>Ask a question.</p>
           )}
         </div>
-        <div className="flex items-center">
+        <div className='flex items-center'>
           <a
-            href="https://twitter.com/emilahlback"
-            target="_blank"
-            rel="noreferrer"
+            href='https://twitter.com/emilahlback'
+            target='_blank'
+            rel='noreferrer'
+            className='align-bottom flex gap-1'
           >
-            <span className="text-sm text-gray-200 font-medium p-2">
-              @emilahlback
-            </span>
+            <FaSquareXTwitter className='w-6 h-6' />{' '}
+            <p className='hover:text-orange-400'>@emilahlback</p>
+            <span className='text-sm text-gray-300 font-medium font-mono p-2'></span>
           </a>
-          {/* <a
-            href="https://github.com/follgad/complexity"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Button variant="outline" className="w-12 h-12 p-3">
-              <GitHubLogoIcon className="w-full h-full" />
-            </Button>
-          </a> */}
         </div>
       </aside>
     </>
