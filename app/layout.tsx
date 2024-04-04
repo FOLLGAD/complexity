@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   keywords: ["Complexity", "Knowledge", "World", "Search with ai"],
   openGraph: {
     title: "Complexity",
-    description: "Complexity App",
+    description: "The world's knowledge at your fingertips",
     url: "https://complexity.emil.zip",
     images: [
       {
