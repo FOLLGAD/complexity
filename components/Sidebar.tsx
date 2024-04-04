@@ -72,7 +72,7 @@ export const Sidebar = () => {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <Link href="/">
-              <p className="text-gradient flex items-center text-2xl font-light tracking-tight selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400 transition-all duration-200 ease-in-out">
+              <p className="text-gradient flex items-center text-2xl font-light tracking-tight transition-all duration-200 ease-in-out selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400">
                 <span className="mr-1 h-8 w-8">
                   <Logo />
                 </span>
@@ -95,7 +95,7 @@ export const Sidebar = () => {
                     params.get("id") === item.id &&
                       "border-primary/20 bg-primary/10 text-primary",
                   )}
-                  href={`/?id=${item.id}`}
+                  href={`/q/${item.id}`}
                   phData={{
                     questionId: item.id,
                     questionText: item.question,
@@ -121,7 +121,7 @@ export const Sidebar = () => {
             rel="noreferrer"
             className="flex gap-1 align-bottom"
           >
-            <p className="hover:text-orange-400 font-normal underline decoration-orange-400 underline-offset transition-colors">
+            <p className="underline-offset font-normal underline decoration-orange-400 transition-colors hover:text-orange-400">
               @emilahlback
             </p>
           </a>

@@ -6,6 +6,9 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { PHProvider } from "@/components/providers";
+import { SessionProvider } from "@/components/sessions";
+import { Suspense } from "react";
+import { Sidebar } from "@/components/Sidebar";
 
 const ibm = Schibsted_Grotesk({
   subsets: ["latin"],
@@ -41,7 +44,17 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <link rel="favicon" href="/icon.png" sizes="any" />
       <PHProvider>
-        <body className={ibm.className}>{children}</body>
+        <SessionProvider>
+          <body className={ibm.className}>
+            <Suspense fallback={<div></div>}>
+              <div className="flex h-svh">
+                <Sidebar />
+
+                {children}
+              </div>
+            </Suspense>
+          </body>
+        </SessionProvider>
       </PHProvider>
     </html>
   );
