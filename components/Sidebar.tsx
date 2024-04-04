@@ -48,49 +48,53 @@ export const Sidebar = () => {
     if (isOpen) {
       setIsOpen(false);
     }
-  }, [params.get("id")]);
+  }, [params.get('id')]);
 
   return (
     <>
-      <div className="absolute p-2 z-10 md:hidden">
+      <div className='absolute m-2 p-2 z-10 md:hidden'>
         <Button
-          variant="outline"
-          className="p-4 w-16 h-16"
+          variant='outline'
+          className='p-2 w-12 h-12 rounded-full'
           onClick={() => setIsOpen(!isOpen)}
         >
-          <HamburgerMenuIcon className="w-12 h-12" />
+          <HamburgerMenuIcon className='w-6 h-6' />
         </Button>
       </div>
       <aside
         ref={node}
         className={cn(
-          "flex flex-col items-center p-8 px-4 text-primary w-64 flex-shrink-0 flex-grow-0 border-r border-gray-800 md:static absolute transition-all z-10 bg-background h-screen",
-          isOpen ? "translate-x-0" : "-translate-x-full",
-          "md:translate-x-0"
+          'flex flex-col h-screen  p-6 px-4 text-primary w-64 flex-shrink-0 flex-grow-0 md:static absolute transition-all z-10 bg-[#202222]',
+          isOpen ? 'translate-x-0' : '-translate-x-full',
+          'md:translate-x-0'
         )}
       >
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Link href="/">
-              <p className="text-md font-medium flex items-center hover:text-orange-400 tracking-widest">
-                <span className="w-8 h-8 mr-1">
+        <div className='flex items-center gap-4'>
+          <div className='flex items-center gap-2'>
+            <Link href='/'>
+              <p className='text-2xl font-light flex items-center hover:text-orange-400 selection:bg-orange-200 selection:text-orange-600 tracking-tight text-gradient'>
+                <span className='w-8 h-8 mr-1'>
                   <Logo />
                 </span>
-                Complexity
+                complexity
               </p>
             </Link>
           </div>
         </div>
-        <div className="mt-8 w-full overflow-y-auto flex-grow pb-4 mb-4">
-          <div className="text-xs text-gray-500 font-bold mb-2 uppercase px-2">
+        <div className='mt-8 w-full overflow-y-auto flex-grow pb-4 mb-4 selection:bg-orange-200/90 selection:text-orange-600'>
+          <div className='text-xs text-gray-200/90 font-semibold mb-2 uppercase px-2'>
             Sessions
           </div>
           {sessions.length > 0 ? (
-            <div className="flex flex-col gap-2 w-full overflow-ellipsis">
+            <div className='flex flex-col gap-2 w-full overflow-ellipsis prose lg:prose-lg '>
               {sessions.map(([item]) => (
                 <TrackedLink
                   key={item.id}
-                  className="w-full cursor-pointer text-sm font-medium text-gray-300 hover:text-primary hover:bg-primary/10 border p-2 hover:border-primary/20 rounded-lg"
+                  className={cn(
+                    'w-full cursor-pointer text-sm font-normal no-underline text-gray-300 hover:text-primary hover:bg-primary/10 p-3 px-2 hover:border-primary/20 rounded-xl transition-colors',
+                    params.get('id') === item.id &&
+                      'bg-primary/10 border-primary/20 text-primary'
+                  )}
                   href={`/?id=${item.id}`}
                   phData={{
                     questionId: item.id,
