@@ -68,7 +68,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
   const isLoading = !step.text;
 
   return (
-    <div className="max-w-xs pt-12 md:max-w-md md:pt-10 lg:max-w-xl">
+    <div className="max-w-xs pt-12 md:pt-10 md:max-w-md lg:max-w-xl w-full">
       <h1 className="mb-4 text-2xl font-light underline decoration-orange-400 decoration-2 underline-offset-4">
         <TypeAnimation sequence={[step.question]} cursor={false} speed={80} />
       </h1>
@@ -83,9 +83,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
             Sources
           </h2>
           {step.documents.length === 0 && (
-            <p className="text-sm text-gray-500">
-              No sources used for this query.
-            </p>
+            <p className="text-sm text-gray-800">No sources used for this query.</p>
           )}
           <div className="relative overflow-hidden rounded-lg">
             <div className="mb-4 flex gap-4 overflow-x-auto">
