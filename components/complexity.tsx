@@ -3,7 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import posthog from "posthog-js";
 
-export function useComplexity({ anonymousId }: { anonymousId?: string }) {
+export function useComplexity({ anonymousId }: { anonymousId?: string } = {}) {
   const params = useParams();
   const sessionId = (params.sessionId as string) || null;
   const router = useRouter();
