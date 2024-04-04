@@ -68,7 +68,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
   const isLoading = !step.text;
 
   return (
-    <div className="max-w-sm pt-10 md:max-w-md lg:max-w-xl">
+    <div className="max-w-xs pt-12 md:max-w-md md:pt-10 lg:max-w-xl">
       <h1 className="mb-4 text-2xl font-light underline decoration-orange-400 decoration-2 underline-offset-4">
         <TypeAnimation sequence={[step.question]} cursor={false} speed={80} />
       </h1>
