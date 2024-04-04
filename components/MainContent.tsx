@@ -1,68 +1,72 @@
-"use client";
-import { Logo } from "@/components/Logo";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { FC, useState } from "react";
-import { useComplexity } from "./complexity";
-import { ArrowRight, LoaderCircle } from "lucide-react";
-import { Button } from "./ui/button";
-import { AnswerStep } from "./AnswerStep";
+'use client';
+import { Logo } from '@/components/Logo';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { FC, useState } from 'react';
+import { useComplexity } from './complexity';
+import { ArrowRight, ArrowUp, ArrowUpIcon, LoaderCircle } from 'lucide-react';
+import { Button } from './ui/button';
+import { AnswerStep } from './AnswerStep';
+import { cn } from '@/lib/utils';
 
 const examples = [
-  "xz backdoor",
-  "EU AltStore coming soon",
-  "Altman gives up OpenAI fund",
-  "Microplastics found in ancient digs",
-  "US House bans use of Microsoft Copilot",
+  'xz backdoor',
+  'EU AltStore coming soon',
+  'Altman gives up OpenAI fund',
+  'Microplastics found in ancient digs',
+  'US House bans use of Microsoft Copilot',
 ];
 
 const Session: FC = ({}) => {
   const { ask, steps, loading } = useComplexity();
-  const [followUp, setFollowUp] = useState("");
+  const [followUp, setFollowUp] = useState('');
 
   return (
     <div
       className={
-        "w-full h-full transition-all duration-100 ease-in-out flex flex-col items-center justify-start absolute top-0 bottom-0 bg-background pt-6 " +
-        (steps.length === 0 ? "opacity-0 pointer-events-none" : "opacity-100")
+        'transition-all duration-100 ease-in-out flex flex-col items-center justify-start absolute top-0 bottom-0 bg-background pt-6 ' +
+        (steps.length === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100')
       }
     >
       {steps.map((step, i) => (
-        <AnswerStep key={step.id + "-" + i} step={step} />
+        <AnswerStep key={step.id + '-' + i} step={step} />
       ))}
 
-      <div className="flex-grow" />
+      <div className='flex-grow' />
 
-      <div className="w-full max-w-2xl w-2xl sticky bottom-0 flex items-center justify-between drop-shadow-lg pointer-events-none md:pb-16 pt-16 px-8">
+      <div className='w-full max-w-2xl w-2xl sticky bottom-0 flex items-center justify-between drop-shadow-lg pointer-events-none md:pb-8 pt-16 px-8'>
         {steps.length > 0 && (
           <form
-            className="w-full"
+            className='w-full'
             onSubmit={(e) => {
               e.preventDefault();
               ask(followUp);
-              setFollowUp("");
+              setFollowUp('');
             }}
           >
-            <div className="flex justify-center">
-              <div className="relative w-full max-w-lg bg-background rounded-lg">
+            <div className='flex justify-center'>
+              <div className='relative w-full max-w-lg bg-background rounded-lg'>
                 <Input
-                  className="text-md max-w-lg min-w-[200px] p-4 py-6 shadow-xl rounded-xl w-full pointer-events-auto text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-lg"
-                  placeholder="Ask a follow-up question..."
+                  className='text-md max-w-lg min-w-[200px] p-4 pl-6 py-6 shadow-xl w-full pointer-events-auto text-gray-300 focus:text-primary focus:bg-primary/10 border focus:border-primary/20 rounded-full'
+                  placeholder='Ask a follow-up question...'
                   onChange={(e) => setFollowUp(e.target.value)}
                   value={followUp}
                   disabled={loading}
                 />
-                <div className="absolute right-0 top-0 bottom-0 h-full flex items-center justify-center">
+                <div className='absolute right-0 top-0 bottom-0 h-full flex items-center justify-center'>
                   <Button
-                    variant="outline"
-                    className="w-10 h-10 p-0 mr-1 pointer-events-auto"
-                    type="submit"
-                    disabled={loading}
+                    variant='outline'
+                    className={cn(
+                      'w-10 h-10 p-0 mr-2 pointer-events-auto rounded-full',
+                      followUp ? 'bg-orange-400' : 'bg-gray-800'
+                    )}
+                    type='submit'
+                    disabled={loading || !followUp}
                   >
                     {loading ? (
-                      <LoaderCircle className="animate-spin w-6 h-6" />
+                      <LoaderCircle className='animate-spin w-6 h-6' />
                     ) : (
-                      <ArrowRight className="w-6 h-6" />
+                      <ArrowUpIcon className={cn('w-5 h-5')} />
                     )}
                   </Button>
                 </div>
