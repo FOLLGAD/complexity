@@ -14,8 +14,9 @@ const ibm = Schibsted_Grotesk({
 
 export const metadata: Metadata = {
   title: "Complexity",
-  description: "Complexity App",
+  description: "The world's knowledge at your fingertips",
   icons: "/icon.png",
+  keywords: ["Complexity", "Knowledge", "World", "Search with ai"],
   openGraph: {
     title: "Complexity",
     description: "Complexity App",
