@@ -1,11 +1,11 @@
-import { Suspense, useMemo } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { CitationCard } from "./CitationCard";
-import { BookDown, ScrollText } from "lucide-react";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import { CitationPopup } from "./CitationPopup";
-import { TrackedLink } from "./TrackedLink";
+import { Suspense, useMemo } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { CitationCard } from './CitationCard';
+import Markdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import { CitationPopup } from './CitationPopup';
+import { TrackedLink } from './TrackedLink';
+import { ActivityLogIcon, ReaderIcon } from '@radix-ui/react-icons';
 
 export interface Citation {
   documentIds: string[];
@@ -46,8 +46,8 @@ export const AnswerStep = ({ step }: { step: Step }) => {
 
   const components = useMemo(
     () => ({
-      ul: ({ children }) => <ul className="list-disc">{children}</ul>,
-      ol: ({ children }) => <ol className="list-decimal">{children}</ol>,
+      ul: ({ children }) => <ul className='list-disc'>{children}</ul>,
+      ol: ({ children }) => <ol className='list-decimal'>{children}</ol>,
       cite: ({ node, children }) => {
         const id = node.properties.dataCitationId as string;
         return (
