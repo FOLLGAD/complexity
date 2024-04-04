@@ -87,10 +87,25 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        pendulum: {
+          "0%, 50%, 100%": {
+            transform: "rotate(0deg)",
+            animationTimingFunction: "ease",
+          },
+          "25%": {
+            transform: "rotate(15deg)",
+            animationTimingFunction: "ease-in",
+          },
+          "75%": {
+            transform: "rotate(-15deg)",
+            animationTimingFunction: "ease-in",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        pendulum: "pendulum 1s infinite",
       },
       dropShadow: {
         glow: [

@@ -29,7 +29,7 @@ export const Start = () => {
       }
     >
       <div className="mb-2 flex flex-col items-center justify-between">
-        <div className="mx-auto mb-4 h-16 w-16 items-center justify-center align-middle">
+        <div className="mx-auto mb-4 h-16 w-16 items-center justify-center align-middle group">
           <Logo />
         </div>
         <h1 className="text-gradient mb-1 mt-2 text-4xl font-medium tracking-tight cursor-default">
