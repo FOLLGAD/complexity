@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import posthog from "posthog-js";
+import { Document } from "./AnswerStep";
 
 function useComplexityMain() {
   const params = useParams();
@@ -127,12 +128,18 @@ function useComplexityMain() {
                     id: id,
                     text: json.response.text,
                     citations: json.response.citations,
-                    documents: json.response.documents,
+                    documents: json.response.documents.map((d: Document) => ({
+                      ...d,
+                      snippet: null,
+                    })),
                   },
                 ]);
               });
             } else if (json.eventType === "search-results") {
-              const docs = json.documents;
+              const docs = json.documents?.map((d: Document) => ({
+                ...d,
+                snippet: null,
+              }));
               editSession(id, (s) => {
                 const last = s[s.length - 1];
                 return s.slice(0, -1).concat([

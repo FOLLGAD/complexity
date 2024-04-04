@@ -80,6 +80,12 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .pendulum {
+    transition: transform 0.5s ease-out;
+    transform: rotate(0deg);
+    @apply group-hover:animate-pendulum;
+  }
 }
 
 @layer utilities {

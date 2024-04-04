@@ -7,15 +7,14 @@ import { useComplexity } from "./complexity";
 import { ArrowRight, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { TrackedLink } from "./TrackedLink";
 import Link from "next/link";
 
 const examples = [
   "xz backdoor",
-  "EU AltStore coming soon",
-  "Altman gives up OpenAI fund",
+  "Yahoo aquires Artifact",
+  "Cohere releases Command-R+",
+  "Amazon ends AI-checkout stores",
   "Microplastics found in ancient digs",
-  "US House bans use of Microsoft Copilot",
 ];
 
 export const Start = () => {
@@ -29,10 +28,10 @@ export const Start = () => {
       }
     >
       <div className="mb-2 flex flex-col items-center justify-between">
-        <div className="mx-auto mb-4 h-16 w-16 items-center justify-center align-middle">
+        <div className="group mx-auto mb-4 h-16 w-16 items-center justify-center align-middle">
           <Logo />
         </div>
-        <h1 className="text-gradient mb-1 mt-2 text-4xl font-medium tracking-tight cursor-default">
+        <h1 className="text-gradient mb-1 mt-2 cursor-default text-4xl font-medium tracking-tight">
           complexity
         </h1>
       </div>

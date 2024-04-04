@@ -73,8 +73,8 @@ export const Sidebar = () => {
           <div className="flex items-center gap-2 px-3">
             <Link href="/">
               <p className="text-gradient flex items-center text-2xl font-light tracking-tight transition-all duration-200 ease-in-out selection:bg-orange-200 selection:text-orange-600 hover:text-orange-400">
-                <span className="mr-3 h-8 w-8">
-                  <Logo width={60} height={60} />
+                <span className="mr-3 h-8 w-8 group">
+                  <Logo />
                 </span>
                 complexity
               </p>

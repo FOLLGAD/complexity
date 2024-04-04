@@ -65,10 +65,17 @@ export const AnswerStep = ({ step }: { step: Step }) => {
     [step.citations, step.documents, step.text],
   );
 
+  const uniqueDocuments = useMemo(() => {
+    const docs = step.documents.filter(
+      (d, i) => step.documents.findIndex((d2) => d2.url === d.url) === i, // remove duplicate urls
+    );
+    return docs;
+  }, [step.documents]);
+
   const isLoading = !step.text;
 
   return (
-    <div className="max-w-xs pt-12 md:pt-10 md:max-w-md lg:max-w-xl w-full">
+    <div className="w-full max-w-xs pt-12 md:max-w-md md:pt-10 lg:max-w-xl">
       <h1 className="mb-4 text-2xl font-light underline decoration-orange-600 decoration-2 underline-offset-4">
         <TypeAnimation sequence={[step.question]} cursor={false} speed={80} />
       </h1>
@@ -82,12 +89,14 @@ export const AnswerStep = ({ step }: { step: Step }) => {
             />
             Sources
           </h2>
-          {step.documents.length === 0 && (
-            <p className="text-sm text-muted-foreground">No sources used for this query.</p>
+          {uniqueDocuments.length === 0 && (
+            <p className="text-sm text-muted-foreground">
+              No sources used for this query.
+            </p>
           )}
           <div className="relative overflow-hidden rounded-lg">
             <div className="mb-4 flex gap-4 overflow-x-auto">
-              {step.documents.map((doc) => (
+              {uniqueDocuments.map((doc) => (
                 <TrackedLink
                   href={doc.url}
                   key={doc.id}

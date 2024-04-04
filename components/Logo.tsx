@@ -12,10 +12,12 @@ export function Logo({}) {
         clipRule="evenodd"
         d="M54.1738 110.239V54.2385H59.1738V110.239H54.1738Z"
         fill="#EF5C0A"
+        className="pendulum origin-bottom"
       />
       <path
         d="M56.1738 71.2385C65.2865 71.2385 72.6738 63.6274 72.6738 54.2385C72.6738 44.8497 65.2865 37.2385 56.1738 37.2385C47.0611 37.2385 39.6738 44.8497 39.6738 54.2385C39.6738 63.6274 47.0611 71.2385 56.1738 71.2385Z"
         fill="url(#paint0_linear_4_147)"
+        className="pendulum origin-bottom"
       />
       <defs>
         <linearGradient
