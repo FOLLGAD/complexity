@@ -68,14 +68,18 @@ export const AnswerStep = ({ step }: { step: Step }) => {
   const isLoading = !step.text;
 
   return (
-    <div className="max-w-sm pt-10 md:max-w-md lg:max-w-xl w-full">
+    <div className="max-w-xs pt-12 md:pt-10 md:max-w-md lg:max-w-xl w-full">
       <h1 className="mb-4 text-2xl font-light underline decoration-orange-400 decoration-2 underline-offset-4">
         <TypeAnimation sequence={[step.question]} cursor={false} speed={80} />
       </h1>
       {!isLoading && (
         <>
           <h2 className="text-md mb-4 font-medium">
-            <ActivityLogIcon className="mr-2 inline-block" width={18} height={18} />
+            <ActivityLogIcon
+              className="mr-2 inline-block"
+              width={18}
+              height={18}
+            />
             Sources
           </h2>
           {step.documents.length === 0 && (

@@ -114,16 +114,16 @@ export const Sidebar = () => {
             <p className="p-2 text-sm text-gray-500">Ask a question.</p>
           )}
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center justify-center">
           <a
             href="https://twitter.com/emilahlback"
             target="_blank"
             rel="noreferrer"
             className="flex gap-1 p-1 px-3 align-bottom"
           >
-            <FaSquareXTwitter className="h-6 w-6" />{" "}
-            <p className="hover:text-orange-400">@emilahlback</p>
-            <span className="p-2 font-mono text-sm font-medium text-gray-300"></span>
+            <p className="hover:text-orange-400 font-normal underline decoration-orange-400 underline-offset transition-colors">
+              @emilahlback
+            </p>
           </a>
         </div>
       </aside>

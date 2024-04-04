@@ -19,14 +19,14 @@ export const CitationPopup = ({
 
   return (
     <span className="group relative">
-      <span className="text-orange-300 cursor-pointer" data-tooltip-target={id}>
+      <span className="cursor-pointer text-orange-300" data-tooltip-target={id}>
         {children}
       </span>
       <div
         id={id}
-        className="absolute right-0 z-10 opacity-0 group-hover:opacity-100 transition-all duration-200 ease-in-out pointer-events-none"
+        className="pointer-events-none absolute right-0 z-10 opacity-0 transition-all duration-200 ease-in-out group-hover:opacity-100"
       >
-        <div className="mt-[-5px] flex rounded-lg flex-row gap-2 max-w-[300px] overflow-x-auto group-hover:pointer-events-auto bg-popover shadow-xl shadow-orange-400/15">
+        <div className="mt-[-5px] flex max-w-[300px] flex-row gap-2 overflow-x-auto rounded-lg bg-popover shadow-xl shadow-orange-400/15 group-hover:pointer-events-auto">
           {docs.map((doc) => (
             <TrackedLink
               href={doc.url}
