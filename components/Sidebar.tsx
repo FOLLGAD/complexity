@@ -83,7 +83,7 @@ export const Sidebar = () => {
             </Link>
           </div>
         </div>
-        <div className="mb-4 mt-8 w-full flex-grow overflow-y-auto pb-16 pb-4 selection:bg-orange-200/90 selection:text-orange-600">
+        <div className="mb-4 mt-8 w-full flex-grow overflow-y-auto pb-16 selection:bg-orange-200/90 selection:text-orange-600">
           <div className="mb-2 px-3 text-xs font-semibold uppercase text-gray-200/90">
             Sessions
           </div>
@@ -115,10 +115,10 @@ export const Sidebar = () => {
           )}
         </div>
         <div className="relative h-0">
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex w-full justify-center pb-8">
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex w-full justify-center pb-4">
             <Button
               className={cn(
-                "pointer-events-auto mx-auto rounded-xl bg-card text-sm shadow-xl transition-opacity duration-200 hover:bg-primary/50",
+                "pointer-events-auto mx-auto w-full rounded-xl border-0 bg-gray-500 text-sm shadow-xl transition-opacity duration-200 hover:bg-gray-300 hover:font-medium hover:text-gray-500",
                 {
                   "opacity-0": !sessionId,
                   "pointer-events-none": !sessionId,
@@ -128,7 +128,7 @@ export const Sidebar = () => {
               onClick={() => router.push("/")}
             >
               <PlusIcon className="mr-2 h-4 w-4" />
-              Ask a question
+              Ask a new question
             </Button>
           </div>
         </div>
@@ -144,7 +144,7 @@ export const Sidebar = () => {
             </p>
           </a> */}
 
-          <div className="flex items-center justify-center pb-2 pt-2">
+          <div className="flex items-center justify-center py-2">
             <Link href="/about">
               <Button variant="link">
                 <p className="text-gray-200">
