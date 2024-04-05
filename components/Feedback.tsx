@@ -29,7 +29,6 @@ export const Feedback = forwardRef(function Feedback(
             title="Good answer!"
             className={cn("feedback-button group", "hover:bg-zinc-200")}
             onClick={() => {
-              console.log("Like");
               recordFeedback("positive");
               setIsFeedbackRecorded(true);
             }}
@@ -41,7 +40,6 @@ export const Feedback = forwardRef(function Feedback(
             title="Bad answer!"
             className={cn("feedback-button group", "hover:bg-zinc-200")}
             onClick={() => {
-              console.log("Disike");
               recordFeedback("negative");
               setIsFeedbackRecorded(true);
             }}
