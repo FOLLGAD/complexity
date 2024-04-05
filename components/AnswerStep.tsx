@@ -22,6 +22,7 @@ export interface Document {
 }
 
 export type Step = {
+  id?: string; // session id
   question: string;
   text: string;
   documents: Document[];
