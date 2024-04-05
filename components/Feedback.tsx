@@ -33,24 +33,24 @@ export const Feedback = forwardRef<
           <Button
             variant="outline"
             title="Good answer!"
-            className={cn("feedback-button group", "hover:bg-zinc-200")}
+            className={cn("feedback-button group", "hover:bg-zinc-300")}
             onClick={() => {
               recordFeedback("positive");
               setIsFeedbackRecorded(true);
             }}
           >
-            <ThumbsUpIcon className="feedback-icon group-hover:text-green-700" />
+            <ThumbsUpIcon className="feedback-icon group-hover:text-gray-500" />
           </Button>
           <Button
             variant="outline"
             title="Bad answer!"
-            className={cn("feedback-button group", "hover:bg-zinc-200")}
+            className={cn("feedback-button group", "hover:bg-zinc-300")}
             onClick={() => {
               recordFeedback("negative");
               setIsFeedbackRecorded(true);
             }}
           >
-            <ThumbsDownIcon className="feedback-icon group-hover:text-red-500" />
+            <ThumbsDownIcon className="feedback-icon group-hover:text-gray-500" />
           </Button>
         </div>
       </div>
