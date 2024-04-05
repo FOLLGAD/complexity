@@ -3,7 +3,7 @@ import { ThumbsUpIcon, ThumbsDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { forwardRef, useState } from "react";
 
-export const Feedback = forwardRef(function Feedback(
+export const Feedback = forwardRef<HTMLDivElement>(function Feedback(
   props: {
     isVisible: boolean;
     recordFeedback: Function;
