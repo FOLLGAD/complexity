@@ -22,11 +22,13 @@ export const SessionsContext = createContext<{
   addSession: (session: Session[]) => void;
   removeSession: (id: string) => void;
   editSession: (id: string, session: (s: Session[]) => Session[]) => void;
+  loaded: boolean;
 }>({
   sessions: [],
   addSession: () => {},
   removeSession: () => {},
   editSession: () => {},
+  loaded: false,
 });
 
 class SessionDB {
@@ -61,9 +63,11 @@ class SessionDB {
 
 export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
   const [sessions, setSessions] = useState<Session[][]>([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     setSessions(SessionDB.getSessions());
+    setLoaded(true);
   }, []);
 
   const addSession = useCallback((session: Session[]) => {
@@ -99,7 +103,7 @@ export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
 
   return (
     <SessionsContext.Provider
-      value={{ sessions, addSession, removeSession, editSession }}
+      value={{ sessions, addSession, removeSession, editSession, loaded }}
     >
       {children}
     </SessionsContext.Provider>
