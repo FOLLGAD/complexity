@@ -90,10 +90,6 @@ function useComplexityMain() {
         body: JSON.stringify({
           message: input,
           sessionId: id,
-          history: steps.flatMap((step) => [
-            { message: step.question, role: "USER" },
-            { message: step.text, role: "CHATBOT" },
-          ]),
           userId,
         }),
       });
