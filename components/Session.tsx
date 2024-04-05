@@ -1,15 +1,30 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { useComplexity } from "./complexity";
 import { ArrowUpIcon, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { AnswerStep } from "./AnswerStep";
 import { cn } from "@/lib/utils";
+import { usePostHog } from "posthog-js/react";
+import { Feedback } from "./Feedback";
+import { useIsVisible } from "@/hooks/useIsVisible";
 
 export const Session: FC = ({}) => {
   const { ask, steps, loading } = useComplexity();
   const [followUp, setFollowUp] = useState("");
+  const posthog = usePostHog();
+  const feedbackRef = useRef<HTMLDivElement>(null);
+  const isFeedbackVisible = useIsVisible(feedbackRef);
+
+  const recordFeedback = (feedback: "positive" | "negative") => {
+    posthog.capture("feedback_submitted", {
+      feedback: feedback,
+      sessionId: steps[0].id,
+      question: steps[0].question,
+      answer: steps[0].text,
+    });
+  };
 
   return (
     <div
@@ -21,6 +36,11 @@ export const Session: FC = ({}) => {
       {steps.map((step, i) => (
         <AnswerStep key={step.id + "-" + i} step={step} />
       ))}
+      <Feedback
+        ref={feedbackRef}
+        recordFeedback={recordFeedback}
+        isVisible={isFeedbackVisible}
+      />
 
       <div className="flex-grow" />
 
