@@ -50,7 +50,7 @@ export default function RootLayout({
             <ComplexityProvider>
               <body className={ibm.className}>
                 <Suspense fallback={<div></div>}>
-                  <div className="flex h-svh">
+                  <div className="flex h-[calc(100vh-8px)]">
                     <Sidebar />
 
                     {children}

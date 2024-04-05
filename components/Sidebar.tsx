@@ -66,7 +66,7 @@ export const Sidebar = () => {
       <aside
         ref={node}
         className={cn(
-          "absolute z-10 flex h-screen w-64 flex-shrink-0 flex-grow-0 flex-col bg-[#202222] p-6 px-3 text-primary transition-all md:static",
+          "absolute z-10 flex h-screen w-64 flex-shrink-0 flex-grow-0 flex-col bg-[#202222] p-6 px-3 pb-2 text-primary transition-all md:static",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "md:translate-x-0",
         )}
