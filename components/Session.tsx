@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useComplexity } from "./complexity";
 import { ArrowUpIcon, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
@@ -9,26 +9,7 @@ import { cn } from "@/lib/utils";
 import { useSessions } from "./sessions";
 import { useParams, useRouter } from "next/navigation";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
-
-function useAsync<T>(fn: () => Promise<T>, deps: any[]) {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fn()
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setError(e);
-        setLoading(false);
-      });
-  }, deps);
-
-  return { data, error, loading };
-}
+import { useAsync } from "./utils";
 
 export const Session: FC = ({}) => {
   const { ask, steps, loading } = useComplexity();
@@ -57,11 +38,7 @@ export const Session: FC = ({}) => {
             message: undefined,
             text: item.message,
           })),
-        )
-        .catch((e) => {
-          router.push("/");
-          console.log(e);
-        });
+        );
     }
   }, [loaded, steps, sessionId, loading]);
 

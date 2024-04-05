@@ -98,8 +98,8 @@ export const Sidebar = () => {
                   )}
                   href={`/q/${item.id}`}
                   phData={{
-                    questionId: item.id,
-                    questionText: item.question,
+                    "question-id": item.id,
+                    "question-text": item.question,
                   }}
                 >
                   <span
