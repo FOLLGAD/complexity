@@ -53,11 +53,14 @@ export const CitationCard = ({
                   "opacity-0": loading,
                 },
               )}
-              // @ts-ignore
-              onError={(e) => (
-                (e.target.src = "https://placehold.co/600x400"),
-                (e.target.style.visibility = "hidden")
-              )}
+              onError={(e) =>
+                (
+                  // @ts-ignore
+                  (e.target.src = "https://placehold.co/600x400"),
+                  // @ts-ignore
+                  (e.target.style.visibility = "hidden")
+                )
+              }
             />
           )}
           {loading && (

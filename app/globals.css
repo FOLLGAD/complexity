@@ -107,4 +107,12 @@
   .text-shadow {
     text-shadow: rgb(0 0 0 / 56%) 0px 3px 12px;
   }
+
+  .feedback-icon {
+    @apply h-4 w-4 text-zinc-400;
+  }
+
+  .feedback-button {
+    @apply pointer-events-auto h-8 w-8 gap-0.5 rounded-full border-transparent p-0;
+  }
 }

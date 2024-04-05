@@ -11,32 +11,45 @@ import {
 } from "react";
 import posthog from "posthog-js";
 import { Document } from "./AnswerStep";
+import { v4 as uuidv4 } from "uuid";
+
+const generateUserId = () => "user-" + uuidv4().replace(/-/g, "");
+
+const getUserId = () => {
+  if (typeof window !== "undefined") {
+    let id = window.localStorage.getItem("user_id");
+    if (!id) {
+      id = generateUserId();
+      window.localStorage.setItem("user_id", id);
+    }
+    return id;
+  }
+  return null;
+};
 
 function useComplexityMain() {
   const params = useParams();
   const sessionId = (params.sessionId as string) || null;
   const router = useRouter();
 
+  const userId = getUserId();
+
+  useEffect(() => {
+    if (userId) {
+      posthog.identify(userId);
+    }
+  }, [userId]);
+
   const [loading, setLoading] = useState(false);
 
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [lastSessionId, setLastSessionId] = useState<string | null>(null);
 
-  const { sessions, editSession, addSession, loaded } = useSessions();
+  const { sessions, editSession, addSession } = useSessions();
   const steps = useMemo(
-    () => sessions.find(([item]) => item.id === sessionId) ?? [],
+    () => (sessionId && sessions.find(([item]) => item.id === sessionId)) ?? [],
     [sessionId, sessions],
   );
-
-  useEffect(() => {
-    if (
-      loaded &&
-      !loading &&
-      !sessions.find(([item]) => item.id === sessionId)
-    ) {
-      router.push("/");
-    }
-  }, [loaded, sessionId]);
 
   const [cancel, setCancel] = useState<null | (() => void)>(null);
 
@@ -67,25 +80,26 @@ function useComplexityMain() {
 
       posthog.capture("asked_question", {
         question: input,
+        sessionId: steps[0]?.id,
         previous: reset ? [] : steps.map((s) => s?.question),
       });
 
-      const id = steps[0]?.id ?? Math.random().toString(36).substring(7);
-      setCurrentSessionId(id);
-      if (reset) router.push(`/q/${id}`);
+      let id = steps[0]?.id;
       const response = await fetch("/api/chat", {
         method: "POST",
         body: JSON.stringify({
           message: input,
+          sessionId: id,
           history: steps.flatMap((step) => [
             { message: step.question, role: "USER" },
             { message: step.text, role: "CHATBOT" },
           ]),
+          userId,
         }),
       });
 
       const toPush = {
-        id,
+        id: null,
         text: "",
         question: input,
         documents: [],
@@ -122,12 +136,17 @@ function useComplexityMain() {
           while (true) {
             const json = popFirstLine();
             if (!json) break;
-            if (json.eventType === "text-generation") {
+            if (json.eventType === "session_id") {
+              toPush.id = json.session_id;
+              id = json.session_id;
+              setCurrentSessionId(id);
+              if (reset) router.push(`/q/${id}`);
+            } else if (json.eventType === "text-generation") {
               editSession(id, (s) => {
                 const last = s[s.length - 1];
                 return s
                   .slice(0, -1)
-                  .concat([{ ...last, text: last.text + json.text }]);
+                  .concat([{ ...last, text: (last?.text ?? "") + json.text }]);
               });
             } else if (json.eventType === "stream-end") {
               editSession(id, (s) => {
