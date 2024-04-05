@@ -181,7 +181,7 @@ function useComplexityMain() {
                 return s.slice(0, -1).concat([
                   {
                     ...last,
-                    citations: [...last.citations, ...citations],
+                    citations: [...(last.citations ?? []), ...citations],
                   },
                 ]);
               });
