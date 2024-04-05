@@ -57,6 +57,7 @@ function useComplexityMain() {
 
       posthog.capture("asked_question", {
         question: input,
+        sessionId: currentSessionId,
         previous: reset ? [] : steps.map((s) => s?.question),
       });
 
