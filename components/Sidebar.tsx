@@ -87,21 +87,6 @@ export const Sidebar = () => {
           <div className="mb-2 px-3 text-xs font-semibold uppercase text-gray-200/90">
             Sessions
           </div>
-          <div className="flex w-full items-center justify-center py-2">
-            <Button
-              className={cn(
-                "w-full rounded-xl text-sm transition-opacity duration-200 hover:bg-primary/10",
-                {
-                  hidden: !sessionId,
-                },
-              )}
-              variant="ghost"
-              onClick={() => router.push("/")}
-            >
-              <PlusIcon className="mr-2 h-4 w-4" />
-              Ask a question
-            </Button>
-          </div>
           {sessions.length > 0 && (
             <div className="prose flex w-full flex-col gap-2 lg:prose-lg ">
               {sessions.map(([item]) => (
