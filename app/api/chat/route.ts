@@ -1,7 +1,7 @@
 import { CohereClient } from "cohere-ai";
 import { sql } from "@vercel/postgres";
-import { v4 as uuidv4 } from "uuid";
 import { type NextRequest } from "next/server";
+import short from "short-uuid";
 
 const cohere = new CohereClient({
   token: process.env.COHERE_API_KEY,
@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "edge";
 
 function generateSessionId(): string {
-  return "s-" + uuidv4().replace(/-/g, "");
+  return "s-" + short.generate();
 }
 
 const initializeSchema = () => {

@@ -101,7 +101,7 @@ export const Session: FC = ({}) => {
             }}
           >
             <div className="flex justify-center">
-              <div className="relative w-full max-w-lg rounded-lg bg-background">
+              <div className="relative w-full max-w-lg rounded-full bg-background">
                 <Input
                   className="text-md pointer-events-auto w-full min-w-[200px] max-w-lg rounded-full border p-4 py-6 pl-6 text-gray-300 shadow-xl focus:border-primary/20 focus:bg-primary/10 focus:text-primary"
                   placeholder="Ask a follow-up question..."

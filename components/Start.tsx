@@ -11,10 +11,10 @@ import Link from "next/link";
 
 const examples = [
   "xz backdoor",
-  "Yahoo aquires Artifact",
+  "Yahoo acquires Artifact",
   "Cohere releases Command-R+",
+  "$2b of seized BTC transferred",
   "Amazon ends AI-checkout stores",
-  "Microplastics found in ancient digs",
 ];
 
 export const Start = () => {
@@ -94,7 +94,7 @@ export const Start = () => {
           </div>
         </form>
 
-        {/* <div className="bottom-0 left-0 right-0 flex items-center justify-center pb-6 pt-6 md:absolute md:pb-12">
+        <div className="bottom-0 left-0 right-0 md:hidden flex items-center justify-center pb-6 pt-12">
           <Link href="/about">
             <Button variant="link">
               <p className="text-gray-200">
@@ -103,7 +103,7 @@ export const Start = () => {
               <ArrowRight className="ml-1 inline-block h-4 w-4 text-gray-200" />
             </Button>
           </Link>
-        </div> */}
+        </div>
       </div>
     </div>
   );

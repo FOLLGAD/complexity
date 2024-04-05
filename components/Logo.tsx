@@ -1,6 +1,52 @@
+"use client";
+import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
+
 export function Logo({}) {
+  const ref = useRef<SVGSVGElement>(null);
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const animationDuration = 0.5;
+
+  useEffect(() => {
+    let start: number = null;
+    let timer: NodeJS.Timeout;
+    const handleMouseEnter = () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      if (!start) {
+        start = Date.now();
+      }
+      setIsHovered(true);
+    };
+    const handleMouseLeave = () => {
+      const elapsed = Date.now() - start;
+      const rest = elapsed % (animationDuration * 1000);
+      const time = animationDuration * 1000 - rest;
+      timer = setTimeout(() => {
+        setIsHovered(false);
+        start = null;
+      }, time);
+    };
+
+    ref.current?.addEventListener("mouseenter", handleMouseEnter);
+    ref.current?.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      ref.current?.removeEventListener("mouseenter", handleMouseEnter);
+      ref.current?.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
   return (
-    <svg viewBox="0 0 113 113" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 113 113"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      ref={ref}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -12,12 +58,16 @@ export function Logo({}) {
         clipRule="evenodd"
         d="M54.1738 110.239V54.2385H59.1738V110.239H54.1738Z"
         fill="#EF5C0A"
-        className="pendulum origin-bottom"
+        className={cn("origin-bottom", {
+          "animate-pendulum": isHovered,
+        })}
       />
       <path
         d="M56.1738 71.2385C65.2865 71.2385 72.6738 63.6274 72.6738 54.2385C72.6738 44.8497 65.2865 37.2385 56.1738 37.2385C47.0611 37.2385 39.6738 44.8497 39.6738 54.2385C39.6738 63.6274 47.0611 71.2385 56.1738 71.2385Z"
         fill="url(#paint0_linear_4_147)"
-        className="pendulum origin-bottom"
+        className={cn("origin-bottom", {
+          "animate-pendulum": isHovered,
+        })}
       />
       <defs>
         <linearGradient
