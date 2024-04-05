@@ -1,11 +1,14 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { FC, useState } from "react";
+import { FC, useCallback, useRef, useState } from "react";
 import { useComplexity } from "./complexity";
 import { ArrowUpIcon, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
-import { AnswerStep } from "./AnswerStep";
+import { AnswerStep, Step } from "./AnswerStep";
 import { cn } from "@/lib/utils";
+import { usePostHog } from "posthog-js/react";
+import { Feedback } from "./Feedback";
+import { useIsVisible } from "@/hooks/useIsVisible";
 import { useSessions } from "./sessions";
 import { useParams, useRouter } from "next/navigation";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
@@ -15,6 +18,21 @@ export const Session: FC = ({}) => {
   const { ask, steps, loading } = useComplexity();
   const { loaded } = useSessions();
   const [followUp, setFollowUp] = useState("");
+  const posthog = usePostHog();
+  const feedbackRef = useRef<HTMLDivElement>(null);
+  const isFeedbackVisible = useIsVisible(feedbackRef);
+
+  const recordFeedback = useCallback(
+    (feedback: "positive" | "negative") => {
+      posthog.capture("feedback_submitted", {
+        feedback: feedback,
+        sessionId: steps[steps.length - 1]?.id,
+        question: steps[steps.length - 1]?.question,
+        answer: steps[steps.length - 1]?.text,
+      });
+    },
+    [steps],
+  );
   const sessionId = useParams()?.sessionId as string;
   const router = useRouter();
 
@@ -48,7 +66,7 @@ export const Session: FC = ({}) => {
   }
 
   const viewOnly = !!viewSessionData;
-  const sessionData = viewOnly ? viewSessionData : steps;
+  const sessionData: Step[] = viewOnly ? viewSessionData : steps;
 
   return (
     <div
@@ -62,6 +80,13 @@ export const Session: FC = ({}) => {
       {sessionData.map((step, i) => (
         <AnswerStep key={step.id + "-" + i} step={step} />
       ))}
+      {!viewOnly && (
+        <Feedback
+          ref={feedbackRef}
+          recordFeedback={recordFeedback}
+          isVisible={isFeedbackVisible}
+        />
+      )}
 
       <div className="flex-grow" />
 
