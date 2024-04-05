@@ -10,6 +10,7 @@ import { SessionProvider } from "@/components/sessions";
 import { Suspense } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { ComplexityProvider } from "@/components/complexity";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const ibm = Schibsted_Grotesk({
   subsets: ["latin"],
@@ -45,17 +46,19 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <PHProvider>
         <SessionProvider>
-          <ComplexityProvider>
-            <body className={ibm.className}>
-              <Suspense fallback={<div></div>}>
-                <div className="flex h-svh">
-                  <Sidebar />
+          <TooltipProvider>
+            <ComplexityProvider>
+              <body className={ibm.className}>
+                <Suspense fallback={<div></div>}>
+                  <div className="flex h-svh">
+                    <Sidebar />
 
-                  {children}
-                </div>
-              </Suspense>
-            </body>
-          </ComplexityProvider>
+                    {children}
+                  </div>
+                </Suspense>
+              </body>
+            </ComplexityProvider>
+          </TooltipProvider>
         </SessionProvider>
       </PHProvider>
     </html>

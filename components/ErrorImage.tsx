@@ -5,7 +5,10 @@ export const ErrorImage = ({ src }: { src: string }) => {
       src={src}
       className="h-full w-full object-cover"
       // @ts-ignore
-      onError={(e) => (e.target.src = "https://placehold.co/600x400")}
+      onError={(e) => (
+        (e.target.src = "https://placehold.co/600x400"),
+        (e.target.style.visibility = "hidden")
+      )}
     />
   );
 };
