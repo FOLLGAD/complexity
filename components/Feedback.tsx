@@ -3,10 +3,16 @@ import { ThumbsUpIcon, ThumbsDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { forwardRef, useState } from "react";
 
-export const Feedback = forwardRef<HTMLDivElement>(function Feedback(
+export const Feedback = forwardRef<
+  HTMLDivElement,
+  {
+    isVisible: boolean;
+    recordFeedback: (feedback: "positive" | "negative") => void;
+  }
+>(function Feedback(
   props: {
     isVisible: boolean;
-    recordFeedback: Function;
+    recordFeedback: (feedback: "positive" | "negative") => void;
   },
   ref,
 ) {
@@ -17,7 +23,7 @@ export const Feedback = forwardRef<HTMLDivElement>(function Feedback(
     <div
       ref={ref}
       className={cn(
-        "mb-6 mt-2 flex w-full max-w-xs flex-col pt-1 transition-opacity duration-1000 ease-in md:max-w-md lg:max-w-xl",
+        "mb-6 mt-2 flex w-full max-w-xs flex-col pt-1 transition-opacity duration-300 ease-in md:max-w-md lg:max-w-xl",
         isVisible ? "opacity-100" : "opacity-0",
         isFeedbackRecorded && "opacity-0 duration-200 ease-out",
       )}
