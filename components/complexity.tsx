@@ -34,6 +34,12 @@ function useComplexityMain() {
 
   const userId = getUserId();
 
+  useEffect(() => {
+    if (userId) {
+      posthog.identify(userId);
+    }
+  }, [userId]);
+
   const [loading, setLoading] = useState(false);
 
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
