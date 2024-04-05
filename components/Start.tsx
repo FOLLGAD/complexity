@@ -13,8 +13,8 @@ const examples = [
   "xz backdoor",
   "Yahoo acquires Artifact",
   "Cohere releases Command-R+",
+  "$2b of seized BTC transferred",
   "Amazon ends AI-checkout stores",
-  "Microplastics found in ancient digs",
 ];
 
 export const Start = () => {

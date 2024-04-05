@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div className="flex h-full w-full flex-col items-center pt-16">
       <div className="mb-2 flex flex-col items-center justify-between">
-        <div className="mx-auto mb-4 h-16 w-16 items-center justify-center align-middle group">
+        <div className="group mx-auto mb-4 h-16 w-16 items-center justify-center align-middle">
           <Logo />
         </div>
         <h1 className="text-gradient mb-1 mt-2 text-4xl font-medium tracking-tight">
