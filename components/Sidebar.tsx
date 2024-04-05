@@ -3,10 +3,10 @@ import { Logo } from "@/components/Logo";
 import { useSessions } from "@/components/sessions";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { HamburgerMenuIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { TrackedLink } from "./TrackedLink";
 import { ArrowRight } from "lucide-react";
 
@@ -40,6 +40,7 @@ const useClickOutside = () => {
 
 export const Sidebar = () => {
   const { sessions } = useSessions();
+  const router = useRouter();
 
   const { node, isOpen, setIsOpen } = useClickOutside();
   const params = useParams();
@@ -86,7 +87,7 @@ export const Sidebar = () => {
           <div className="mb-2 px-3 text-xs font-semibold uppercase text-gray-200/90">
             Sessions
           </div>
-          {sessions.length > 0 ? (
+          {sessions.length > 0 && (
             <div className="prose flex w-full flex-col gap-2 lg:prose-lg ">
               {sessions.map(([item]) => (
                 <TrackedLink
@@ -111,9 +112,22 @@ export const Sidebar = () => {
                 </TrackedLink>
               ))}
             </div>
-          ) : (
-            <p className="p-2 text-sm text-gray-500">Ask a question.</p>
           )}
+          <div className="flex items-center justify-center pt-4">
+            <Button
+              className={cn(
+                "rounded-xl text-sm transition-opacity duration-200 hover:bg-primary/10",
+                {
+                  "opacity-0": !sessionId,
+                },
+              )}
+              variant="ghost"
+              onClick={() => router.push("/")}
+            >
+              <PlusIcon className="mr-2 h-4 w-4" />
+              Ask a question
+            </Button>
+          </div>
         </div>
         <div className="flex items-center justify-center">
           <Link href="/about">

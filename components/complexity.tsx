@@ -22,11 +22,21 @@ function useComplexityMain() {
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [lastSessionId, setLastSessionId] = useState<string | null>(null);
 
-  const { sessions, editSession, addSession } = useSessions();
+  const { sessions, editSession, addSession, loaded } = useSessions();
   const steps = useMemo(
     () => sessions.find(([item]) => item.id === sessionId) ?? [],
     [sessionId, sessions],
   );
+
+  useEffect(() => {
+    if (
+      loaded &&
+      !loading &&
+      !sessions.find(([item]) => item.id === sessionId)
+    ) {
+      router.push("/");
+    }
+  }, [loaded, sessionId]);
 
   const [cancel, setCancel] = useState<null | (() => void)>(null);
 
