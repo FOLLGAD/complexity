@@ -12,11 +12,11 @@ export default function About() {
           complexity
         </h1>
       </div>
-      <p className="animate-fade-in mb-16 text-center text-lg font-normal text-gray-300 [--animation-delay:400ms]">
+      <p className="animate-fade-in mb-8 text-center text-lg font-normal text-gray-300 [--animation-delay:400ms]">
         The world's knowledge at your fingertips
       </p>
 
-      <div className="w-full max-w-xs pt-12 md:max-w-md md:pt-10 lg:max-w-xl">
+      <div className="w-full max-w-xs pt-4 md:max-w-md md:pt-10 lg:max-w-xl">
         <h2 className="text-2xl">About</h2>
         <p className="mt-4 text-lg">
           <span className="text-gradient">complexity</span> is a search engine
@@ -25,7 +25,7 @@ export default function About() {
           answers to your questions.
         </p>
         <h3 className="mt-4 text-xl">Created by</h3>
-        <ul className="mt-4 list-inside list-disc marker:text-gray-400">
+        <ul className="mb-8 mt-4 list-inside list-disc marker:text-gray-400">
           <li className="mt-2">
             <TrackedLink
               href="https://twitter.com/emilahlback"
