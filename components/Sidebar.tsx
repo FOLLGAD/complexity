@@ -66,7 +66,7 @@ export const Sidebar = () => {
       <aside
         ref={node}
         className={cn(
-          "absolute z-10 flex h-screen w-64 flex-shrink-0 flex-grow-0 flex-col bg-[#202222] p-6 px-3 text-primary transition-all md:static",
+          "absolute z-10 flex h-screen w-64 flex-shrink-0 flex-grow-0 flex-col bg-[#202222] p-6 px-3 pb-2 text-primary transition-all md:static",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "md:translate-x-0",
         )}
@@ -138,16 +138,6 @@ export const Sidebar = () => {
               <ArrowRight className="ml-1 inline-block h-4 w-4 text-gray-200" />
             </Button>
           </Link>
-          {/* <a
-            href="https://twitter.com/emilahlback"
-            target="_blank"
-            rel="noreferrer"
-            className="flex gap-1 p-1 px-3 align-bottom"
-          >
-            <p className="underline-offset font-normal underline decoration-orange-600 transition-colors hover:text-orange-600">
-              @emilahlback
-            </p>
-          </a> */}
         </div>
       </aside>
     </>
