@@ -11,9 +11,9 @@ import {
 } from "react";
 import posthog from "posthog-js";
 import { Document } from "./AnswerStep";
-import { v4 as uuidv4 } from "uuid";
+import short from "short-uuid";
 
-const generateUserId = () => "user-" + uuidv4().replace(/-/g, "");
+const generateUserId = () => "u-" + short.generate();
 
 const getUserId = () => {
   if (typeof window !== "undefined") {
