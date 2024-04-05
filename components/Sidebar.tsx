@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
 import { TrackedLink } from "./TrackedLink";
+import { ArrowRight } from "lucide-react";
 
 const useClickOutside = () => {
   const node = useRef<any>();
@@ -132,7 +133,7 @@ export const Sidebar = () => {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <a
+          {/* <a
             href="https://twitter.com/emilahlback"
             target="_blank"
             rel="noreferrer"
@@ -141,7 +142,18 @@ export const Sidebar = () => {
             <p className="underline-offset text-sm font-normal underline decoration-orange-600 transition-colors hover:text-orange-600">
               @emilahlback
             </p>
-          </a>
+          </a> */}
+
+          <div className="flex items-center justify-center pb-2 pt-2">
+            <Link href="/about">
+              <Button variant="link">
+                <p className="text-gray-200">
+                  About <span className="text-gradient">complexity</span>{" "}
+                </p>
+                <ArrowRight className="ml-1 inline-block h-4 w-4 text-gray-200" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </aside>
     </>

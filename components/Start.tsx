@@ -94,7 +94,7 @@ export const Start = () => {
           </div>
         </form>
 
-        <div className="bottom-0 left-0 right-0 flex items-center justify-center pb-6 pt-6 md:absolute md:pb-12">
+        <div className="bottom-0 left-0 right-0 md:hidden flex items-center justify-center pb-6 pt-12">
           <Link href="/about">
             <Button variant="link">
               <p className="text-gray-200">
