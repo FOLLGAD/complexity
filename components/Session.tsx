@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { FC, useRef, useState } from "react";
+import { FC, useCallback, useRef, useState } from "react";
 import { useComplexity } from "./complexity";
 import { ArrowUpIcon, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
@@ -22,14 +22,17 @@ export const Session: FC = ({}) => {
   const feedbackRef = useRef<HTMLDivElement>(null);
   const isFeedbackVisible = useIsVisible(feedbackRef);
 
-  const recordFeedback = (feedback: "positive" | "negative") => {
-    posthog.capture("feedback_submitted", {
-      feedback: feedback,
-      sessionId: steps[0].id,
-      question: steps[0].question,
-      answer: steps[0].text,
-    });
-  };
+  const recordFeedback = useCallback(
+    (feedback: "positive" | "negative") => {
+      posthog.capture("feedback_submitted", {
+        feedback: feedback,
+        sessionId: steps[steps.length - 1]?.id,
+        question: steps[steps.length - 1]?.question,
+        answer: steps[steps.length - 1]?.text,
+      });
+    },
+    [steps],
+  );
   const sessionId = useParams()?.sessionId as string;
   const router = useRouter();
 
