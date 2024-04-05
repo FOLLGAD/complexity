@@ -55,14 +55,15 @@ function useComplexityMain() {
 
       setCancel(() => () => promise.then((reader) => reader.releaseLock()));
 
+      const id = steps[0]?.id ?? Math.random().toString(36).substring(7);
+      setCurrentSessionId(id);
+
       posthog.capture("asked_question", {
         question: input,
-        sessionId: currentSessionId,
+        sessionId: id,
         previous: reset ? [] : steps.map((s) => s?.question),
       });
 
-      const id = steps[0]?.id ?? Math.random().toString(36).substring(7);
-      setCurrentSessionId(id);
       if (reset) router.push(`/q/${id}`);
       const response = await fetch("/api/chat", {
         method: "POST",
