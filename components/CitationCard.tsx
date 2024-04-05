@@ -7,7 +7,13 @@ import { cn } from "@/lib/utils";
 import { useIsVisible } from "react-is-visible";
 type OgObject = SuccessResult["result"];
 
-export const CitationCard = ({ citation }: { citation: Document }) => {
+export const CitationCard = ({
+  citation,
+  className,
+}: {
+  citation: Document;
+  className?: string;
+}) => {
   const [image, setImage] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
   const ref = useRef();
@@ -31,7 +37,10 @@ export const CitationCard = ({ citation }: { citation: Document }) => {
   }, [isVisible]);
 
   return (
-    <Card className="not-prose w-48 overflow-hidden text-sm" ref={ref}>
+    <Card
+      className={cn("not-prose w-48 overflow-hidden text-sm", className)}
+      ref={ref}
+    >
       <div className="relative flex h-16 w-full items-center justify-center overflow-hidden rounded-t-lg">
         <div className="h-full w-full">
           {(image || loading) && (
@@ -45,7 +54,10 @@ export const CitationCard = ({ citation }: { citation: Document }) => {
                 },
               )}
               // @ts-ignore
-              onError={(e) => (e.target.src = "https://placehold.co/600x400")}
+              onError={(e) => (
+                (e.target.src = "https://placehold.co/600x400"),
+                (e.target.style.visibility = "hidden")
+              )}
             />
           )}
           {loading && (

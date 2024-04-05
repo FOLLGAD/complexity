@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { Citation, Document } from "./AnswerStep";
 import { CitationCard } from "./CitationCard";
 import { TrackedLink } from "./TrackedLink";
+import { Tooltip, TooltipTrigger } from "./ui/tooltip";
+import { TooltipContent } from "@radix-ui/react-tooltip";
 
 export const CitationPopup = ({
   citation,
@@ -18,30 +20,38 @@ export const CitationPopup = ({
   const id = citation.start + "-" + citation.end;
 
   return (
-    <span className="group relative">
-      <span className="cursor-pointer text-orange-400 text-opacity-90" data-tooltip-target={id}>
-        {children}
-      </span>
-      <div
-        id={id}
-        className="pointer-events-none absolute right-0 z-10 opacity-0 transition-all duration-200 ease-in-out group-hover:opacity-100"
-      >
-        <div className="mt-[-5px] flex max-w-[300px] flex-row gap-2 overflow-x-auto rounded-lg bg-popover shadow-xl shadow-orange-400/15 group-hover:pointer-events-auto">
-          {docs.map((doc) => (
-            <TrackedLink
-              href={doc.url}
-              key={doc.id}
-              target="_blank"
-              rel="noreferrer"
-              phData={{
-                url: doc.url,
-              }}
-            >
-              <CitationCard key={doc.url} citation={doc} />
-            </TrackedLink>
-          ))}
-        </div>
-      </div>
+    <span className="relative">
+      <Tooltip delayDuration={500}>
+        <TooltipTrigger className="inline" asChild>
+          <span className="cursor-pointer text-orange-400 text-opacity-90">
+            {children}
+          </span>
+        </TooltipTrigger>
+        <TooltipContent className="z-20" key={id}>
+          <div className="not-prose group relative w-[min(500px,_100svw)] max-w-[max-content] rounded-lg">
+            <div className="flex flex-row gap-2 overflow-x-auto rounded-lg bg-card/95 p-2 shadow-xl">
+              {docs.map((doc) => (
+                <TrackedLink
+                  href={doc.url}
+                  key={doc.id}
+                  target="_blank"
+                  rel="noreferrer"
+                  phData={{
+                    url: doc.url,
+                  }}
+                >
+                  <CitationCard
+                    key={doc.url}
+                    citation={doc}
+                    className="shadow-lg"
+                  />
+                </TrackedLink>
+              ))}
+              <div className="absolute bottom-0 right-0 top-0 h-full w-32 rounded-lg bg-gradient-to-r from-transparent to-black opacity-50 transition-opacity group-hover:opacity-10"></div>
+            </div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
     </span>
   );
 };
