@@ -114,10 +114,10 @@ export const Sidebar = () => {
           )}
         </div>
         <div className="relative h-0">
-          <div className="absolute bottom-0 left-0 right-0 flex w-full justify-center pb-8 pointer-events-none">
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex w-full justify-center pb-8">
             <Button
               className={cn(
-                "mx-auto rounded-xl text-sm transition-opacity duration-200 hover:bg-primary/50 pointer-events-auto bg-card shadow-xl",
+                "pointer-events-auto mx-auto rounded-xl bg-card text-sm shadow-xl transition-opacity duration-200 hover:bg-primary/50",
                 {
                   "opacity-0": !sessionId,
                   "pointer-events-none": !sessionId,
@@ -138,7 +138,7 @@ export const Sidebar = () => {
             rel="noreferrer"
             className="flex gap-1 p-1 px-3 align-bottom"
           >
-            <p className="underline-offset font-normal underline decoration-orange-600 transition-colors hover:text-orange-600">
+            <p className="underline-offset text-sm font-normal underline decoration-orange-600 transition-colors hover:text-orange-600">
               @emilahlback
             </p>
           </a>
