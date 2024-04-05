@@ -103,9 +103,6 @@ function useComplexityMain() {
         created: new Date().toISOString(),
       };
 
-      if (reset) addSession([toPush]);
-      else editSession(id, (s) => [...s, toPush]);
-
       const reader = response.body.getReader();
       let lines = "";
 
@@ -136,6 +133,8 @@ function useComplexityMain() {
               toPush.id = json.session_id;
               id = json.session_id;
               setCurrentSessionId(id);
+              if (reset) addSession([toPush]);
+              else editSession(id, (s) => [...s, toPush]);
               if (reset) router.push(`/q/${id}`);
             } else if (json.eventType === "text-generation") {
               editSession(id, (s) => {
