@@ -11,7 +11,7 @@ import Link from "next/link";
 
 const examples = [
   "xz backdoor",
-  "Yahoo aquires Artifact",
+  "Yahoo acquires Artifact",
   "Cohere releases Command-R+",
   "Amazon ends AI-checkout stores",
   "Microplastics found in ancient digs",
