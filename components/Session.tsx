@@ -4,7 +4,7 @@ import { FC, useCallback, useRef, useState } from "react";
 import { useComplexity } from "./complexity";
 import { ArrowUpIcon, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
-import { AnswerStep } from "./AnswerStep";
+import { AnswerStep, Step } from "./AnswerStep";
 import { cn } from "@/lib/utils";
 import { usePostHog } from "posthog-js/react";
 import { Feedback } from "./Feedback";
@@ -66,7 +66,7 @@ export const Session: FC = ({}) => {
   }
 
   const viewOnly = !!viewSessionData;
-  const sessionData = viewOnly ? viewSessionData : steps;
+  const sessionData: Step[] = viewOnly ? viewSessionData : steps;
 
   return (
     <div
@@ -80,11 +80,13 @@ export const Session: FC = ({}) => {
       {sessionData.map((step, i) => (
         <AnswerStep key={step.id + "-" + i} step={step} />
       ))}
-      <Feedback
-        ref={feedbackRef}
-        recordFeedback={recordFeedback}
-        isVisible={isFeedbackVisible}
-      />
+      {!viewOnly && (
+        <Feedback
+          ref={feedbackRef}
+          recordFeedback={recordFeedback}
+          isVisible={isFeedbackVisible}
+        />
+      )}
 
       <div className="flex-grow" />
 
