@@ -11,6 +11,8 @@ import { Suspense } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { ComplexityProvider } from "@/components/complexity";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
+
 import dynamic from "next/dynamic";
 
 const ibm = Schibsted_Grotesk({
@@ -65,6 +67,7 @@ export default function RootLayout({
 
                     {children}
                   </div>
+                  <Toaster />
                 </Suspense>
               </body>
             </ComplexityProvider>
