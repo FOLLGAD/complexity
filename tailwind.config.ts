@@ -88,17 +88,17 @@ const config = {
           to: { height: "0" },
         },
         pendulum: {
-          "0%, 50%, 100%": {
+          "0%, 100%": {
             transform: "rotate(0deg)",
-            animationTimingFunction: "ease",
+            animationTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           },
           "25%": {
             transform: "rotate(15deg)",
-            animationTimingFunction: "ease-in",
+            animationTimingFunction: "cubic-bezier(0.46, 0.03, 0.52, 0.96)",
           },
           "75%": {
             transform: "rotate(-15deg)",
-            animationTimingFunction: "ease-in",
+            animationTimingFunction: "cubic-bezier(0.55, 0.09, 0.68, 0.53)",
           },
         },
       },
