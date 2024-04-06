@@ -78,9 +78,22 @@ export const AnswerStep = ({ step }: { step: Step }) => {
       <h1 className="mb-4 text-2xl font-light underline decoration-orange-600 decoration-2 underline-offset-4">
         <TypeAnimation sequence={[step.question]} cursor={false} speed={80} />
       </h1>
+      <h2 className="text-md my-4 font-medium">
+        <ReaderIcon className="mr-2 inline-block" width={18} height={18} />
+        Answer
+      </h2>
+      <p className="prose mb-2 scroll-smooth font-light md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
+        {!isLoading ? (
+          <Markdown rehypePlugins={[rehypeRaw]} components={components}>
+            {text}
+          </Markdown>
+        ) : (
+          <Skeleton className="h-24" />
+        )}
+      </p>
       {!isLoading && (
         <>
-          <h2 className="text-md mb-4 font-medium">
+          <h2 className="text-md my-4 font-medium">
             <ActivityLogIcon
               className="mr-2 inline-block"
               width={18}
@@ -102,19 +115,6 @@ export const AnswerStep = ({ step }: { step: Step }) => {
           </div>
         </>
       )}
-      <h2 className="text-md mb-4 font-medium">
-        <ReaderIcon className="mr-2 inline-block" width={18} height={18} />
-        Answer
-      </h2>
-      <p className="prose mb-2 scroll-smooth font-light md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
-        {!isLoading ? (
-          <Markdown rehypePlugins={[rehypeRaw]} components={components}>
-            {text}
-          </Markdown>
-        ) : (
-          <Skeleton className="h-24" />
-        )}
-      </p>
     </div>
   );
 };
