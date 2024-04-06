@@ -11,10 +11,10 @@ import Link from "next/link";
 
 const examples = [
   "xz backdoor",
+  "Matrix 5 coming soon?",
   "Yahoo acquires Artifact",
-  "Cohere releases Command-R+",
+  "New timezone for the moon",
   "$2b of seized BTC transferred",
-  "Amazon ends AI-checkout stores",
 ];
 
 export const Start = () => {
@@ -94,7 +94,7 @@ export const Start = () => {
           </div>
         </form>
 
-        <div className="bottom-0 left-0 right-0 md:hidden flex items-center justify-center pb-6 pt-12">
+        <div className="bottom-0 left-0 right-0 flex items-center justify-center pb-6 pt-12 md:hidden">
           <Link href="/about">
             <Button variant="link">
               <p className="text-gray-200">
