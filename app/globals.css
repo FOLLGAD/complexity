@@ -115,4 +115,7 @@
   .feedback-button {
     @apply pointer-events-auto h-8 w-8 gap-0.5 rounded-full border-transparent p-0;
   }
+  .bg-popover {
+    @apply bg-card/95;
+  }
 }
