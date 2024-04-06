@@ -65,7 +65,7 @@ const DocumentsContent: FC<
 
   return (
     <div
-      className="flex flex-row gap-2 overflow-x-auto rounded-lg bg-card/95 shadow-xl"
+      className="flex flex-row gap-2 overflow-x-auto no-scrollbar rounded-lg bg-card/95 shadow-xl"
       ref={scrollRef}
     >
       {documents.map((doc) => (
