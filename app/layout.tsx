@@ -21,19 +21,23 @@ export const metadata: Metadata = {
   title: "Complexity",
   description: "The world's knowledge at your fingertips",
   icons: "/icon.png",
-  keywords: ["Complexity", "Knowledge", "World", "Search with ai"],
+  keywords: ["Complexity", "AI Search", "Complexity AI"],
+  metadataBase: new URL("https://cplx.ai"),
   openGraph: {
     title: "Complexity",
     description: "The world's knowledge at your fingertips",
     url: "https://cplx.ai",
     images: [
       {
-        url: "https://cplx.ai/og-image.jpg",
+        url: "/og-image.jpg",
         width: 1116,
         height: 608,
         alt: "Complexity",
       },
     ],
+  },
+  alternates: {
+    canonical: "https://cplx.ai",
   },
 };
 
