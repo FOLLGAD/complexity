@@ -1,5 +1,10 @@
 import { Logo } from "@/components/Logo";
 import { TrackedLink } from "@/components/TrackedLink";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Complexity – About",
+};
 
 export default function About() {
   return (
