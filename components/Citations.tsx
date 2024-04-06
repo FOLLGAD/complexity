@@ -126,7 +126,7 @@ export const CitationPopup = ({
     <span className="relative">
       <Popover>
         <PopoverTrigger className="inline" asChild>
-          <span className="citation-mark cursor-pointer rounded bg-orange-400/50 transition-colors hover:bg-orange-400/75 focus:bg-orange-400/75">
+          <span className="citation-mark link cursor-pointer rounded underline decoration-orange-400/75 transition-colors hover:bg-orange-400/75 focus:bg-orange-400/75">
             {children}
           </span>
         </PopoverTrigger>
