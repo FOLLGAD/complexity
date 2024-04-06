@@ -1,10 +1,8 @@
-import { Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CitationCard } from "./CitationCard";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { CitationPopup } from "./CitationPopup";
-import { TrackedLink } from "./TrackedLink";
+import { CitationPopup, DocumentsScroller } from "./Citations";
 import { ActivityLogIcon, ReaderIcon } from "@radix-ui/react-icons";
 import { TypeAnimation } from "react-type-animation";
 
@@ -95,25 +93,8 @@ export const AnswerStep = ({ step }: { step: Step }) => {
               No sources used for this query.
             </p>
           )}
-          <div className="relative overflow-hidden rounded-lg">
-            <div className="mb-4 flex gap-4 overflow-x-auto">
-              {uniqueDocuments.map((doc) => (
-                <TrackedLink
-                  href={doc.url}
-                  key={doc.id}
-                  target="_blank"
-                  rel="noreferrer"
-                  phData={{
-                    url: doc.url,
-                    title: doc.title,
-                  }}
-                >
-                  <Suspense fallback={<div className="h-16 w-48" />}>
-                    <CitationCard key={doc.id} citation={doc} />
-                  </Suspense>
-                </TrackedLink>
-              ))}
-            </div>
+          <div className="relative mb-4 overflow-hidden rounded-lg">
+            <DocumentsScroller documents={uniqueDocuments} key={step.id} />
           </div>
         </>
       )}

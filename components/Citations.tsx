@@ -3,6 +3,7 @@ import {
   MutableRefObject,
   PropsWithRef,
   ReactNode,
+  Suspense,
   useEffect,
   useRef,
   useState,
@@ -57,7 +58,7 @@ const useScrollProgress = (
   return scrollProgress;
 };
 
-const DocumentsContent: FC<
+export const DocumentsScroller: FC<
   PropsWithRef<{ documents: Document[]; ref?: React.Ref<HTMLDivElement> }>
 > = ({ documents }: { documents: Document[] }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -65,7 +66,7 @@ const DocumentsContent: FC<
 
   return (
     <div
-      className="flex flex-row gap-2 overflow-x-auto no-scrollbar rounded-lg bg-card/95 shadow-xl"
+      className="no-scrollbar flex flex-row gap-4 overflow-x-auto rounded-lg shadow-xl"
       ref={scrollRef}
     >
       {documents.map((doc) => (
@@ -76,9 +77,12 @@ const DocumentsContent: FC<
           rel="noreferrer"
           phData={{
             url: doc.url,
+            title: doc.title,
           }}
         >
-          <CitationCard key={doc.url} citation={doc} className="shadow-lg" />
+          <Suspense fallback={<div className="h-16 w-48" />}>
+            <CitationCard key={doc.url} citation={doc} className="shadow" />
+          </Suspense>
         </TrackedLink>
       ))}
       <div
@@ -117,10 +121,10 @@ export const CitationPopup = ({
           </span>
         </PopoverTrigger>
         <PopoverContent
-          className="not-prose group relative z-20 w-[min(500px,_100svw)] max-w-[max-content] rounded-lg px-2 py-2"
+          className="not-prose group relative z-20 w-[min(500px,_100svw)] max-w-[max-content] rounded-lg bg-card/95 px-2 py-2"
           key={id}
         >
-          <DocumentsContent documents={docs} key={id} />
+          <DocumentsScroller documents={docs} key={id} />
         </PopoverContent>
       </Popover>
     </span>
