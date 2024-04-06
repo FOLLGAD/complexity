@@ -101,11 +101,16 @@ const config = {
             animationTimingFunction: "cubic-bezier(0.55, 0.09, 0.68, 0.53)",
           },
         },
+        fadeOut: {
+          from: { opacity: "1" },
+          to: { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         pendulum: "pendulum 1s infinite",
+        fade: "fadeOut 5s ease-in-out",
       },
       dropShadow: {
         glow: [
