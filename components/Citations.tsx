@@ -58,15 +58,25 @@ const useScrollProgress = (
   return scrollProgress;
 };
 
-export const DocumentsScroller: FC<
-  PropsWithRef<{ documents: Document[]; ref?: React.Ref<HTMLDivElement> }>
-> = ({ documents }: { documents: Document[] }) => {
+export const DocumentsScroller: FC<{
+  documents: Document[];
+  className?: string;
+}> = ({
+  documents,
+  className,
+}: {
+  documents: Document[];
+  className?: string;
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { remaining } = useScrollProgress(scrollRef, "x");
 
   return (
     <div
-      className="no-scrollbar flex flex-row gap-4 overflow-x-auto rounded-lg shadow-xl"
+      className={cn(
+        "no-scrollbar flex flex-row gap-4 overflow-x-auto rounded-lg shadow-xl",
+        className,
+      )}
       ref={scrollRef}
     >
       {documents.map((doc) => (

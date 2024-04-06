@@ -93,8 +93,12 @@ export const AnswerStep = ({ step }: { step: Step }) => {
               No sources used for this query.
             </p>
           )}
-          <div className="relative mb-4 overflow-hidden rounded-lg">
-            <DocumentsScroller documents={uniqueDocuments} key={step.id} />
+          <div className="relative -mx-8 mb-4 overflow-hidden rounded-lg md:mx-0">
+            <DocumentsScroller
+              documents={uniqueDocuments}
+              key={step.id}
+              className="pl-8 md:pl-0"
+            />
           </div>
         </>
       )}
