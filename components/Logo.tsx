@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 
-export function Logo({}) {
+export function Logo() {
   const ref = useRef<SVGSVGElement>(null);
 
   const [isHovered, setIsHovered] = useState(false);
