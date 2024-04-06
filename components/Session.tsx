@@ -8,7 +8,7 @@ import { AnswerStep, Step } from "./AnswerStep";
 import { cn } from "@/lib/utils";
 import { usePostHog } from "posthog-js/react";
 import { Feedback } from "./Feedback";
-import { useIsVisible } from "@/hooks/useIsVisible";
+import { useIsVisible } from "@/lib/useIsVisible";
 import { useSessions } from "./sessions";
 import { useParams, useRouter } from "next/navigation";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
