@@ -11,6 +11,7 @@ import { Suspense } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { ComplexityProvider } from "@/components/complexity";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import dynamic from "next/dynamic";
 
 const ibm = Schibsted_Grotesk({
   subsets: ["latin"],
@@ -41,6 +42,10 @@ export const metadata: Metadata = {
   },
 };
 
+const PostHogPageview = dynamic(() => import("@/components/PostHogPageview"), {
+  ssr: false,
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -53,6 +58,7 @@ export default function RootLayout({
           <TooltipProvider>
             <ComplexityProvider>
               <body className={ibm.className}>
+                <PostHogPageview />
                 <Suspense fallback={<div></div>}>
                   <div className="flex h-svh">
                     <Sidebar />
