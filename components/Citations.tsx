@@ -131,6 +131,7 @@ export const CitationPopup = ({
           </span>
         </PopoverTrigger>
         <PopoverContent
+          side="top"
           className="not-prose group relative z-20 w-[min(500px,_100svw)] max-w-[max-content] rounded-lg bg-card/95 px-2 py-2"
           key={id}
         >
