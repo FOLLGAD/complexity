@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-export interface Session {
+export interface SessionStep {
   text: string;
   question: string;
   documents: any[];
@@ -18,10 +18,13 @@ export interface Session {
 }
 
 export const SessionsContext = createContext<{
-  sessions: Session[][];
-  addSession: (session: Session[]) => void;
+  sessions: SessionStep[][];
+  addSession: (session: SessionStep[]) => void;
   removeSession: (id: string) => void;
-  editSession: (id: string, session: (s: Session[]) => Session[]) => void;
+  editSession: (
+    id: string,
+    session: (s: SessionStep[]) => SessionStep[],
+  ) => void;
   loaded: boolean;
 }>({
   sessions: [],
@@ -46,7 +49,7 @@ class SessionDB {
     return items;
   }
 
-  static addSession(session: Session[]) {
+  static addSession(session: SessionStep[]) {
     localStorage.setItem(`question_${session[0].id}`, JSON.stringify(session));
   }
 
@@ -54,7 +57,10 @@ class SessionDB {
     localStorage.removeItem(`question_${id}`);
   }
 
-  static editSession(id: string, sessionFn: (s: Session[]) => Session[]) {
+  static editSession(
+    id: string,
+    sessionFn: (s: SessionStep[]) => SessionStep[],
+  ) {
     const session = JSON.parse(localStorage.getItem(`question_${id}`) ?? "[]");
     const newSession = sessionFn(session);
     localStorage.setItem(`question_${id}`, JSON.stringify(newSession));
@@ -62,7 +68,7 @@ class SessionDB {
 }
 
 export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
-  const [sessions, setSessions] = useState<Session[][]>([]);
+  const [sessions, setSessions] = useState<SessionStep[][]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -70,7 +76,7 @@ export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
     setLoaded(true);
   }, []);
 
-  const addSession = useCallback((session: Session[]) => {
+  const addSession = useCallback((session: SessionStep[]) => {
     setSessions((s) => {
       SessionDB.addSession(session);
       return [session, ...s];
@@ -85,15 +91,15 @@ export const SessionProvider = ({ children }: PropsWithChildren<{}>) => {
   }, []);
 
   const editSession = useCallback(
-    (id: string, sessionFn: (s: Session[]) => Session[]) => {
-      setSessions((s) => {
-        const updatedSession = s.map((s) => {
-          if (s[0].id === id) {
-            const s2 = sessionFn(s);
+    (id: string, sessionFn: (s: SessionStep[]) => SessionStep[]) => {
+      setSessions((s: SessionStep[][]) => {
+        const updatedSession = s.map((session_steps: SessionStep[]) => {
+          if (session_steps[0].id === id) {
+            const s2 = sessionFn(session_steps);
             SessionDB.editSession(id, sessionFn);
             return s2;
           }
-          return s;
+          return session_steps;
         });
         return updatedSession;
       });
