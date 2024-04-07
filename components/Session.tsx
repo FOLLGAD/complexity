@@ -80,13 +80,11 @@ export const Session: FC = ({}) => {
       {sessionData.map((step, i) => (
         <AnswerStep key={step.id + "-" + i} step={step} />
       ))}
-      {!viewOnly && (
-        <Feedback
-          ref={feedbackRef}
-          recordFeedback={recordFeedback}
-          isVisible={isFeedbackVisible}
-        />
-      )}
+      <Feedback
+        ref={feedbackRef}
+        recordFeedback={recordFeedback}
+        isVisible={isFeedbackVisible}
+      />
 
       <div className="flex-grow" />
 
