@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { FC, useCallback, useRef, useState } from "react";
+import { FC, FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useComplexity } from "./complexity";
 import { ArrowUpIcon, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
@@ -22,6 +22,11 @@ export const Session: FC = ({}) => {
   const feedbackRef = useRef<HTMLDivElement>(null);
   const isFeedbackVisible = useIsVisible(feedbackRef);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollToBottom = useCallback(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
+  }, []);
+
   const recordFeedback = useCallback(
     (feedback: "positive" | "negative") => {
       posthog.capture("feedback_submitted", {
@@ -35,6 +40,46 @@ export const Session: FC = ({}) => {
   );
   const sessionId = useParams()?.sessionId as string;
   const router = useRouter();
+
+  const [autoScroll, setAutoScroll] = useState(false);
+
+  useEffect(() => {
+    const fn = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (!target) return;
+
+      const distanceFromBottom =
+        target.scrollHeight - target.scrollTop - target.clientHeight;
+
+      if (distanceFromBottom > 50) {
+        setAutoScroll(false);
+      }
+    };
+    scrollRef.current?.addEventListener("scroll", fn, {
+      passive: false,
+    });
+    return () => {
+      scrollRef.current?.removeEventListener("scroll", fn);
+    };
+  }, []);
+
+  useEffect(() => {
+    // on height change, scroll to bottom
+    if (autoScroll) {
+      scrollToBottom();
+    }
+  }, [steps[steps.length - 1]?.text?.length]);
+
+  const handleSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      setAutoScroll(true);
+      ask(followUp);
+
+      setFollowUp("");
+    },
+    [ask, followUp, scrollToBottom],
+  );
 
   const { data: viewSessionData, error } = useAsync(async () => {
     if (
@@ -71,11 +116,12 @@ export const Session: FC = ({}) => {
   return (
     <div
       className={
-        "absolute bottom-0 top-0 flex w-full flex-col items-center justify-start bg-background pt-6 transition-all duration-100 ease-in-out " +
+        "absolute bottom-0 top-0 flex w-full flex-col items-center justify-start overflow-y-auto bg-background pt-6 transition-all duration-100 ease-in-out " +
         (sessionData.length === 0
           ? "pointer-events-none opacity-0"
           : "opacity-100")
       }
+      ref={scrollRef}
     >
       {sessionData.map((step, i) => (
         <AnswerStep key={step.id + "-" + i} step={step} />
@@ -90,14 +136,7 @@ export const Session: FC = ({}) => {
 
       <div className="w-2xl pointer-events-none sticky bottom-0 flex w-full max-w-2xl items-center justify-between px-8 pt-16 drop-shadow-lg md:pb-8">
         {!viewOnly && sessionData.length > 0 && (
-          <form
-            className="w-full"
-            onSubmit={(e) => {
-              e.preventDefault();
-              ask(followUp);
-              setFollowUp("");
-            }}
-          >
+          <form className="w-full" onSubmit={handleSubmit}>
             <div className="flex justify-center">
               <div className="relative w-full max-w-lg rounded-full bg-background">
                 <Input
