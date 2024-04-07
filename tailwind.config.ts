@@ -25,6 +25,10 @@ const config = {
             strong: {
               color: "hsl(var(--primary))",
             },
+            code: {
+              color: "hsl(var(--primary))",
+              backgroundColor: "hsl(var(--transparent))",
+            },
           },
         },
       },
