@@ -6,7 +6,7 @@ import { EyeNoneIcon } from "@radix-ui/react-icons";
 import { ArrowUpIcon, LoaderCircle } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { usePostHog } from "posthog-js/react";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnswerStep, Step } from "./AnswerStep";
 import { Feedback } from "./Feedback";
 import { useComplexity } from "./complexity";
@@ -16,7 +16,6 @@ import { useAsync } from "./utils";
 
 export const Session: FC = ({}) => {
   const { ask, steps, loading } = useComplexity();
-  console.log("rerender");
   const { loaded } = useSessions();
   const posthog = usePostHog();
   const feedbackRef = useRef<HTMLDivElement>(null);
@@ -110,6 +109,10 @@ export const Session: FC = ({}) => {
   const viewOnly = !!viewSessionData;
   const sessionData: Step[] = viewOnly ? viewSessionData : steps;
 
+  const memoizedAnswerSteps = useMemo(() => {
+    return sessionData.map((step) => <AnswerStep key={step.id} step={step} />);
+  }, [sessionData]);
+
   return (
     <div
       className={
@@ -120,9 +123,7 @@ export const Session: FC = ({}) => {
       }
       ref={scrollRef}
     >
-      {sessionData.map((step, i) => (
-        <AnswerStep key={step.id + "-" + i} step={step} />
-      ))}
+      {memoizedAnswerSteps}
       <Feedback
         ref={feedbackRef}
         recordFeedback={recordFeedback}
