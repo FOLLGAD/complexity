@@ -8,6 +8,7 @@ import { ArrowRight, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePostHog } from "posthog-js/react";
 
 const examples = [
   "xz backdoor",
@@ -20,6 +21,7 @@ const examples = [
 export const Start = () => {
   const { ask, loading } = useComplexity();
   const [input, setInput] = useState("");
+  const posthog = usePostHog();
 
   return (
     <div
@@ -78,12 +80,16 @@ export const Start = () => {
             Trending
           </h3>
           <div className="flex flex-col items-center gap-2 text-center">
-            {examples.map((example) => (
+            {examples.map((example, i) => (
               <Card
                 key={example}
                 className="mt-0 w-auto cursor-pointer rounded-xl border bg-[#202222] p-2 px-3 text-sm text-gray-300 hover:border-orange-300/20 hover:bg-primary/10 hover:text-primary"
                 onClick={() => {
                   if (loading) return;
+                  posthog.capture("Clicked Trending", {
+                    text: example,
+                    listIndex: i,
+                  });
                   setInput(example);
                   ask(example, true);
                 }}
