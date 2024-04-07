@@ -60,6 +60,12 @@ export const AnswerStep = ({ step }: { step: Step }) => {
           </CitationPopup>
         );
       },
+      code: ({ children }) => {
+        const removeCiteTags = (str: string) =>
+          str.replace(/<\/?cite.*?>/g, "");
+
+        return <code>{removeCiteTags(children || "")}</code>;
+      },
     }),
     [step.citations, step.documents, step.text],
   );
@@ -108,7 +114,34 @@ export const AnswerStep = ({ step }: { step: Step }) => {
       </h2>
       <p className="prose mb-2 scroll-smooth font-light md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
         {!isLoading ? (
-          <Markdown rehypePlugins={[rehypeRaw]} components={components}>
+          <Markdown
+            rehypePlugins={[rehypeRaw]}
+            components={components}
+            allowedElements={[
+              "cite",
+              "p",
+              "li",
+              "ul",
+              "ol",
+              "blockquote",
+              "pre",
+              "code",
+              "a",
+              "img",
+              "h1",
+              "h2",
+              "h3",
+              "h4",
+              "h5",
+              "h6",
+              "table",
+              "thead",
+              "tbody",
+              "tr",
+              "th",
+              "td",
+            ]}
+          >
             {text}
           </Markdown>
         ) : (
