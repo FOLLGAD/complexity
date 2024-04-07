@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 import { useIsVisible } from "react-is-visible";
 type OgObject = SuccessResult["result"];
 
+const placeholderImg =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png";
+
 export const CitationCard = ({
   citation,
   className,
@@ -33,11 +36,9 @@ export const CitationCard = ({
       .then((data: OgObject) =>
         data?.ogImage?.[0]?.url
           ? setImage(data.ogImage[0].url)
-          : setImage(
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png",
-            ),
+          : setImage(placeholderImg),
       )
-      .catch(() => {})
+      .catch(() => setImage(placeholderImg))
       .finally(() => setLoading(false));
   }, [isVisible, citation.url, loading]);
 
