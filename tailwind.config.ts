@@ -105,11 +105,26 @@ const config = {
             animationTimingFunction: "cubic-bezier(0.55, 0.09, 0.68, 0.53)",
           },
         },
+        "pendulum-bounce": {
+          "0%, 100%": {
+            transform: "rotate(0deg)",
+            animationTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          },
+          "25%": {
+            transform: "rotate(8deg)",
+            animationTimingFunction: "cubic-bezier(0.46, 0.03, 0.52, 0.96)",
+          },
+          "75%": {
+            transform: "rotate(-4deg)",
+            animationTimingFunction: "cubic-bezier(0.55, 0.09, 0.68, 0.53)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         pendulum: "pendulum 1s infinite",
+        "pendulum-bounce": "pendulum-bounce 0.75s 1",
       },
       dropShadow: {
         glow: [
