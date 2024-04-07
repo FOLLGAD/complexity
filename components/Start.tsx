@@ -32,7 +32,7 @@ export const Start = () => {
       <div className="flex w-full flex-col items-center overflow-y-auto md:justify-center ">
         <div className="mb-2 mt-8 flex flex-col items-center justify-between">
           <div className="group mx-auto mb-4 h-16 w-16 items-center justify-center align-middle">
-            <Logo />
+            <Logo swinging={loading} />
           </div>
           <h1 className="text-gradient mb-1 mt-2 cursor-default text-4xl font-medium tracking-tight">
             complexity
@@ -51,7 +51,7 @@ export const Start = () => {
         >
           <div className="relative w-full max-w-lg">
             <Input
-              className="text-md rounded-full border border-orange-50/10 p-4 py-6 pl-6 text-orange-50 placeholder:font-thin placeholder:text-gray-400 focus:border-orange-100 focus:bg-primary/5 focus:text-primary pr-14"
+              className="text-md rounded-full border border-orange-50/10 p-4 py-6 pl-6 pr-14 text-orange-50 placeholder:font-thin placeholder:text-gray-400 focus:border-orange-100 focus:bg-primary/5 focus:text-primary"
               placeholder="Ask anything..."
               onChange={(e) => setInput(e.target.value)}
               value={input}

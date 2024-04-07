@@ -2,9 +2,8 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 
-export function Logo() {
+export function Logo({ swinging = false }) {
   const ref = useRef<SVGSVGElement>(null);
-
   const [isHovered, setIsHovered] = useState(false);
 
   const animationDuration = 0.5;
@@ -40,6 +39,8 @@ export function Logo() {
     };
   }, []);
 
+  const swing = swinging || isHovered;
+
   return (
     <svg
       viewBox="0 0 113 113"
@@ -59,14 +60,14 @@ export function Logo() {
         d="M54.1738 110.239V54.2385H59.1738V110.239H54.1738Z"
         fill="#EF5C0A"
         className={cn("origin-bottom", {
-          "animate-pendulum": isHovered,
+          "animate-pendulum": swing,
         })}
       />
       <path
         d="M56.1738 71.2385C65.2865 71.2385 72.6738 63.6274 72.6738 54.2385C72.6738 44.8497 65.2865 37.2385 56.1738 37.2385C47.0611 37.2385 39.6738 44.8497 39.6738 54.2385C39.6738 63.6274 47.0611 71.2385 56.1738 71.2385Z"
         fill="url(#paint0_linear_4_147)"
         className={cn("origin-bottom", {
-          "animate-pendulum": isHovered,
+          "animate-pendulum": swing,
         })}
       />
       <defs>
