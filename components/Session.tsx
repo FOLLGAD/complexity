@@ -1,23 +1,23 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { FC, FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import { useComplexity } from "./complexity";
-import { ArrowUpIcon, LoaderCircle } from "lucide-react";
-import { Button } from "./ui/button";
-import { AnswerStep, Step } from "./AnswerStep";
-import { cn } from "@/lib/utils";
-import { usePostHog } from "posthog-js/react";
-import { Feedback } from "./Feedback";
 import { useIsVisible } from "@/lib/hooks";
-import { useSessions } from "./sessions";
-import { useParams, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
+import { ArrowUpIcon, LoaderCircle } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { usePostHog } from "posthog-js/react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { AnswerStep, Step } from "./AnswerStep";
+import { Feedback } from "./Feedback";
+import { useComplexity } from "./complexity";
+import { useSessions } from "./sessions";
+import { Button } from "./ui/button";
 import { useAsync } from "./utils";
 
 export const Session: FC = ({}) => {
   const { ask, steps, loading } = useComplexity();
+  console.log("rerender");
   const { loaded } = useSessions();
-  const [followUp, setFollowUp] = useState("");
   const posthog = usePostHog();
   const feedbackRef = useRef<HTMLDivElement>(null);
   const isFeedbackVisible = useIsVisible(feedbackRef);
@@ -36,7 +36,7 @@ export const Session: FC = ({}) => {
         answer: steps[steps.length - 1]?.text,
       });
     },
-    [steps],
+    [steps[steps.length - 1].text],
   );
   const sessionId = useParams()?.sessionId as string;
   const router = useRouter();
@@ -71,14 +71,11 @@ export const Session: FC = ({}) => {
   }, [steps[steps.length - 1]?.text?.length]);
 
   const handleSubmit = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault();
+    (question: string) => {
       setAutoScroll(true);
-      ask(followUp);
-
-      setFollowUp("");
+      ask(question);
     },
-    [ask, followUp, scrollToBottom],
+    [ask],
   );
 
   const { data: viewSessionData, error } = useAsync(async () => {
@@ -136,36 +133,7 @@ export const Session: FC = ({}) => {
 
       <div className="w-2xl pointer-events-none sticky bottom-0 flex w-full max-w-2xl items-center justify-between px-8 pt-16 drop-shadow-lg md:pb-8">
         {!viewOnly && sessionData.length > 0 && (
-          <form className="w-full" onSubmit={handleSubmit}>
-            <div className="flex justify-center">
-              <div className="relative w-full max-w-lg rounded-full bg-background">
-                <Input
-                  className="text-md pointer-events-auto w-full min-w-[200px] max-w-lg rounded-full border p-4 py-6 pl-6 text-gray-300 shadow-xl focus:border-primary/20 focus:bg-primary/10 focus:text-primary"
-                  placeholder="Ask a follow-up question..."
-                  onChange={(e) => setFollowUp(e.target.value)}
-                  value={followUp}
-                  disabled={loading}
-                />
-                <div className="absolute bottom-0 right-0 top-0 flex h-full items-center justify-center">
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "pointer-events-auto mr-2 h-10 w-10 rounded-full p-0",
-                      followUp ? "bg-orange-600" : "bg-gray-800",
-                    )}
-                    type="submit"
-                    disabled={loading || !followUp}
-                  >
-                    {loading ? (
-                      <LoaderCircle className="h-6 w-6 animate-spin" />
-                    ) : (
-                      <ArrowUpIcon className={cn("h-5 w-5")} />
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </form>
+          <FollowupForm onSubmit={handleSubmit} loading={loading} />
         )}
         {!!viewOnly && (
           <div className="pointer-events-auto flex w-full select-none flex-col items-center justify-center">
@@ -177,5 +145,53 @@ export const Session: FC = ({}) => {
         )}
       </div>
     </div>
+  );
+};
+
+const FollowupForm: FC<{
+  onSubmit: (text: string) => void;
+  loading: boolean;
+}> = ({ onSubmit, loading }) => {
+  const [followUp, setFollowUp] = useState("");
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      onSubmit(followUp);
+    },
+    [followUp, onSubmit],
+  );
+
+  return (
+    <form className="w-full" onSubmit={handleSubmit}>
+      <div className="flex justify-center">
+        <div className="relative w-full max-w-lg rounded-full bg-background">
+          <Input
+            className="text-md pointer-events-auto w-full min-w-[200px] max-w-lg rounded-full border p-4 py-6 pl-6 text-gray-300 shadow-xl focus:border-primary/20 focus:bg-primary/10 focus:text-primary"
+            placeholder="Ask a follow-up question..."
+            onChange={(e) => setFollowUp(e.target.value)}
+            value={followUp}
+            disabled={loading}
+          />
+          <div className="absolute bottom-0 right-0 top-0 flex h-full items-center justify-center">
+            <Button
+              variant="outline"
+              className={cn(
+                "pointer-events-auto mr-2 h-10 w-10 rounded-full p-0",
+                followUp ? "bg-orange-600" : "bg-gray-800",
+              )}
+              type="submit"
+              disabled={loading || !followUp}
+            >
+              {loading ? (
+                <LoaderCircle className="h-6 w-6 animate-spin" />
+              ) : (
+                <ArrowUpIcon className={cn("h-5 w-5")} />
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </form>
   );
 };
