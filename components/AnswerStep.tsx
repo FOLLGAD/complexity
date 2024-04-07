@@ -62,9 +62,13 @@ export const AnswerStep = ({ step }: { step: Step }) => {
       },
       code: ({ children }) => {
         const removeCiteTags = (str: string) =>
-          str.replace(/<\/?cite.*?>/g, "");
+          str?.replace(/<\/?cite.*?>/g, "");
 
-        return <code>{removeCiteTags(children || "")}</code>;
+        return (
+          <code>
+            {typeof children === "string" ? removeCiteTags(children) : children}
+          </code>
+        );
       },
     }),
     [step.citations, step.documents, step.text],
