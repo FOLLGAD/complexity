@@ -63,7 +63,7 @@ export const Session: FC = ({}) => {
   }, []);
 
   useEffect(() => {
-    // on height change, scroll to bottom
+    // on text change, scroll to bottom
     if (autoScroll) {
       scrollToBottom();
     }

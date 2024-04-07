@@ -15,26 +15,31 @@ export const CitationCard = ({
   className?: string;
 }) => {
   const [image, setImage] = useState<null | string>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const ref = useRef();
   const isVisible = useIsVisible(ref, { once: true });
 
   useEffect(() => {
-    isVisible &&
-      fetch("/api/meta?q=" + citation.url, {
-        cache: "force-cache",
-      })
-        .then((res) => res.json())
-        .then((data: OgObject) =>
-          data?.ogImage?.[0]?.url
-            ? setImage(data.ogImage[0].url)
-            : setImage(
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png",
-              ),
-        )
-        .catch(() => {})
-        .finally(() => setLoading(false));
-  }, [isVisible]);
+    if (!isVisible) return;
+    if (loading) return;
+    if (image) return;
+
+    setLoading(true);
+
+    fetch("/api/meta?q=" + citation.url, {
+      cache: "force-cache",
+    })
+      .then((res) => res.json())
+      .then((data: OgObject) =>
+        data?.ogImage?.[0]?.url
+          ? setImage(data.ogImage[0].url)
+          : setImage(
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png/320px-Tax_revenue_as_a_percentage_of_GDP_%281985-2014%29.png",
+            ),
+      )
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [isVisible, citation.url, loading]);
 
   return (
     <Card
