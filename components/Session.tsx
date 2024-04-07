@@ -71,9 +71,9 @@ export const Session: FC = ({}) => {
   }, [steps[steps.length - 1]?.text?.length]);
 
   const handleSubmit = useCallback(
-    (question: string) => {
+    async (question: string) => {
       setAutoScroll(true);
-      ask(question);
+      await ask(question);
     },
     [ask],
   );
@@ -155,9 +155,10 @@ const FollowupForm: FC<{
   const [followUp, setFollowUp] = useState("");
 
   const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSubmit(followUp);
+      await onSubmit(followUp);
+      setFollowUp("");
     },
     [followUp, onSubmit],
   );
