@@ -51,7 +51,7 @@ export const Start = () => {
         >
           <div className="relative w-full max-w-lg">
             <Input
-              className="text-md rounded-full border border-orange-50/10 p-4 py-6 pl-6 text-orange-50 placeholder:font-thin placeholder:text-gray-400 focus:border-orange-100 focus:bg-primary/5 focus:text-primary"
+              className="text-md rounded-full border border-orange-50/10 p-4 py-6 pl-6 text-orange-50 placeholder:font-thin placeholder:text-gray-400 focus:border-orange-100 focus:bg-primary/5 focus:text-primary pr-14"
               placeholder="Ask anything..."
               onChange={(e) => setInput(e.target.value)}
               value={input}
