@@ -144,6 +144,12 @@ function useComplexityMain() {
                   .concat([{ ...last, text: (last?.text ?? "") + json.text }]);
               });
             } else if (json.eventType === "stream-end") {
+              posthog.capture("Question Answered", {
+                question: input,
+                answer: json.response.text,
+                sessionId: steps[0]?.id,
+              });
+
               editSession(id, (s) => {
                 const last = s[s.length - 1];
                 return s.slice(0, -1).concat([
