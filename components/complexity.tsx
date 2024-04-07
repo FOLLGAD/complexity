@@ -218,12 +218,12 @@ function useComplexityMain() {
 }
 
 export const ComplexityContext = createContext<{
-  ask: (input: string, reset?: boolean) => void;
+  ask: (input: string, reset?: boolean) => Promise<void>;
   loading: boolean;
   steps: SessionStep[];
   cancel: () => void;
 }>({
-  ask: () => {},
+  ask: async () => {},
   loading: false,
   steps: [],
   cancel: () => {},
