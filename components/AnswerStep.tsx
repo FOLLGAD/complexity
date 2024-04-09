@@ -60,6 +60,16 @@ export const AnswerStep = ({ step }: { step: Step }) => {
           </CitationPopup>
         );
       },
+      code: ({ children }) => {
+        const removeCiteTags = (str: string) =>
+          str?.replace(/<\/?cite.*?>/g, "");
+
+        return (
+          <code>
+            {typeof children === "string" ? removeCiteTags(children) : children}
+          </code>
+        );
+      },
     }),
     [step.citations, step.documents, step.text],
   );
@@ -73,6 +83,45 @@ export const AnswerStep = ({ step }: { step: Step }) => {
 
   const isLoading = !step.text;
 
+  const markdownContent = useMemo(
+    () =>
+      !isLoading ? (
+        <Markdown
+          rehypePlugins={[rehypeRaw]}
+          components={components}
+          allowedElements={[
+            "cite",
+            "p",
+            "li",
+            "ul",
+            "ol",
+            "blockquote",
+            "pre",
+            "code",
+            "a",
+            "img",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "table",
+            "thead",
+            "tbody",
+            "tr",
+            "th",
+            "td",
+          ]}
+        >
+          {text}
+        </Markdown>
+      ) : (
+        <Skeleton className="h-24" />
+      ),
+    [isLoading, text, components],
+  );
+
   return (
     <div className="w-full max-w-xs pt-12 md:max-w-md md:pt-10 lg:max-w-xl">
       <h1 className="mb-4 text-2xl font-light underline decoration-orange-600 decoration-2 underline-offset-4">
@@ -83,13 +132,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
         Answer
       </h2>
       <p className="prose mb-2 scroll-smooth font-light md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
-        {!isLoading ? (
-          <Markdown rehypePlugins={[rehypeRaw]} components={components}>
-            {text}
-          </Markdown>
-        ) : (
-          <Skeleton className="h-24" />
-        )}
+        {markdownContent}
       </p>
       {!isLoading && (
         <>

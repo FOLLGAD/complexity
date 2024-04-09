@@ -1,5 +1,5 @@
 "use client";
-import { Session, useSessions } from "@/components/sessions";
+import { SessionStep, useSessions } from "@/components/sessions";
 import { useParams, useRouter } from "next/navigation";
 import {
   createContext,
@@ -102,6 +102,7 @@ function useComplexityMain() {
         citations: [],
         created: new Date().toISOString(),
       };
+      const idx = steps?.length ?? 0;
 
       const reader = response.body.getReader();
       let lines = "";
@@ -121,9 +122,9 @@ function useComplexityMain() {
         return undefined;
       };
 
-      const readAll = async () => {
+      const readAll = async (r: ReadableStreamDefaultReader<Uint8Array>) => {
         while (true) {
-          const { done, value } = await reader.read();
+          const { done, value } = await r.read();
           if (done) break;
           lines += new TextDecoder().decode(value);
           while (true) {
@@ -133,19 +134,34 @@ function useComplexityMain() {
               toPush.id = json.session_id;
               id = json.session_id;
               setCurrentSessionId(id);
-              if (reset) addSession([toPush]);
-              else editSession(id, (s) => [...s, toPush]);
+
+              if (reset) {
+                addSession([toPush]);
+              } else {
+                editSession(id, (s) => {
+                  const a = [...s];
+                  a[idx] = toPush;
+                  return a;
+                });
+              }
+
               if (reset) router.push(`/q/${id}`);
             } else if (json.eventType === "text-generation") {
               editSession(id, (s) => {
-                const last = s[s.length - 1];
+                const last = s[idx];
                 return s
                   .slice(0, -1)
                   .concat([{ ...last, text: (last?.text ?? "") + json.text }]);
               });
             } else if (json.eventType === "stream-end") {
+              posthog.capture("Question Answered", {
+                question: input,
+                answer: json.response.text,
+                sessionId: steps[0]?.id,
+              });
+
               editSession(id, (s) => {
-                const last = s[s.length - 1];
+                const last = s[idx];
                 return s.slice(0, -1).concat([
                   {
                     ...last,
@@ -165,7 +181,7 @@ function useComplexityMain() {
                 snippet: null,
               }));
               editSession(id, (s) => {
-                const last = s[s.length - 1];
+                const last = s[idx];
                 return s.slice(0, -1).concat([
                   {
                     ...last,
@@ -176,7 +192,7 @@ function useComplexityMain() {
             } else if (json.eventType === "citation-generation") {
               const citations = json.citations;
               editSession(id, (s) => {
-                const last = s[s.length - 1];
+                const last = s[idx];
                 return s.slice(0, -1).concat([
                   {
                     ...last,
@@ -191,7 +207,7 @@ function useComplexityMain() {
 
       resolve(reader);
 
-      await readAll().catch((e) => console.error(e));
+      await readAll(reader).catch((e) => console.error(e));
 
       setLoading(false);
     },
@@ -202,12 +218,12 @@ function useComplexityMain() {
 }
 
 export const ComplexityContext = createContext<{
-  ask: (input: string, reset?: boolean) => void;
+  ask: (input: string, reset?: boolean) => Promise<void>;
   loading: boolean;
-  steps: Session[];
+  steps: SessionStep[];
   cancel: () => void;
 }>({
-  ask: () => {},
+  ask: async () => {},
   loading: false,
   steps: [],
   cancel: () => {},

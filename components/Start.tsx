@@ -8,6 +8,7 @@ import { ArrowRight, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePostHog } from "posthog-js/react";
 
 const examples = [
   "xz backdoor",
@@ -20,6 +21,7 @@ const examples = [
 export const Start = () => {
   const { ask, loading } = useComplexity();
   const [input, setInput] = useState("");
+  const posthog = usePostHog();
 
   return (
     <div
@@ -30,7 +32,7 @@ export const Start = () => {
       <div className="flex w-full flex-col items-center overflow-y-auto md:justify-center ">
         <div className="mb-2 mt-8 flex flex-col items-center justify-between">
           <div className="group mx-auto mb-4 h-16 w-16 items-center justify-center align-middle">
-            <Logo />
+            <Logo swinging={loading} />
           </div>
           <h1 className="text-gradient mb-1 mt-2 cursor-default text-4xl font-medium tracking-tight">
             complexity
@@ -49,7 +51,7 @@ export const Start = () => {
         >
           <div className="relative w-full max-w-lg">
             <Input
-              className="text-md rounded-full border border-orange-50/10 p-4 py-6 pl-6 text-orange-50 placeholder:font-thin placeholder:text-gray-400 focus:border-orange-100 focus:bg-primary/5 focus:text-primary"
+              className="text-md rounded-full border border-orange-50/10 p-4 py-6 pl-6 pr-14 text-orange-50 placeholder:font-thin placeholder:text-gray-400 focus:border-orange-100 focus:bg-primary/5 focus:text-primary"
               placeholder="Ask anything..."
               onChange={(e) => setInput(e.target.value)}
               value={input}
@@ -78,12 +80,16 @@ export const Start = () => {
             Trending
           </h3>
           <div className="flex flex-col items-center gap-2 text-center">
-            {examples.map((example) => (
+            {examples.map((example, i) => (
               <Card
                 key={example}
                 className="mt-0 w-auto cursor-pointer rounded-xl border bg-[#202222] p-2 px-3 text-sm text-gray-300 hover:border-orange-300/20 hover:bg-primary/10 hover:text-primary"
                 onClick={() => {
                   if (loading) return;
+                  posthog.capture("Clicked Trending", {
+                    text: example,
+                    listIndex: i,
+                  });
                   setInput(example);
                   ask(example, true);
                 }}
