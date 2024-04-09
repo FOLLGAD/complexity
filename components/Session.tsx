@@ -128,6 +128,7 @@ export const Session: FC = ({}) => {
         ref={feedbackRef}
         recordFeedback={recordFeedback}
         isVisible={isFeedbackVisible}
+        sessionId={sessionId}
       />
 
       <div className="flex-grow" />
@@ -169,7 +170,7 @@ const FollowupForm: FC<{
       <div className="flex justify-center">
         <div className="relative w-full max-w-lg rounded-full bg-background">
           <Input
-            className="text-md pointer-events-auto w-full min-w-[200px] max-w-lg rounded-full border p-4 py-6 pl-6 pr-14 text-gray-300 shadow-xl focus:border-primary/20 focus:bg-primary/10 focus:text-primary"
+            className="text-md pointer-events-auto w-full min-w-[200px] max-w-lg rounded-full border border-orange-50/10 p-4 py-6 pl-6 pr-14 text-gray-300 shadow-xl focus:border-primary/20 focus:bg-primary/10 focus:text-primary"
             placeholder="Ask a follow-up question..."
             onChange={(e) => setFollowUp(e.target.value)}
             value={followUp}

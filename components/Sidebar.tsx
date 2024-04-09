@@ -83,9 +83,28 @@ export const Sidebar = () => {
             </Link>
           </div>
         </div>
-        <div className="mb-4 mt-8 w-full flex-grow overflow-y-auto pb-16 pb-4 selection:bg-orange-200/90 selection:text-orange-600">
-          <div className="mb-2 px-3 text-xs font-semibold uppercase text-gray-200/90">
-            Sessions
+        <div className="mb-4 mt-8 w-full flex-grow overflow-y-auto pb-2 selection:bg-orange-200/90 selection:text-orange-600 ">
+          <div className="align-center sticky top-0 mb-2 grid grid-cols-3 items-center bg-[#202222]  px-3 pb-2 text-xs font-semibold uppercase text-gray-200/90">
+            Sessions{" "}
+            <span className={cn("text-gray-300", !sessions.length && "hidden")}>
+              ({sessions.length || 0})
+            </span>
+            <span className="place-self-end">
+              <Button
+                title="Ask a new question"
+                className={cn(
+                  "pointer-events-auto rounded-full border border-orange-50/10 bg-primary/5 text-sm transition-opacity duration-200 hover:bg-orange-600",
+                  {
+                    "opacity-0": !sessionId,
+                    "pointer-events-none": !sessionId,
+                  },
+                )}
+                variant="outline"
+                onClick={() => router.push("/")}
+              >
+                <PlusIcon className="h-3 w-3" />
+              </Button>
+            </span>
           </div>
           {sessions.length > 0 && (
             <div className="prose flex w-full flex-col gap-2 lg:prose-lg ">
@@ -114,36 +133,7 @@ export const Sidebar = () => {
             </div>
           )}
         </div>
-        <div className="relative h-0">
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex w-full justify-center pb-8">
-            <Button
-              className={cn(
-                "pointer-events-auto mx-auto rounded-xl bg-card text-sm shadow-xl transition-opacity duration-200 hover:bg-primary/50",
-                {
-                  "opacity-0": !sessionId,
-                  "pointer-events-none": !sessionId,
-                },
-              )}
-              variant="outline"
-              onClick={() => router.push("/")}
-            >
-              <PlusIcon className="mr-2 h-4 w-4" />
-              Ask a question
-            </Button>
-          </div>
-        </div>
         <div className="flex items-center justify-center">
-          {/* <a
-            href="https://twitter.com/emilahlback"
-            target="_blank"
-            rel="noreferrer"
-            className="flex gap-1 p-1 px-3 align-bottom"
-          >
-            <p className="underline-offset text-sm font-normal underline decoration-orange-600 transition-colors hover:text-orange-600">
-              @emilahlback
-            </p>
-          </a> */}
-
           <div className="flex items-center justify-center pb-2 pt-2">
             <Link href="/about">
               <Button variant="link">

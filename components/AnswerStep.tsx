@@ -129,7 +129,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
       </h1>
       {!isLoading && (
         <>
-          <h2 className="text-md mb-4 font-medium">
+          <h2 className="text-md my-4 font-medium">
             <ActivityLogIcon
               className="mr-2 inline-block"
               width={18}
@@ -151,7 +151,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
           </div>
         </>
       )}
-      <h2 className="text-md mb-4 font-medium">
+      <h2 className="text-md my-4 font-medium">
         <ReaderIcon className="mr-2 inline-block" width={18} height={18} />
         Answer
       </h2>
