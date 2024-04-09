@@ -3,7 +3,13 @@ import { Input } from "@/components/ui/input";
 import { useIsVisible } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
-import { ArrowUpIcon, LoaderCircle } from "lucide-react";
+import {
+  ArrowUpIcon,
+  EyeIcon,
+  LoaderCircle,
+  Search,
+  SearchIcon,
+} from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { usePostHog } from "posthog-js/react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -13,6 +19,8 @@ import { useComplexity } from "./complexity";
 import { useSessions } from "./sessions";
 import { Button } from "./ui/button";
 import { useAsync } from "./utils";
+import { Card } from "./ui/card";
+import Link from "next/link";
 
 export const Session: FC = ({}) => {
   const { ask, steps, loading } = useComplexity();
@@ -137,14 +145,27 @@ export const Session: FC = ({}) => {
         {!viewOnly && sessionData.length > 0 && (
           <FollowupForm onSubmit={handleSubmit} loading={loading} />
         )}
-        {!!viewOnly && (
-          <div className="pointer-events-auto flex w-full select-none flex-col items-center justify-center">
-            <p className="vertical-align-middle flex text-center text-sm text-gray-400">
-              <EyeNoneIcon className="mr-2 inline-block h-5 w-5" /> This session
-              is read-only.
-            </p>
-          </div>
-        )}
+        <div className="flex w-full flex-col items-center justify-center">
+          {!!viewOnly && (
+            <>
+              <Link href="/">
+                <Button
+                  variant="ghost"
+                  className="pointer-events-auto mb-2 bg-background/80 hover:border hover:border-orange-300/20"
+                >
+                  <SearchIcon className="mr-2 inline-block h-4 w-4" />
+                  Ask another question
+                </Button>
+              </Link>
+              <Card className="pointer-events-auto mb-4 flex select-none flex-col items-center justify-center gap-4 bg-background px-8 py-4">
+                <p className="vertical-align-middle flex text-center text-sm text-gray-400">
+                  <EyeIcon className="mr-2 inline-block h-5 w-5" /> This session
+                  is read-only.
+                </p>
+              </Card>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
