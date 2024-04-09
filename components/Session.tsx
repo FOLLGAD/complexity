@@ -141,31 +141,29 @@ export const Session: FC = ({}) => {
 
       <div className="flex-grow" />
 
-      <div className="w-2xl pointer-events-none sticky bottom-0 flex w-full max-w-2xl items-center justify-between px-8 pt-16 drop-shadow-lg md:pb-8">
+      <div className="w-2xl pointer-events-none sticky bottom-0 flex w-full max-w-2xl items-center justify-between px-8 pt-16 drop-shadow-lg pb-8 md:pb-12">
         {!viewOnly && sessionData.length > 0 && (
           <FollowupForm onSubmit={handleSubmit} loading={loading} />
         )}
-        <div className="flex w-full flex-col items-center justify-center">
-          {!!viewOnly && (
-            <>
-              <Link href="/">
-                <Button
-                  variant="ghost"
-                  className="pointer-events-auto mb-2 bg-background/80 hover:border hover:border-orange-300/20"
-                >
-                  <SearchIcon className="mr-2 inline-block h-4 w-4" />
-                  Ask another question
-                </Button>
-              </Link>
-              <Card className="pointer-events-auto mb-4 flex select-none flex-col items-center justify-center gap-4 bg-background px-8 py-4">
-                <p className="vertical-align-middle flex text-center text-sm text-gray-400">
-                  <EyeIcon className="mr-2 inline-block h-5 w-5" /> This session
-                  is read-only.
-                </p>
-              </Card>
-            </>
-          )}
-        </div>
+        {!!viewOnly && (
+          <div className="flex w-full flex-col items-center justify-center">
+            <Link href="/">
+              <Button
+                variant="ghost"
+                className="pointer-events-auto mb-2 bg-background/80 hover:border hover:border-orange-300/20"
+              >
+                <SearchIcon className="mr-2 inline-block h-4 w-4" />
+                Ask another question
+              </Button>
+            </Link>
+            <Card className="pointer-events-auto mb-4 flex select-none flex-col items-center justify-center gap-4 bg-background px-8 py-4">
+              <p className="vertical-align-middle flex text-center text-sm text-gray-400">
+                <EyeIcon className="mr-2 inline-block h-5 w-5" /> This session
+                is read-only.
+              </p>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );
