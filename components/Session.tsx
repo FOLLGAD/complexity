@@ -128,6 +128,7 @@ export const Session: FC = ({}) => {
         ref={feedbackRef}
         recordFeedback={recordFeedback}
         isVisible={isFeedbackVisible}
+        sessionId={sessionId}
       />
 
       <div className="flex-grow" />

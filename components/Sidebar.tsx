@@ -86,14 +86,14 @@ export const Sidebar = () => {
         <div className="mb-4 mt-8 w-full flex-grow overflow-y-auto pb-2 selection:bg-orange-200/90 selection:text-orange-600 ">
           <div className="align-center sticky top-0 mb-2 grid grid-cols-3 items-center bg-[#202222]  px-3 pb-2 text-xs font-semibold uppercase text-gray-200/90">
             Sessions{" "}
-            <span className="text-gray-300">
-              ({sessions.length > 0 && sessions.length})
+            <span className={cn("text-gray-300", !sessions.length && "hidden")}>
+              ({sessions.length || 0})
             </span>
             <span className="place-self-end">
               <Button
                 title="Ask a new question"
                 className={cn(
-                  "pointer-events-auto rounded-full border border-orange-50/10 bg-card text-sm transition-opacity duration-200 hover:bg-orange-600",
+                  "pointer-events-auto rounded-full border border-orange-50/10 bg-primary/5 text-sm transition-opacity duration-200 hover:bg-orange-600",
                   {
                     "opacity-0": !sessionId,
                     "pointer-events-none": !sessionId,
