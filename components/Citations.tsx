@@ -45,7 +45,7 @@ export const DocumentsScroller: FC<{
       ))}
       <div
         className={cn(
-          "absolute bottom-0 right-0 top-0 h-full w-32 rounded-lg bg-gradient-to-r from-transparent to-black opacity-0 transition-opacity",
+          "absolute bottom-0 right-0 top-0 h-full w-32 rounded-lg bg-gradient-to-r from-transparent to-black opacity-0 transition-opacity pointer-events-none",
           {
             "opacity-50": remaining > 5,
             "group-hover:opacity-25": remaining > 5,
