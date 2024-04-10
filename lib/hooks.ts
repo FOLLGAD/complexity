@@ -52,10 +52,15 @@ export const useScrollProgress = (
         remaining,
       });
     };
-    scrollRef.current.addEventListener("scroll", handleScroll);
+    scrollRef.current.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+    window.addEventListener("resize", handleScroll, { passive: true });
     handleScroll();
-    return () =>
+    return () => {
       scrollRef?.current?.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, [dir]);
 
   return scrollProgress;
