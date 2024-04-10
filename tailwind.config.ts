@@ -21,6 +21,19 @@ const config = {
       typography: {
         DEFAULT: {
           css: {
+            "--tw-prose-headings": "hsl(var(--primary))",
+            h1: {
+              fontWeight: 300,
+            },
+            h2: {
+              fontWeight: 300,
+            },
+            h3: {
+              fontWeight: 300,
+            },
+            h4: {
+              fontWeight: 300,
+            },
             color: "hsl(var(--primary))",
             strong: {
               color: "hsl(var(--primary))",
