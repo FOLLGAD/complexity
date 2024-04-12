@@ -11,11 +11,11 @@ import Link from "next/link";
 import { usePostHog } from "posthog-js/react";
 
 const examples = [
-  "xz backdoor",
-  "Google to acquire HubSpot",
-  "Tesla Robotaxis coming soon",
-  "$2b of seized BTC transferred",
-  "Amazon ends AI-checkout stores",
+  "Meta AI chip",
+  "Humane AI pin reviews",
+  "M4 chips coming late 2024",
+  "OpenAI trained on Youtube",
+  "xz backdoor aftermath",
 ];
 
 export const Start = () => {
