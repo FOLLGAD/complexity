@@ -1,6 +1,5 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { useIsVisible } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 import { ArrowUpIcon, EyeIcon, LoaderCircle, SearchIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";

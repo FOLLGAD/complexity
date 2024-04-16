@@ -17,7 +17,10 @@ const ibm = Schibsted_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Complexity",
+  title: {
+    default: "Complexity",
+    template: "%s – Complexity",
+  },
   description: "The world's knowledge at your fingertips",
   icons: "/icon.png",
   keywords: ["Complexity", "AI Search", "Complexity AI"],
