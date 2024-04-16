@@ -2,6 +2,7 @@ import { CohereClient } from "cohere-ai";
 import { sql } from "@vercel/postgres";
 import { type NextRequest } from "next/server";
 import short from "short-uuid";
+import { getSessionData } from "@/components/serverutil";
 
 const cohere = new CohereClient({
   token: process.env.COHERE_API_KEY,
@@ -137,31 +138,7 @@ export async function GET(request: NextRequest) {
   const sessionId = request.nextUrl.searchParams.get("sessionId");
   if (!sessionId) return new Response("Missing sessionId", { status: 400 });
 
-  const history = await sql<{
-    message: string;
-    question: string;
-    session_id: string;
-    created_at: string;
-    json_message: any;
-  }>`
-    SELECT message, question, session_id, created_at, json_message
-    FROM chat
-    WHERE session_id = ${sessionId}
-    ORDER BY created_at ASC
-  `;
-
-  const data = history.rows.map((row) => {
-    const documents = row.json_message?.documents;
-    const citations = row.json_message?.citations;
-    return {
-      message: row.message,
-      question: row.question,
-      session_id: row.session_id,
-      created_at: row.created_at,
-      documents,
-      citations,
-    };
-  });
+  const data = await getSessionData(sessionId);
 
   if (!data.length) return new Response("No history found", { status: 404 });
 

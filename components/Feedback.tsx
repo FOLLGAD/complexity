@@ -1,20 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import {
-  ThumbsUpIcon,
-  ThumbsDownIcon,
-  ShareIcon,
-  Copy,
-  Share2Icon,
-} from "lucide-react";
+import { ThumbsUpIcon, ThumbsDownIcon, Copy, Share2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { forwardRef, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, forwardRef, useCallback, useState } from "react";
 import {
   Card,
   CardContent,
@@ -25,22 +19,11 @@ import { Input } from "@/components//ui/input";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
-export const Feedback = forwardRef<
-  HTMLDivElement,
-  {
-    isVisible: boolean;
-    recordFeedback: (feedback: "positive" | "negative") => void;
-    sessionId: string;
-  }
->(function Feedback(
-  props: {
-    isVisible: boolean;
-    recordFeedback: (feedback: "positive" | "negative") => void;
-    sessionId: string;
-  },
-  ref,
-) {
-  const { isVisible, recordFeedback, sessionId } = props;
+export const Feedback: FC<{
+  isVisible: boolean;
+  recordFeedback: (feedback: "positive" | "negative") => void;
+  sessionId: string;
+}> = ({ isVisible, recordFeedback, sessionId }) => {
   const [isFeedbackRecorded, setIsFeedbackRecorded] = useState(false);
 
   const feedbackButtonVisibility = [
@@ -50,7 +33,6 @@ export const Feedback = forwardRef<
 
   return (
     <div
-      ref={ref}
       className={cn(
         "mb-6 mt-2 flex w-full max-w-xs flex-col pt-1 transition-opacity duration-700 ease-in md:max-w-md lg:max-w-xl",
       )}
@@ -94,7 +76,7 @@ export const Feedback = forwardRef<
       </div>
     </div>
   );
-});
+};
 
 function ShareButton({ sessionId }: { sessionId: string }) {
   const [shareOpen, setShareOpen] = useState(false);
@@ -110,44 +92,44 @@ function ShareButton({ sessionId }: { sessionId: string }) {
   return (
     <Tooltip delayDuration={100}>
       <TooltipTrigger asChild>
-        <Button
-          variant="outline"
-          title="Share answer with others"
-          className={cn("feedback-button group", "hover:bg-zinc-300")}
-          onClick={handleCopy}
-        >
-          <Popover open={shareOpen} onOpenChange={setShareOpen}>
-            <PopoverTrigger>
-              <Share2Icon className="feedback-icon group-hover:text-gray-500" />
-            </PopoverTrigger>
-            <PopoverContent
-              className="relative z-20 w-[min(500px,_100svw)] max-w-fit rounded-lg bg-card p-0"
-              side="top"
+        <Popover open={shareOpen} onOpenChange={setShareOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              title="Share answer with others"
+              className={cn("feedback-button group", "hover:bg-zinc-300")}
+              onClick={handleCopy}
             >
-              <Card className="">
-                <CardHeader>
-                  <CardTitle>Share your findings with others:</CardTitle>
-                </CardHeader>
-                <CardContent className="flex w-full justify-center gap-2">
-                  <Input
-                    autoFocus
-                    value={url}
-                    readOnly
-                    className="inline-block w-fit cursor-text"
-                  ></Input>
-                  <Button
-                    variant="default"
-                    className="group"
-                    onClick={handleCopy}
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                </CardContent>
-                <div className="mt-2 flex justify-center gap-2"></div>
-              </Card>
-            </PopoverContent>
-          </Popover>
-        </Button>
+              <Share2Icon className="feedback-icon group-hover:text-gray-500" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            className="relative z-20 w-[min(500px,_100svw)] max-w-fit rounded-lg bg-card p-0"
+            side="top"
+          >
+            <Card className="">
+              <CardHeader>
+                <CardTitle>Share your findings with others:</CardTitle>
+              </CardHeader>
+              <CardContent className="flex w-full justify-center gap-2">
+                <Input
+                  autoFocus
+                  value={url}
+                  readOnly
+                  className="inline-block w-fit cursor-text"
+                ></Input>
+                <Button
+                  variant="default"
+                  className="group"
+                  onClick={handleCopy}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </CardContent>
+              <div className="mt-2 flex justify-center gap-2"></div>
+            </Card>
+          </PopoverContent>
+        </Popover>
       </TooltipTrigger>
 
       <TooltipContent className="bg-primary/10 text-white">

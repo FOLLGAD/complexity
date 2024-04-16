@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import {
-  // IBM_Plex_Sans,
-  // IBM_Plex_Mono,
-  Schibsted_Grotesk,
-} from "next/font/google";
+import { Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 import { PHProvider } from "@/components/providers";
 import { SessionProvider } from "@/components/sessions";
@@ -48,11 +44,26 @@ const PostHogPageview = dynamic(() => import("@/components/PostHogPageview"), {
   ssr: false,
 });
 
+// Smarter redirection logic to handle URL redirection more efficiently
+const handleRedirection = () => {
+  const fromHostname = "complexity.emil.zip";
+  const targetHostname = "cplx.ai";
+
+  if (window.location.hostname === fromHostname) {
+    window.location.hostname = targetHostname;
+  }
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Call the redirection function
+  if (typeof window !== "undefined") {
+    handleRedirection();
+  }
+
   return (
     <html lang="en" className="dark">
       <PHProvider>

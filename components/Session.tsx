@@ -2,32 +2,22 @@
 import { Input } from "@/components/ui/input";
 import { useIsVisible } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
-import { EyeNoneIcon } from "@radix-ui/react-icons";
-import {
-  ArrowUpIcon,
-  EyeIcon,
-  LoaderCircle,
-  Search,
-  SearchIcon,
-} from "lucide-react";
+import { ArrowUpIcon, EyeIcon, LoaderCircle, SearchIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { usePostHog } from "posthog-js/react";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AnswerStep, Step } from "./AnswerStep";
+import { AnswerStep, type Step } from "./AnswerStep";
 import { Feedback } from "./Feedback";
 import { useComplexity } from "./complexity";
-import { useSessions } from "./sessions";
 import { Button } from "./ui/button";
-import { useAsync } from "./utils";
 import { Card } from "./ui/card";
 import Link from "next/link";
 
-export const Session: FC = ({}) => {
+export const Session: FC<{ sessionData: Step[] }> = ({
+  sessionData: viewSessionData,
+}) => {
   const { ask, steps, loading } = useComplexity();
-  const { loaded } = useSessions();
   const posthog = usePostHog();
-  const feedbackRef = useRef<HTMLDivElement>(null);
-  const isFeedbackVisible = useIsVisible(feedbackRef);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = useCallback(() => {
@@ -85,40 +75,13 @@ export const Session: FC = ({}) => {
     [ask],
   );
 
-  const { data: viewSessionData, error } = useAsync(async () => {
-    if (
-      loaded &&
-      !loading &&
-      sessionId &&
-      !steps.find((item) => item.id === sessionId)
-    ) {
-      return fetch("/api/chat?sessionId=" + sessionId, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) =>
-          data.data.map((item) => ({
-            ...item,
-            message: undefined,
-            text: item.message,
-          })),
-        );
-    }
-  }, [loaded, steps, sessionId, loading]);
-
-  if (error) {
-    console.log(error);
-    router.push("/");
-  }
-
-  const viewOnly = !!viewSessionData;
+  const viewOnly = !steps || steps.length === 0;
   const sessionData: Step[] = viewOnly ? viewSessionData : steps;
 
   const memoizedAnswerSteps = useMemo(() => {
-    return sessionData.map((step) => <AnswerStep key={step.id} step={step} />);
+    return sessionData.map((step, i) => (
+      <AnswerStep key={step.id + "-" + i} step={step} />
+    ));
   }, [sessionData]);
 
   return (
@@ -133,15 +96,14 @@ export const Session: FC = ({}) => {
     >
       {memoizedAnswerSteps}
       <Feedback
-        ref={feedbackRef}
         recordFeedback={recordFeedback}
-        isVisible={isFeedbackVisible}
+        isVisible={true}
         sessionId={sessionId}
       />
 
       <div className="flex-grow" />
 
-      <div className="w-2xl pointer-events-none sticky bottom-0 flex w-full max-w-2xl items-center justify-between px-8 pt-16 drop-shadow-lg pb-8 md:pb-12">
+      <div className="w-2xl pointer-events-none sticky bottom-0 flex w-full max-w-2xl items-center justify-between px-8 pb-8 pt-16 drop-shadow-lg md:pb-12">
         {!viewOnly && sessionData.length > 0 && (
           <FollowupForm onSubmit={handleSubmit} loading={loading} />
         )}
