@@ -11,6 +11,17 @@ import { useComplexity } from "./complexity";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import Link from "next/link";
+import { SlugRedirect } from "@/app/q/[sessionId]/SlugRedirect";
+
+const useMounted = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return mounted;
+};
 
 export const Session: FC<{ sessionData: Step[] }> = ({
   sessionData: viewSessionData,
@@ -35,7 +46,6 @@ export const Session: FC<{ sessionData: Step[] }> = ({
     [steps?.[steps.length - 1]?.text],
   );
   const sessionId = useParams()?.sessionId as string;
-  const router = useRouter();
 
   const [autoScroll, setAutoScroll] = useState(false);
 
@@ -78,21 +88,27 @@ export const Session: FC<{ sessionData: Step[] }> = ({
   const sessionData: Step[] = viewOnly ? viewSessionData : steps;
 
   const memoizedAnswerSteps = useMemo(() => {
-    return sessionData.map((step, i) => (
-      <AnswerStep key={step.id + "-" + i} step={step} />
-    ));
+    return (
+      sessionData?.map((step, i) => (
+        <AnswerStep key={step.id + "-" + i} step={step} />
+      )) ?? []
+    );
   }, [sessionData]);
+
+  const mounted = useMounted();
 
   return (
     <div
       className={
         "absolute bottom-0 top-0 flex w-full flex-col items-center justify-start overflow-y-auto bg-background pt-6 transition-all duration-100 ease-in-out " +
-        (sessionData.length === 0
+        (sessionData && sessionData.length === 0
           ? "pointer-events-none opacity-0"
           : "opacity-100")
       }
       ref={scrollRef}
     >
+      <SlugRedirect question={sessionData?.[0]?.question} />
+
       {memoizedAnswerSteps}
       <Feedback
         recordFeedback={recordFeedback}
@@ -103,11 +119,18 @@ export const Session: FC<{ sessionData: Step[] }> = ({
       <div className="flex-grow" />
 
       <div className="w-2xl pointer-events-none sticky bottom-0 flex w-full max-w-2xl items-center justify-between px-8 pb-8 pt-16 drop-shadow-lg md:pb-12">
-        {!viewOnly && sessionData.length > 0 && (
+        {!viewOnly && sessionData?.length > 0 && (
           <FollowupForm onSubmit={handleSubmit} loading={loading} />
         )}
         {!!viewOnly && (
-          <div className="flex w-full flex-col items-center justify-center">
+          <div
+            className={cn(
+              "flex w-full flex-col items-center justify-center transition-opacity duration-1000 ease-in-out",
+              {
+                "opacity-0": !mounted, // to hide on SSR
+              },
+            )}
+          >
             <Link href="/">
               <Button
                 variant="ghost"

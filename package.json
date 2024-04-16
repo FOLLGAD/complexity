@@ -38,6 +38,7 @@
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@sindresorhus/slugify": "^2.2.1",
     "@tailwindcss/typography": "^0.5.10",
     "@vercel/postgres": "^0.8.0",
     "ai": "^3.0.13",
