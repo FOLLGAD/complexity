@@ -1,4 +1,4 @@
-import { Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -160,7 +160,7 @@ export const AnswerStep = ({ step }: { step: Step }) => {
         <ReaderIcon className="mr-2 inline-block" width={18} height={18} />
         Answer
       </h2>
-      <div className="prose mb-2 scroll-smooth font-light md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
+      <div className="prose mb-2 scroll-smooth font-light dark:prose-invert md:prose-base selection:bg-orange-200/30 selection:text-orange-600">
         {markdownContent}
       </div>
     </div>
