@@ -2,9 +2,9 @@
 import type { Step } from "@/components/AnswerStep";
 import { Session } from "@/components/Session";
 import { getSessionData } from "@/components/serverutil";
-import { cache } from "react";
+// import { cache } from "react";
 
-const getCachedSessionData = cache(async (sessionId: string) => {
+const getCachedSessionData = async (sessionId: string) => {
   const steps = await getSessionData(sessionId).then((data) =>
     data?.map(
       (step): Step => ({
@@ -14,7 +14,7 @@ const getCachedSessionData = cache(async (sessionId: string) => {
     ),
   );
   return steps;
-});
+};
 
 export default async function Page({ params }) {
   const sessionId = params.sessionId as string;
