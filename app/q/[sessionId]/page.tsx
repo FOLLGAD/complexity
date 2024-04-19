@@ -2,7 +2,8 @@
 import type { Step } from "@/components/AnswerStep";
 import { Session } from "@/components/Session";
 import { getSessionData } from "@/components/serverutil";
-// import { cache } from "react";
+import { cache } from "react";
+import { unstable_noStore as noStore } from "next/cache";
 
 const getCachedSessionData = async (sessionId: string) => {
   const steps = await getSessionData(sessionId).then((data) =>
@@ -17,6 +18,7 @@ const getCachedSessionData = async (sessionId: string) => {
 };
 
 export default async function Page({ params }) {
+  noStore(); // fix https://stackoverflow.com/questions/77374149/disable-cache-for-a-vercel-postgres-query-in-nextjs-using-the-app-router
   const sessionId = params.sessionId as string;
   const preloadedSessionData = await getCachedSessionData(sessionId);
 

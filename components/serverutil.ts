@@ -1,9 +1,6 @@
 "use server";
 import { sql } from "@vercel/postgres";
 
-// https://vercel.com/docs/infrastructure/data-cache/manage-data-cache
-export const fetchCache = "force-no-store";
-
 export async function getSessionData(sessionId: string): Promise<
   | {
       message: string;
@@ -27,7 +24,6 @@ export async function getSessionData(sessionId: string): Promise<
     WHERE session_id = ${sessionId}
     ORDER BY created_at ASC
   `;
-  console.log("history exists", !!history.rows.length, history);
 
   if (history.rows.length === 0) {
     return null;
