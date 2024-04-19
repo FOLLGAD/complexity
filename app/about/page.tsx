@@ -23,11 +23,26 @@ export default function About() {
 
       <div className="w-full max-w-xs pt-4 md:max-w-md md:pt-10 lg:max-w-xl">
         <h2 className="text-2xl">About</h2>
-        <p className="mt-4 text-lg">
+        <p className="mt-4">
           <span className="text-gradient">complexity</span> is a search engine
           that uses AI to answer questions. It is built on top of the Cohere AI
           platform and is designed to provide a fast and efficient way to find
           answers to your questions.
+        </p>
+        <p className="mt-4">
+          Any questions, feedback or suggestions can be directed to{" "}
+          <TrackedLink
+            href="https://twitter.com/emilahlback"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gradient"
+            phData={{
+              linkurl: "https://twitter.com/emilahlback",
+            }}
+          >
+            Emil Ahlbäck
+          </TrackedLink>
+          .
         </p>
         <h3 className="mt-4 text-xl">Created by</h3>
         <ul className="mb-8 mt-4 list-inside list-disc marker:text-gray-400">

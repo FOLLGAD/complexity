@@ -1,14 +1,20 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ThumbsUpIcon, ThumbsDownIcon, Copy, Share2Icon } from "lucide-react";
+import {
+  ThumbsUpIcon,
+  ThumbsDownIcon,
+  Copy,
+  Share2Icon,
+  Send,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { FC, forwardRef, useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import {
   Card,
   CardContent,
@@ -18,6 +24,10 @@ import {
 import { Input } from "@/components//ui/input";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { usePostHog } from "posthog-js/react";
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
+import { Textarea } from "./ui/textarea";
 
 export const Feedback: FC<{
   isVisible: boolean;
@@ -39,6 +49,7 @@ export const Feedback: FC<{
     >
       <div className="flex flex-col">
         <div className="mt-2 flex w-full justify-end gap-2">
+          <TypedFeedbackButton sessionId={sessionId} />
           <ShareButton sessionId={sessionId} />
           <Button
             variant="outline"
@@ -136,5 +147,53 @@ function ShareButton({ sessionId }: { sessionId: string }) {
         <p>Share with others</p>
       </TooltipContent>
     </Tooltip>
+  );
+}
+
+export function TypedFeedbackButton({ sessionId }: { sessionId: string }) {
+  const [feedback, setFeedback] = useState("");
+  const posthog = usePostHog();
+
+  const handleSendFeedback = useCallback(() => {
+    if (!feedback) return;
+    toast.info("Thank you for your feedback!");
+    posthog.capture("Feedback", {
+      feedback,
+      sessionId,
+    });
+    setFeedback("");
+  }, [feedback]);
+
+  return (
+    <div>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant="outline"
+            title="Send us your feedback"
+            className={cn("feedback-button group", "hover:bg-zinc-300")}
+          >
+            <ChatBubbleIcon className="feedback-icon group-hover:text-gray-500" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Send us your feedback</DialogTitle>
+          <Textarea
+            autoFocus
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            className="inline-block w-full cursor-text"
+            placeholder="What can we do better? Do you have any feature suggestions?"
+          />
+          <Button
+            variant="default"
+            className="group"
+            onClick={handleSendFeedback}
+          >
+            <Send className="mr-1 h-4 w-4" /> Send
+          </Button>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }
