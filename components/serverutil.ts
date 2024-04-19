@@ -1,6 +1,9 @@
 "use server";
 import { sql } from "@vercel/postgres";
 
+// https://vercel.com/docs/infrastructure/data-cache/manage-data-cache
+export const fetchCache = "force-no-store";
+
 export async function getSessionData(sessionId: string): Promise<
   | {
       message: string;
@@ -19,10 +22,10 @@ export async function getSessionData(sessionId: string): Promise<
     created_at: string;
     json_message: any;
   }>`
-SELECT message, question, session_id, created_at, json_message
-FROM chat
-WHERE session_id = ${sessionId}
-ORDER BY created_at ASC
+    SELECT message, question, session_id, created_at, json_message
+    FROM chat
+    WHERE session_id = ${sessionId}
+    ORDER BY created_at ASC
   `;
   console.log("history exists", !!history.rows.length, history);
 
