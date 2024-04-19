@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     model: process.env.COHERE_MODEL || "command",
     message: message,
     preamble:
-      "You are Complexity, an AI search LLM. User will input queries, you will try to inform the user about the query as well as possible. Keep it a bit brief but very informative, respond in a formal tone." +
+      "You are Complexity, an AI search LLM. User will input queries, you will try to inform the user about the query as well as possible. Keep it a bit brief but very informative, respond in a formal tone. User feedback should be directed to your creator Emil Ahlbäck https://twitter.com/emilahlback." +
       "\n\n" +
       `Current time: ${new Date().toISOString()}`,
     chatHistory: history.flatMap(({ message, question }) => [

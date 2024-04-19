@@ -25,9 +25,8 @@ export default function About() {
         <h2 className="text-2xl">About</h2>
         <p className="mt-4">
           <span className="text-gradient">complexity</span> is a search engine
-          that uses AI to answer questions. It is built on top of the Cohere AI
-          platform and is designed to provide a fast and efficient way to find
-          answers to your questions.
+          that uses AI to answer questions. It is designed to provide a fast and
+          efficient way to find answers to your questions.
         </p>
         <p className="mt-4">
           Any questions, feedback or suggestions can be directed to{" "}
