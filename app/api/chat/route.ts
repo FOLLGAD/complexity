@@ -3,13 +3,15 @@ import { sql } from "@vercel/postgres";
 import { type NextRequest } from "next/server";
 import short from "short-uuid";
 import { getSessionData } from "@/components/serverutil";
+import { Client, Event } from "agentops";
+import { ChatMessage, ChatMessageRole } from "cohere-ai/api";
 
 const cohere = new CohereClient({
   token: process.env.COHERE_API_KEY,
 });
 
 export const dynamic = "force-dynamic";
-export const runtime = "edge";
+// export const runtime = "edge";
 
 function generateSessionId(): string {
   return "s-" + short.generate();
@@ -48,22 +50,23 @@ const getHistory = async (sessionId: string, userId: string) => {
   return history;
 };
 
-export async function POST(request: Request) {
-  const { message, sessionId, userId } = await request.json();
-
-  const history = await getHistory(sessionId, userId);
-
-  const stream = await cohere.chatStream({
+const answerQuestion = ({
+  message,
+  chatHistory,
+  session_id,
+}: {
+  message: string;
+  chatHistory: ChatMessage[];
+  session_id: string;
+}) => {
+  return cohere.chatStream({
     model: process.env.COHERE_MODEL || "command",
-    message: message,
+    message,
     preamble:
       "You are Complexity, an AI search LLM. User will input queries, you will try to inform the user about the query as well as possible. Keep it a bit brief but very informative, respond in a formal tone. User feedback should be directed to your creator Emil Ahlbäck https://twitter.com/emilahlback." +
       "\n\n" +
       `Current time: ${new Date().toISOString()}`,
-    chatHistory: history.flatMap(({ message, question }) => [
-      { role: "USER", message: question },
-      { role: "CHATBOT", message },
-    ]),
+    chatHistory,
     temperature: 0.1,
     promptTruncation: "AUTO",
     citationQuality: "fast",
@@ -80,6 +83,37 @@ export async function POST(request: Request) {
     ],
     documents: [],
   });
+};
+
+export async function POST(request: Request) {
+  const { message, sessionId, userId } = await request.json();
+
+  const agentops = new Client({
+    apiKey: "b82252ff-a4de-48ff-9003-6aaa2ed2b489",
+    tags: [],
+    // patchApi: [],
+  });
+
+  const history = await getHistory(sessionId, userId);
+
+  const chatHistory = history.flatMap(({ message, question }) => [
+    { role: ChatMessageRole.User, message: question },
+    { role: ChatMessageRole.Chatbot, message },
+  ]);
+  // @ts-expect-error
+  agentops.session.session_id = sessionId;
+
+  const cb = agentops.wrap(answerQuestion, [sessionId, userId]);
+  const stream = await cb({
+    message,
+    chatHistory,
+    session_id: sessionId,
+  }).catch((e) => {
+    agentops.endSession("Fail");
+    throw e;
+  });
+
+  agentops.endSession("Success");
 
   const newSessionId = sessionId || generateSessionId();
 

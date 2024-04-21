@@ -43,36 +43,6 @@ export default function About() {
           </TrackedLink>
           .
         </p>
-        <h3 className="mt-4 text-xl">Created by</h3>
-        <ul className="mb-8 mt-4 list-inside list-disc marker:text-gray-400">
-          <li className="mt-2">
-            <TrackedLink
-              href="https://twitter.com/emilahlback"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gradient"
-              phData={{
-                linkurl: "https://twitter.com/emilahlback",
-              }}
-            >
-              Emil Ahlbäck
-            </TrackedLink>
-          </li>
-          <li className="mt-2">
-            <TrackedLink
-              href="https://twitter.com/TheHamedMP"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gradient"
-              phData={{
-                linkurl: "https://twitter.com/TheHamedMP",
-              }}
-            >
-              Hamed Mohammadpour
-            </TrackedLink>{" "}
-            – design
-          </li>
-        </ul>
       </div>
     </div>
   );
