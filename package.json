@@ -41,6 +41,7 @@
     "@sindresorhus/slugify": "^2.2.1",
     "@tailwindcss/typography": "^0.5.10",
     "@vercel/postgres": "^0.8.0",
+    "agentops": "^0.0.4",
     "ai": "^3.0.13",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
