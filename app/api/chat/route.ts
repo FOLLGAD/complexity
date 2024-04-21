@@ -3,7 +3,7 @@ import { sql } from "@vercel/postgres";
 import { type NextRequest } from "next/server";
 import short from "short-uuid";
 import { getSessionData } from "@/components/serverutil";
-import { Client, Event } from "agentops";
+import { Client } from "agentops";
 import { ChatMessage, ChatMessageRole } from "cohere-ai/api";
 
 const cohere = new CohereClient({
