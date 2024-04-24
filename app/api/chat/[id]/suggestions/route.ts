@@ -26,7 +26,7 @@ export async function GET(
   // get the session id query param
   const response = await cohere.chat({
     preamble:
-      "You will receive a list of questions and answers, and you will be asked to provide 3 followup question. Respond with three (3) followup questions, each separated by a new line. Keep them extremely brief, around 5 words.",
+      "You will receive a list of questions and answers, and you will be asked to provide 3 followup question. Respond with a maximum of three (3) followup questions, each separated by a new line. Keep them extremely brief, around 5 words.",
     model: process.env.COHERE_MODEL || "command",
     message,
   });
