@@ -99,6 +99,8 @@ export const AnswerStep = ({ step }: { step: Step }) => {
             "pre",
             "code",
             "a",
+            "strong",
+            "em",
             "img",
             "h1",
             "h2",
