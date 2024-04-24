@@ -3,7 +3,7 @@ import { TrackedLink } from "@/components/TrackedLink";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Complexity – About",
+  title: "About",
 };
 
 export default function About() {
