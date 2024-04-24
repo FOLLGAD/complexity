@@ -8,8 +8,11 @@ Screenshots:
 
 # Ideas
 
-graph mode / discovery mode
+- tree mode / discovery mode
+- virality suggestion: complexity for keeping up with AI research
+- use serper for web search
+- use serper to enable image search
+- ~~add thoughtful examples of followup questions~~
 
-add thoughtful examples of followup questions
+# todo
 
-virality suggestion: complexity for keeping up with AI research
