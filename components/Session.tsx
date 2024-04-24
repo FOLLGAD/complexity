@@ -195,28 +195,36 @@ const FollowupForm: FC<{
   }, [sessionId, length, loading]);
 
   return (
-    <form className="flex w-full flex-col items-center" onSubmit={handleSubmit}>
-      {!!suggestions && (
-        <div className="flex w-full max-w-xs gap-2 overflow-x-auto pb-4 md:max-w-md lg:max-w-xl">
-          {suggestions.map?.((suggestion: string) => (
-            <Card
-              className="pointer-events-auto flex-shrink-0 cursor-pointer bg-card/90 p-4 py-2 text-sm transition-colors duration-100 ease-in-out hover:bg-gray-400/100" 
-              onClick={async (e) => {
-                posthog.capture("followup_clicked", {
-                  sessionId,
-                  suggestion,
-                });
-                setFollowUp(suggestion);
-                await onSubmit(suggestion);
-                setFollowUp("");
-              }}
-              key={suggestion}
-            >
-              {suggestion}
-            </Card>
-          ))}
-        </div>
-      )}
+    <form
+      className="relative flex w-full flex-col items-center"
+      onSubmit={handleSubmit}
+    >
+      <div
+        className={cn(
+          "absolute bottom-0 left-0 right-0 flex w-full max-w-xs -translate-y-full transform gap-2 overflow-x-auto pb-4 opacity-100 transition-all duration-1000 ease-in-out md:max-w-md lg:max-w-xl",
+          {
+            "opacity-0": !suggestions || !suggestions.length,
+          },
+        )}
+      >
+        {suggestions?.map?.((suggestion: string) => (
+          <Card
+            className="pointer-events-auto flex-shrink-0 cursor-pointer bg-card/90 p-4 py-2 text-sm transition-colors duration-100 ease-in-out hover:bg-gray-400/100"
+            onClick={async (e) => {
+              posthog.capture("followup_clicked", {
+                sessionId,
+                suggestion,
+              });
+              setFollowUp(suggestion);
+              await onSubmit(suggestion);
+              setFollowUp("");
+            }}
+            key={suggestion}
+          >
+            {suggestion}
+          </Card>
+        ))}
+      </div>
 
       <div className="flex w-full justify-center">
         <div className="relative w-full max-w-lg rounded-full bg-background">
