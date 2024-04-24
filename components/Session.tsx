@@ -200,7 +200,7 @@ const FollowupForm: FC<{
         <div className="flex w-full max-w-xs gap-2 overflow-x-auto pb-4 md:max-w-md lg:max-w-xl">
           {suggestions.map?.((suggestion: string) => (
             <Card
-              className="pointer-events-auto flex-shrink-0 cursor-pointer p-4 py-2 text-sm transition-colors duration-100 ease-in-out hover:bg-card-foreground/10 dark:hover:bg-card-foreground/20"
+              className="pointer-events-auto flex-shrink-0 cursor-pointer bg-card/90 p-4 py-2 text-sm transition-colors duration-100 ease-in-out hover:bg-gray-400/100" 
               onClick={async (e) => {
                 posthog.capture("followup_clicked", {
                   sessionId,
