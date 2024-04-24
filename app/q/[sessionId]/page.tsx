@@ -2,7 +2,6 @@
 import type { Step } from "@/components/AnswerStep";
 import { Session } from "@/components/Session";
 import { getSessionData } from "@/components/serverutil";
-import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 
 const getCachedSessionData = async (sessionId: string) => {

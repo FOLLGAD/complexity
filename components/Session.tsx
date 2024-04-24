@@ -12,6 +12,7 @@ import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import Link from "next/link";
 import { SlugRedirect } from "@/app/q/[sessionId]/SlugRedirect";
+import { useAsync } from "./utils";
 
 const useMounted = () => {
   const [mounted, setMounted] = useState(false);
@@ -110,6 +111,7 @@ export const Session: FC<{ sessionData: Step[] }> = ({
       <SlugRedirect question={sessionData?.[0]?.question} />
 
       {memoizedAnswerSteps}
+
       <Feedback
         recordFeedback={recordFeedback}
         isVisible={true}
@@ -120,7 +122,11 @@ export const Session: FC<{ sessionData: Step[] }> = ({
 
       <div className="w-2xl pointer-events-none sticky bottom-0 flex w-full max-w-2xl items-center justify-between px-8 pb-8 pt-16 drop-shadow-lg md:pb-12">
         {!viewOnly && sessionData?.length > 0 && (
-          <FollowupForm onSubmit={handleSubmit} loading={loading} />
+          <FollowupForm
+            onSubmit={handleSubmit}
+            loading={loading}
+            length={sessionData?.length}
+          />
         )}
         {!!viewOnly && (
           <div
@@ -156,11 +162,15 @@ export const Session: FC<{ sessionData: Step[] }> = ({
 const FollowupForm: FC<{
   onSubmit: (text: string) => void;
   loading: boolean;
-}> = ({ onSubmit, loading }) => {
+  length: number;
+}> = ({ onSubmit, loading, length }) => {
   const [followUp, setFollowUp] = useState("");
+  const posthog = usePostHog();
 
   const handleSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
+    async (
+      e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLDivElement>,
+    ) => {
       e.preventDefault();
       await onSubmit(followUp);
       setFollowUp("");
@@ -168,9 +178,47 @@ const FollowupForm: FC<{
     [followUp, onSubmit],
   );
 
+  const sessionId = useParams()?.sessionId as string;
+
+  const { data: suggestions } = useAsync(async () => {
+    if (loading) return null;
+    const s = await fetch(`/api/chat/${sessionId}/suggestions#${length}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "public, max-age=3600",
+      },
+    }).then((res) => res.json());
+    const d = s.data;
+    if (!d) throw new Error("No suggestions");
+    return d;
+  }, [sessionId, length, loading]);
+
   return (
-    <form className="w-full" onSubmit={handleSubmit}>
-      <div className="flex justify-center">
+    <form className="flex w-full flex-col items-center" onSubmit={handleSubmit}>
+      {!!suggestions && (
+        <div className="flex w-full max-w-xs gap-2 overflow-x-auto pb-4 md:max-w-md lg:max-w-xl">
+          {suggestions.map?.((suggestion: string) => (
+            <Card
+              className="pointer-events-auto flex-shrink-0 cursor-pointer p-4 py-2 text-sm transition-colors duration-100 ease-in-out hover:bg-card-foreground/10 dark:hover:bg-card-foreground/20"
+              onClick={async (e) => {
+                posthog.capture("followup_clicked", {
+                  sessionId,
+                  suggestion,
+                });
+                setFollowUp(suggestion);
+                await onSubmit(suggestion);
+                setFollowUp("");
+              }}
+              key={suggestion}
+            >
+              {suggestion}
+            </Card>
+          ))}
+        </div>
+      )}
+
+      <div className="flex w-full justify-center">
         <div className="relative w-full max-w-lg rounded-full bg-background">
           <Input
             className="text-md pointer-events-auto w-full min-w-[200px] max-w-lg rounded-full border border-orange-50/10 p-4 py-6 pl-6 pr-14 text-gray-300 shadow-xl focus:border-primary/20 focus:bg-primary/10 focus:text-primary"
