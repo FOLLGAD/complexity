@@ -201,7 +201,7 @@ const FollowupForm: FC<{
     >
       <div
         className={cn(
-          "absolute bottom-0 left-0 right-0 mx-auto flex w-full max-w-xs -translate-y-full transform gap-2 overflow-x-auto pb-4 opacity-100 transition-all duration-1000 ease-in-out md:max-w-md lg:max-w-xl",
+          "absolute bottom-0 left-0 right-0 mx-auto grid w-full max-w-lg -translate-y-full transform grid-flow-col gap-2 overflow-x-auto pb-4 opacity-100 transition-all duration-1000 ease-in-out md:max-w-md lg:max-w-xl",
           {
             "opacity-0": !suggestions || !suggestions.length,
           },
@@ -209,7 +209,7 @@ const FollowupForm: FC<{
       >
         {suggestions?.map?.((suggestion: string) => (
           <Card
-            className="pointer-events-auto flex-shrink-0 cursor-pointer bg-card/90 p-4 py-2 text-sm transition-colors duration-100 ease-in-out hover:bg-gray-400/100"
+            className="pointer-events-auto w-fit flex-shrink-0 cursor-pointer bg-card/90 p-3 py-1 text-center text-sm transition-colors duration-100 ease-in-out hover:bg-gray-400/100"
             onClick={async (e) => {
               posthog.capture("followup_clicked", {
                 sessionId,
