@@ -114,7 +114,7 @@ export const Session: FC<{ sessionData: Step[] }> = ({
 
       <Feedback
         recordFeedback={recordFeedback}
-        isVisible={true}
+        isLoading={loading}
         sessionId={sessionId}
       />
 
@@ -201,7 +201,7 @@ const FollowupForm: FC<{
     >
       <div
         className={cn(
-          "absolute bottom-0 left-0 right-0 mx-auto grid w-full max-w-lg -translate-y-full transform grid-flow-col gap-2 overflow-x-auto pb-4 opacity-100 transition-all duration-1000 ease-in-out md:max-w-md lg:max-w-xl",
+          "absolute bottom-0 left-0 right-0 mx-auto grid w-full max-w-xs -translate-y-full transform grid-flow-col gap-2 overflow-x-auto pb-1 opacity-100 transition-all duration-1000 ease-in-out md:max-w-md lg:max-w-xl",
           {
             "opacity-0": !suggestions || !suggestions.length,
           },
