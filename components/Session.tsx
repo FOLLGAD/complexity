@@ -182,7 +182,7 @@ const FollowupForm: FC<{
 
   const { data: suggestions } = useAsync(async () => {
     if (loading) return null;
-    const s = await fetch(`/api/chat/${sessionId}/suggestions#${length}`, {
+    const s = await fetch(`/api/chat/${sessionId}/suggestions?l=${length}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
