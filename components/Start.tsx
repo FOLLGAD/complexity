@@ -11,8 +11,8 @@ import Link from "next/link";
 import { usePostHog } from "posthog-js/react";
 
 const examples = [
+  "GPT-4o announced",
   "Llama 3 released",
-  "Humane AI pin reviews",
   "M4 chips coming late 2024",
   "OpenAI trained on Youtube",
   "xz backdoor aftermath",
