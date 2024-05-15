@@ -30,24 +30,25 @@ import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { Textarea } from "./ui/textarea";
 
 export const Feedback: FC<{
-  isVisible: boolean;
+  isLoading: boolean;
   recordFeedback: (feedback: "positive" | "negative") => void;
   sessionId: string;
-}> = ({ isVisible, recordFeedback, sessionId }) => {
+}> = ({ isLoading: isLoading, recordFeedback, sessionId }) => {
   const [isFeedbackRecorded, setIsFeedbackRecorded] = useState(false);
 
+  const isComponentVisible = isLoading ? "hidden" : "opacity-100"; // hide the component when the answer is loading. TODO: fix scroll to bottom when it reappears.
   const feedbackButtonVisibility = [
-    isVisible ? "opacity-100" : "hidden",
     isFeedbackRecorded && "hidden duration-300 ease-in",
   ];
 
   return (
     <div
       className={cn(
-        "mb-6 mt-2 flex w-full max-w-xs flex-col pt-1 transition-opacity duration-700 ease-in md:max-w-md lg:max-w-xl",
+        "mb-6 mt-2 flex w-full max-w-xs flex-col pt-1 transition-all duration-500 ease-in-out md:max-w-md lg:max-w-xl",
+        isComponentVisible,
       )}
     >
-      <div className="flex flex-col">
+      <div className={cn("flex flex-col")}>
         <div className="mt-2 flex w-full justify-end gap-2">
           <TypedFeedbackButton sessionId={sessionId} />
           <ShareButton sessionId={sessionId} />
