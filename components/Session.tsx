@@ -201,7 +201,7 @@ const FollowupForm: FC<{
     >
       <div
         className={cn(
-          "absolute bottom-0 left-0 right-0 mx-auto flex w-full max-w-xs -translate-y-full transform gap-2 overflow-x-auto pb-4 opacity-100 transition-all duration-1000 ease-in-out md:max-w-md lg:max-w-xl",
+          " absolute bottom-0 left-0 right-0 mx-auto flex w-full max-w-xs -translate-y-full transform justify-items-center gap-2 overflow-x-auto rounded-lg pb-4 opacity-100 transition-all duration-1000 ease-in-out md:max-w-md lg:max-w-xl",
           {
             "opacity-0": !suggestions || !suggestions.length,
           },

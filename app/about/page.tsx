@@ -1,6 +1,8 @@
 import { Logo } from "@/components/Logo";
 import { TrackedLink } from "@/components/TrackedLink";
 import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About",
@@ -65,14 +67,33 @@ export default function About() {
               rel="noopener noreferrer"
               className="text-gradient"
               phData={{
-                linkurl: "https://twitter.com/TheHamedMP",
+                linkurl: "https://twitter.com/thehamedmp",
               }}
             >
               Hamed Mohammadpour
-            </TrackedLink>{" "}
-            – design
+            </TrackedLink>
           </li>
         </ul>
+      </div>
+      <div className="mx-auto mt-20 flex flex-col items-center justify-center ">
+        <h2 className="text-lg font-medium">Powered by</h2>
+        <TrackedLink
+          href="https://cohere.com/"
+          target="_blank"
+          rel=""
+          className=""
+          phData={{
+            linkurl: "https://cohere.com/",
+          }}
+        >
+          <Image
+            src="/cohere-logo-white.svg"
+            width={200}
+            height={200}
+            alt="https://cohere.com/"
+            className=""
+          />
+        </TrackedLink>
       </div>
     </div>
   );
