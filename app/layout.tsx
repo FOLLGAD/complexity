@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     title: "Complexity",
     description: "The world's knowledge at your fingertips",
     url: "https://cplx.ai",
+    siteName: "Complexity AI",
     images: [
       {
         url: "/og-image.jpg",
