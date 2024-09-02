@@ -77,7 +77,7 @@ export default function RootLayout({
               <body className={ibm.className}>
                 <PostHogPageview />
                 <Suspense fallback={<div></div>}>
-                  <div className="flex h-svh">
+                  <div className="flex h-[calc(100vh-8px)]">
                     <Sidebar />
 
                     {children}
