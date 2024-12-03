@@ -1,5 +1,7 @@
 import { Logo } from "@/components/Logo";
 import { TrackedLink } from "@/components/TrackedLink";
+import { Button } from "@/components/ui/button";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,12 +21,14 @@ export default function About() {
           complexity
         </h1>
       </div>
-      <p className="animate-fade-in mb-8 text-center text-lg font-normal text-gray-300 [--animation-delay:400ms]">
+
+      <p className="animate-fade-in mb-0 text-center text-lg font-normal text-gray-300 [--animation-delay:400ms]">
         The world's knowledge at your fingertips
       </p>
 
       <div className="w-full max-w-xs pt-4 md:max-w-md md:pt-10 lg:max-w-xl">
-        <h2 className="text-2xl">About</h2>
+        <h2 className="mt-4 text-2xl">About</h2>
+
         <p className="mt-4">
           <span className="text-gradient">complexity</span> is a search engine
           that uses AI to answer questions. It is designed to provide a fast and
@@ -75,6 +79,18 @@ export default function About() {
           </li>
         </ul>
       </div>
+
+      <div className="flex items-center justify-center">
+        <a href="https://github.com/follgad/complexity" target="_blank">
+          <Button variant="ghost">
+            <span className="flex flex-row items-center gap-1">
+              <GitHubLogoIcon className="h-4 w-4" />
+              Github
+            </span>
+          </Button>
+        </a>
+      </div>
+
       <div className="mx-auto mt-20 flex flex-col items-center justify-center ">
         <h2 className="text-lg font-medium">Powered by</h2>
         <TrackedLink
